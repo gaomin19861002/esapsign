@@ -1,0 +1,156 @@
+//
+//  CommonPrefix.pch
+//  esapsign
+//
+//  Created by 苏智 on 14-8-20.
+//  Copyright (c) 2014年 Caland. All rights reserved.
+//
+
+#ifndef ESAP_Common_pch
+#define ESAP_Common_pch
+
+/*!
+ 定义开发宏,只有定义该宏为1，才是开发环境
+ */
+#ifndef DevelopmentEnvironment
+    #define DevelopmentEnvironment     0
+#endif //DevelopmentEnvironment
+
+/*!
+ 定义安全的空语句
+ */
+#define SafeEmptyStatement       do {}while(0)
+
+#if DevelopmentEnvironment
+    #define ShowDebugLogs   1
+#else
+    #define ShowDebugLogs   0
+#endif // DevelopmentEnvironment
+
+#if DevelopmentEnvironment
+    #define TestingData
+#endif
+
+/*!
+ 定义开发地址
+ */
+#define ServerDevDownloadPrefix @"http://192.168.100.176:9080/esap_base/rest/document/download_file?id="
+#define ServerDevUploadPrefix   @"http://192.168.100.176:9080/esap_base/rest/document/upload"
+#define ServerDevelopment       @"http://192.168.100.176:9080"
+
+#define ServerDownloadPrefix    @"http://118.145.20.14:9081/esap_base/rest/document/download_file?id="
+#define ServerUploadPrefix      @"http://118.145.20.14:9081/esap_base/rest/document/upload"
+#define ServerProduct           @"http://118.145.20.14:9081"
+
+#define ServerInnerDevelopment  @"http://192.168.100.120:9080"
+
+#if DevelopmentEnvironment
+    #define APIBaseURL  ServerDevelopment
+    #define APIBaseUpload ServerDevUploadPrefix
+    #define APIBaseDownload ServerDevDownloadPrefix
+#else
+    #define APIBaseURL  ServerProduct
+    #define APIBaseUpload ServerUploadPrefix
+    #define APIBaseDownload ServerDownloadPrefix
+#endif
+
+#if ShowDebugLogs
+    #ifdef __OBJC__
+        #define DebugLog(fmt, ...) NSLog((@"%s %s %3d:\n" fmt), __FILE__, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+    #else
+        #if 1
+            #define DebugLog(...) (printf("%s %s %s [%s] %3d:\n", __DATE__, __TIME__,  _FILE_, __PRETTY_FUNCTION__, __LINE__), printf(__VA_ARGS__), printf("\n"))
+        #else
+            #define DebugLog(...)   SafeEmptyStatement
+        #endif
+    #endif
+#else
+    #define DebugLog(...)   SafeEmptyStatement
+#endif //ShowDebugLogs
+
+#ifdef __OBJC__
+    #define Assert NSAssert
+#else
+    #include <assert.h>
+    #define Assert assert
+#endif
+
+#ifdef __OBJC__
+
+#include <tgmath.h>
+#define FloatIsEqual(float1,float2) ((fabs(float1 - float2) < FLT_EPSILON) ? YES : NO)
+#define DoubleIsEqual(double1,double2) ((fabs(double1 - double2) < DBL_EPSILON) ? YES : NO)
+/////////////////////
+//  system version
+/////////////////////
+
+    #ifndef __IPHONE_7_0
+        #define __IPHONE_7_0 70000
+    #endif // __IPHONE_7_0
+
+/////////////////////
+//  version control
+/////////////////////
+
+    #import "UIDevice+Addiotions.h"
+
+    #define IsSystemVersionGreaterThanOrEqualToSix ([[UIDevice currentDevice] deviceSystemMajorVersion] >= 6)
+
+    #define IsIOS7OrLater() ([[UIDevice currentDevice] deviceSystemMajorVersion] >= 7)
+
+    #define IfIOS7OrLater(statement) {if (IsIOS7OrLater()) {statement}}
+
+    #define IfIOS7Earlier(statement) {if (!IsIOS7OrLater()) {statement}}
+
+    #define IsIOS6Earlier ([[[UIDevice currentDevice] systemVersion] floatValue] < 6.0)
+
+    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+        #define CompileSDK7OrLater(statement)   {statement}
+    #else // __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+        #define CompileSDK7OrLater(statement)   SafeEmptyStatement
+    #endif // __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+
+    #if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_7_0
+        #define CompileSDK7Earlier(statement) {statement}
+    #else // __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_7_0
+        #define CompileSDK7Earlier(statement)   SafeEmptyStatement
+    #endif // __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_7_0
+#endif /* ifdef __OBJC__ */
+
+/*!
+ 添加单例方法定义和实现的宏
+ */
+#define DefaultInstanceForClassHeader(CLASSNAME) + (CLASSNAME *)defaultInstance
+#define DefaultInstanceForClass(CLASSNAME) DefaultInstanceForClassMethod(CLASSNAME, defaultInstance)
+
+#define DefaultInstanceForClassMethodHeader(CLASSNAME, METHODNAME)    + (CLASSNAME *) METHODNAME
+#define DefaultInstanceForClassMethod(CLASSNAME, METHODNAME) \
+static CLASSNAME *METHODNAME##_;\
++ (CLASSNAME *) METHODNAME {    \
+static dispatch_once_t predicate;\
+dispatch_once(&predicate, ^{\
+METHODNAME##_ = [[self alloc] init];\
+/*SEL setupSelector = @selector(setup);\
+if ([METHODNAME##_ respondsToSelector:setupSelector]) {\
+IMP imp = [METHODNAME##_ methodForSelector:setupSelector]; \
+void (*func)(id, SEL) = (void *)imp; \
+func(METHODNAME##_, setupSelector); \
+}*/\
+});\
+return METHODNAME##_;\
+}
+/*
+#define ReleaseInstanceForClassHeader + (void)releasedefaultInstance
+#define ReleaseInstanceForClass ReleaseInstanceForClassMethod(defaultInstance)
+
+#define ReleaseInstanceForClassMethodHeader(METHODNAME) + (void *)releaseMETHODNAME
+#define ReleaseInstanceForClassMethod(METHODNAME) \
++ (void)release##METHODNAME {\
+[METHODNAME##_ release];\
+METHODNAME##_ = nil;\
+}
+
+// 定义安全释放指针
+#define ReleaseSafely(__POINTER) { [__POINTER release]; __POINTER = nil; }
+*/
+#endif

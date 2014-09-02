@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SetSwitchTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSE-CH-FX3">
+                        <rect key="frame" x="20" y="10" width="334" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="9va-Zk-Kuc"/>
+                            <constraint firstAttribute="width" constant="334" id="Vqa-E4-5S9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d9y-hH-42g">
+                        <rect key="frame" x="685" y="6" width="51" height="31"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="31" id="36f-vo-uxv"/>
+                            <constraint firstAttribute="width" constant="49" id="bHp-pp-NN3"/>
+                        </constraints>
+                        <connections>
+                            <action selector="switchValueChanged:" destination="KGk-i7-Jjw" eventType="valueChanged" id="rBO-XB-fGs"/>
+                        </connections>
+                    </switch>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="fSE-CH-FX3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="0Zy-hb-eaO"/>
+                    <constraint firstAttribute="trailing" secondItem="d9y-hH-42g" secondAttribute="trailing" constant="34" id="WCi-Jo-hRf"/>
+                    <constraint firstItem="d9y-hH-42g" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="c6z-GA-p4r"/>
+                    <constraint firstItem="fSE-CH-FX3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="vIH-DI-1xL"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="nameLabel" destination="fSE-CH-FX3" id="LIF-6j-By2"/>
+                <outlet property="switcher" destination="d9y-hH-42g" id="UT2-Uh-xWb"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

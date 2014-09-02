@@ -1,0 +1,45 @@
+Foxit PDF SDK 4.0 for Server/Desktop 
+
+What's New Compared with Foxit PDF SDK DLL 3.1
+========================================================================================================================
+1.	Access basic lower level PDF Objects.
+2.	Image conversion. Support the conversion from PDF to images and the reverse. The current supported image types are: PDF, BMP, JPEG, PNG, TIFF and JPX.
+3.	Fill forms and get or set form data.
+4.	Create, edit, and remove annotations in PDF files.
+5.	Get the form filed info of a given page. Import or export form data by FDF files.
+6.	Wrapper PDF support. Create a wrapper PDF and access PDF documents with wrapper data inside. Provide developers the ability to designate a single application to access the wrapper data.
+7.	Reflow texts and images to fit the screen size of devices.
+8.	Watermark support. Add watermarks created from image files, text strings or a PDF page to a page. 
+9.	Custom encryption.
+10.	Create a barcode bitmap from a given string. This bitmap can be inserted into a PDF page or saved as an image file.
+11.	Generate PSI(pressure sensitive ink) and convert PSI bitmaps to PDF annotations.
+12.	Get and set document-level attachments.
+13.	Get the page label of a given page.
+14.	Get and set page index from a given page handle.
+15.	Get and set page actions.
+16.	Get and set content mark of a page object.
+17.	Get the content margin of a page.
+
+
+Contact Us
+========================================================================================================================
+If you have any questions using Foxit PDF SDK, please contact us by email:
+
+Sales and Information - sales@foxitsoftware.com
+Marketing Service - marketing@foxitsoftware.com
+Technical Support - support@foxitsoftware.com
+Website Questions - webmaster@foxitsoftware.com
+
+
+
+Foxit Corporation
+
+Address: 42840 Christy Street. Suite 201, Fremont CA 94538, USA
+
+Sales Phone: 1-866-680-3668 (24/7)
+
+Support Phone: 1-866-MYFOXIT or 1-866-693-6948(24/7)
+
+Fax: 510-405-9288
+
+Web: www.foxitsoftware.com

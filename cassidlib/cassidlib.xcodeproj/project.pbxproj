@@ -1,0 +1,516 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D03714E0198656B7000544A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03714DF198656B7000544A7 /* Foundation.framework */; };
+		D03714E5198656B7000544A7 /* cassidlib.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D03714E4198656B7000544A7 /* cassidlib.h */; };
+		D03714EE198656B7000544A7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03714ED198656B7000544A7 /* XCTest.framework */; };
+		D03714EF198656B7000544A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03714DF198656B7000544A7 /* Foundation.framework */; };
+		D03714F4198656B7000544A7 /* libcassidlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D03714DC198656B7000544A7 /* libcassidlib.a */; };
+		D03714FA198656B7000544A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D03714F8198656B7000544A7 /* InfoPlist.strings */; };
+		D03714FC198656B7000544A7 /* cassidlibTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D03714FB198656B7000544A7 /* cassidlibTests.m */; };
+		D037153519867B7F000544A7 /* CABezierNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D037152A19867B7F000544A7 /* CABezierNode.m */; };
+		D037153619867B7F000544A7 /* CACanvasActiveStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D037152C19867B7F000544A7 /* CACanvasActiveStatus.m */; };
+		D037153719867B7F000544A7 /* CAFreeHandTool.m in Sources */ = {isa = PBXBuildFile; fileRef = D037152E19867B7F000544A7 /* CAFreeHandTool.m */; };
+		D037153819867B7F000544A7 /* CALibCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = D037153019867B7F000544A7 /* CALibCanvas.m */; };
+		D037153919867B7F000544A7 /* CALibPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = D037153219867B7F000544A7 /* CALibPalette.m */; };
+		D037153A19867B7F000544A7 /* CALibPath.m in Sources */ = {isa = PBXBuildFile; fileRef = D037153419867B7F000544A7 /* CALibPath.m */; };
+		D09D188819879F1C00F8B9F9 /* CASDKDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = D09D188719879F1C00F8B9F9 /* CASDKDraw.m */; };
+		D09D18B21987A7C900F8B9F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D09D18B11987A7C900F8B9F9 /* UIKit.framework */; };
+		D0BA372319AF167E00933E0F /* FileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BA371819AF167E00933E0F /* FileManagement.m */; };
+		D0BA372419AF167E00933E0F /* QRSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BA371A19AF167E00933E0F /* QRSearchViewController.m */; };
+		D0BA372619AF167E00933E0F /* UIImageCoverRect.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BA371E19AF167E00933E0F /* UIImageCoverRect.m */; };
+		D0BA372719AF167E00933E0F /* UIImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BA372019AF167E00933E0F /* UIImageAdditions.m */; };
+		D0BA372819AF167E00933E0F /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BA372219AF167E00933E0F /* Util.m */; };
+		D0E8398619AF489D00ED539D /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E8398519AF489D00ED539D /* Palette.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D03714F2198656B7000544A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D03714D4198656B6000544A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D03714DB198656B7000544A7;
+			remoteInfo = cassidlib;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D03714DA198656B7000544A7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				D03714E5198656B7000544A7 /* cassidlib.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D03714DC198656B7000544A7 /* libcassidlib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcassidlib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D03714DF198656B7000544A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D03714E3198656B7000544A7 /* cassidlib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cassidlib-Prefix.pch"; sourceTree = "<group>"; };
+		D03714E4198656B7000544A7 /* cassidlib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cassidlib.h; sourceTree = "<group>"; };
+		D03714EC198656B7000544A7 /* cassidlibTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cassidlibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D03714ED198656B7000544A7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D03714F7198656B7000544A7 /* cassidlibTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "cassidlibTests-Info.plist"; sourceTree = "<group>"; };
+		D03714F9198656B7000544A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D03714FB198656B7000544A7 /* cassidlibTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cassidlibTests.m; sourceTree = "<group>"; };
+		D037152919867B7F000544A7 /* CABezierNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CABezierNode.h; sourceTree = "<group>"; };
+		D037152A19867B7F000544A7 /* CABezierNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CABezierNode.m; sourceTree = "<group>"; };
+		D037152B19867B7F000544A7 /* CACanvasActiveStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CACanvasActiveStatus.h; sourceTree = "<group>"; };
+		D037152C19867B7F000544A7 /* CACanvasActiveStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CACanvasActiveStatus.m; sourceTree = "<group>"; };
+		D037152D19867B7F000544A7 /* CAFreeHandTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAFreeHandTool.h; sourceTree = "<group>"; };
+		D037152E19867B7F000544A7 /* CAFreeHandTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAFreeHandTool.m; sourceTree = "<group>"; };
+		D037152F19867B7F000544A7 /* CALibCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CALibCanvas.h; sourceTree = "<group>"; };
+		D037153019867B7F000544A7 /* CALibCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CALibCanvas.m; sourceTree = "<group>"; };
+		D037153119867B7F000544A7 /* CALibPalette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CALibPalette.h; sourceTree = "<group>"; };
+		D037153219867B7F000544A7 /* CALibPalette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CALibPalette.m; sourceTree = "<group>"; };
+		D037153319867B7F000544A7 /* CALibPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CALibPath.h; sourceTree = "<group>"; };
+		D037153419867B7F000544A7 /* CALibPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CALibPath.m; sourceTree = "<group>"; };
+		D064E9091988CDD2002C9178 /* datatypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = datatypes.h; sourceTree = "<group>"; };
+		D09D188619879F1C00F8B9F9 /* CASDKDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASDKDraw.h; sourceTree = "<group>"; };
+		D09D188719879F1C00F8B9F9 /* CASDKDraw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CASDKDraw.m; sourceTree = "<group>"; };
+		D09D18B11987A7C900F8B9F9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D0BA371719AF167E00933E0F /* FileManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagement.h; sourceTree = "<group>"; };
+		D0BA371819AF167E00933E0F /* FileManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagement.m; sourceTree = "<group>"; };
+		D0BA371919AF167E00933E0F /* QRSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRSearchViewController.h; sourceTree = "<group>"; };
+		D0BA371A19AF167E00933E0F /* QRSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRSearchViewController.m; sourceTree = "<group>"; };
+		D0BA371D19AF167E00933E0F /* UIImageCoverRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageCoverRect.h; sourceTree = "<group>"; };
+		D0BA371E19AF167E00933E0F /* UIImageCoverRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageCoverRect.m; sourceTree = "<group>"; };
+		D0BA371F19AF167E00933E0F /* UIImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageAdditions.h; sourceTree = "<group>"; };
+		D0BA372019AF167E00933E0F /* UIImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageAdditions.m; sourceTree = "<group>"; };
+		D0BA372119AF167E00933E0F /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		D0BA372219AF167E00933E0F /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		D0E8398419AF489D00ED539D /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
+		D0E8398519AF489D00ED539D /* Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Palette.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D03714D9198656B7000544A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09D18B21987A7C900F8B9F9 /* UIKit.framework in Frameworks */,
+				D03714E0198656B7000544A7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D03714E9198656B7000544A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D03714EE198656B7000544A7 /* XCTest.framework in Frameworks */,
+				D03714F4198656B7000544A7 /* libcassidlib.a in Frameworks */,
+				D03714EF198656B7000544A7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D03714D3198656B6000544A7 = {
+			isa = PBXGroup;
+			children = (
+				D03714E1198656B7000544A7 /* cassidlib */,
+				D03714F5198656B7000544A7 /* cassidlibTests */,
+				D03714DE198656B7000544A7 /* Frameworks */,
+				D03714DD198656B7000544A7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D03714DD198656B7000544A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D03714DC198656B7000544A7 /* libcassidlib.a */,
+				D03714EC198656B7000544A7 /* cassidlibTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D03714DE198656B7000544A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D09D18B11987A7C900F8B9F9 /* UIKit.framework */,
+				D03714DF198656B7000544A7 /* Foundation.framework */,
+				D03714ED198656B7000544A7 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D03714E1198656B7000544A7 /* cassidlib */ = {
+			isa = PBXGroup;
+			children = (
+				D0BA371619AF167E00933E0F /* Helpers */,
+				D037152819867B7F000544A7 /* HandwritingCanvas */,
+				D03714E4198656B7000544A7 /* cassidlib.h */,
+				D064E9091988CDD2002C9178 /* datatypes.h */,
+				D09D188619879F1C00F8B9F9 /* CASDKDraw.h */,
+				D09D188719879F1C00F8B9F9 /* CASDKDraw.m */,
+				D03714E2198656B7000544A7 /* Supporting Files */,
+			);
+			path = cassidlib;
+			sourceTree = "<group>";
+		};
+		D03714E2198656B7000544A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D03714E3198656B7000544A7 /* cassidlib-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D03714F5198656B7000544A7 /* cassidlibTests */ = {
+			isa = PBXGroup;
+			children = (
+				D03714FB198656B7000544A7 /* cassidlibTests.m */,
+				D03714F6198656B7000544A7 /* Supporting Files */,
+			);
+			path = cassidlibTests;
+			sourceTree = "<group>";
+		};
+		D03714F6198656B7000544A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D03714F7198656B7000544A7 /* cassidlibTests-Info.plist */,
+				D03714F8198656B7000544A7 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D037152819867B7F000544A7 /* HandwritingCanvas */ = {
+			isa = PBXGroup;
+			children = (
+				D0E8398419AF489D00ED539D /* Palette.h */,
+				D0E8398519AF489D00ED539D /* Palette.m */,
+				D037152919867B7F000544A7 /* CABezierNode.h */,
+				D037152A19867B7F000544A7 /* CABezierNode.m */,
+				D037152B19867B7F000544A7 /* CACanvasActiveStatus.h */,
+				D037152C19867B7F000544A7 /* CACanvasActiveStatus.m */,
+				D037152D19867B7F000544A7 /* CAFreeHandTool.h */,
+				D037152E19867B7F000544A7 /* CAFreeHandTool.m */,
+				D037152F19867B7F000544A7 /* CALibCanvas.h */,
+				D037153019867B7F000544A7 /* CALibCanvas.m */,
+				D037153119867B7F000544A7 /* CALibPalette.h */,
+				D037153219867B7F000544A7 /* CALibPalette.m */,
+				D037153319867B7F000544A7 /* CALibPath.h */,
+				D037153419867B7F000544A7 /* CALibPath.m */,
+			);
+			path = HandwritingCanvas;
+			sourceTree = "<group>";
+		};
+		D0BA371619AF167E00933E0F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D0BA371719AF167E00933E0F /* FileManagement.h */,
+				D0BA371819AF167E00933E0F /* FileManagement.m */,
+				D0BA371919AF167E00933E0F /* QRSearchViewController.h */,
+				D0BA371A19AF167E00933E0F /* QRSearchViewController.m */,
+				D0BA371D19AF167E00933E0F /* UIImageCoverRect.h */,
+				D0BA371E19AF167E00933E0F /* UIImageCoverRect.m */,
+				D0BA371F19AF167E00933E0F /* UIImageAdditions.h */,
+				D0BA372019AF167E00933E0F /* UIImageAdditions.m */,
+				D0BA372119AF167E00933E0F /* Util.h */,
+				D0BA372219AF167E00933E0F /* Util.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D03714DB198656B7000544A7 /* cassidlib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D03714FF198656B7000544A7 /* Build configuration list for PBXNativeTarget "cassidlib" */;
+			buildPhases = (
+				D03714D8198656B7000544A7 /* Sources */,
+				D03714D9198656B7000544A7 /* Frameworks */,
+				D03714DA198656B7000544A7 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cassidlib;
+			productName = cassidlib;
+			productReference = D03714DC198656B7000544A7 /* libcassidlib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D03714EB198656B7000544A7 /* cassidlibTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0371502198656B7000544A7 /* Build configuration list for PBXNativeTarget "cassidlibTests" */;
+			buildPhases = (
+				D03714E8198656B7000544A7 /* Sources */,
+				D03714E9198656B7000544A7 /* Frameworks */,
+				D03714EA198656B7000544A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D03714F3198656B7000544A7 /* PBXTargetDependency */,
+			);
+			name = cassidlibTests;
+			productName = cassidlibTests;
+			productReference = D03714EC198656B7000544A7 /* cassidlibTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D03714D4198656B6000544A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Caland;
+			};
+			buildConfigurationList = D03714D7198656B6000544A7 /* Build configuration list for PBXProject "cassidlib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D03714D3198656B6000544A7;
+			productRefGroup = D03714DD198656B7000544A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D03714DB198656B7000544A7 /* cassidlib */,
+				D03714EB198656B7000544A7 /* cassidlibTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D03714EA198656B7000544A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D03714FA198656B7000544A7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D03714D8198656B7000544A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0BA372819AF167E00933E0F /* Util.m in Sources */,
+				D0BA372319AF167E00933E0F /* FileManagement.m in Sources */,
+				D0BA372719AF167E00933E0F /* UIImageAdditions.m in Sources */,
+				D0BA372619AF167E00933E0F /* UIImageCoverRect.m in Sources */,
+				D09D188819879F1C00F8B9F9 /* CASDKDraw.m in Sources */,
+				D037153819867B7F000544A7 /* CALibCanvas.m in Sources */,
+				D037153519867B7F000544A7 /* CABezierNode.m in Sources */,
+				D0E8398619AF489D00ED539D /* Palette.m in Sources */,
+				D037153A19867B7F000544A7 /* CALibPath.m in Sources */,
+				D037153919867B7F000544A7 /* CALibPalette.m in Sources */,
+				D037153719867B7F000544A7 /* CAFreeHandTool.m in Sources */,
+				D0BA372419AF167E00933E0F /* QRSearchViewController.m in Sources */,
+				D037153619867B7F000544A7 /* CACanvasActiveStatus.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D03714E8198656B7000544A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D03714FC198656B7000544A7 /* cassidlibTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D03714F3198656B7000544A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D03714DB198656B7000544A7 /* cassidlib */;
+			targetProxy = D03714F2198656B7000544A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D03714F8198656B7000544A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D03714F9198656B7000544A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D03714FD198656B7000544A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D03714FE198656B7000544A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D0371500198656B7000544A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/cassidlib.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cassidlib/cassidlib-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D0371501198656B7000544A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/cassidlib.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cassidlib/cassidlib-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D0371503198656B7000544A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cassidlib/cassidlib-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "cassidlibTests/cassidlibTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		D0371504198656B7000544A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cassidlib/cassidlib-Prefix.pch";
+				INFOPLIST_FILE = "cassidlibTests/cassidlibTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D03714D7198656B6000544A7 /* Build configuration list for PBXProject "cassidlib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D03714FD198656B7000544A7 /* Debug */,
+				D03714FE198656B7000544A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D03714FF198656B7000544A7 /* Build configuration list for PBXNativeTarget "cassidlib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0371500198656B7000544A7 /* Debug */,
+				D0371501198656B7000544A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0371502198656B7000544A7 /* Build configuration list for PBXNativeTarget "cassidlibTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0371503198656B7000544A7 /* Debug */,
+				D0371504198656B7000544A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D03714D4198656B6000544A7 /* Project object */;
+}

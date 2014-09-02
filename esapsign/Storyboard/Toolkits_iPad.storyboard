@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <scenes>
+        <!--蓝牙连接1-->
+        <scene sceneID="bIF-xm-IXo">
+            <objects>
+                <viewController id="b0g-6P-SdQ" userLabel="蓝牙连接1" customClass="UlanSignViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0xy-4a-TEA"/>
+                        <viewControllerLayoutGuide type="bottom" id="0hI-a0-tOI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zzi-3E-I4V">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TEz-dl-E0Y">
+                                <rect key="frame" x="147" y="231" width="475" height="393"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WCN-uc-Bv2">
+                                        <rect key="frame" x="-7" y="-8" width="475" height="393"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PIN码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ast-Fh-ukE" userLabel="Pin Text Field - PIN码">
+                                        <rect key="frame" x="119" y="120" width="236" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    </textField>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="请按蓝牙盾电源键..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8NM-p4-2gi">
+                                        <rect key="frame" x="47" y="48" width="216" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="已连接蓝牙盾，请输入PIN码..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1hl-14-X2Y">
+                                        <rect key="frame" x="47" y="86" width="400" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="请确认蓝牙盾上信息按确认键..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNz-MS-HJN">
+                                        <rect key="frame" x="48" y="124" width="390" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="数字签名成功!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JoU-yj-2r9">
+                                        <rect key="frame" x="50" y="164" width="347" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="数字签名结果:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Fg-Sp-PM2">
+                                        <rect key="frame" x="53" y="211" width="385" height="83"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsB-TI-YP1" userLabel="DoneButton - 确 定">
+                                        <rect key="frame" x="121" y="306" width="219" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <state key="normal" title="确 定"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="riq-dr-O70" userLabel="CancelButton - 取 消">
+                                        <rect key="frame" x="228" y="307" width="219" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <state key="normal" title="取 消">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <view contentMode="scaleToFill" id="BTC-0f-goN">
+                    <rect key="frame" x="0.0" y="0.0" width="475" height="393"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4m8-iw-H0h">
+                            <rect key="frame" x="-7" y="-8" width="475" height="393"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PIN码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qhA-R0-ACb" userLabel="Pin Text Field - PIN码">
+                            <rect key="frame" x="119" y="120" width="236" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="请按蓝牙盾电源键..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jYd-EK-1h9">
+                            <rect key="frame" x="47" y="48" width="216" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="已连接蓝牙盾，请输入PIN码..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOc-9a-2la">
+                            <rect key="frame" x="47" y="86" width="400" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="请确认蓝牙盾上信息按确认键..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-I3-2jT">
+                            <rect key="frame" x="48" y="124" width="390" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="数字签名成功!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4vr-gv-7Gs">
+                            <rect key="frame" x="50" y="164" width="347" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="数字签名结果:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2T-kn-Ww3">
+                            <rect key="frame" x="53" y="211" width="385" height="83"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ohj-JM-tPr" userLabel="DoneButton - 确 定">
+                            <rect key="frame" x="121" y="306" width="219" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <state key="normal" title="确 定"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOs-gi-ehf" userLabel="CancelButton - 取 消">
+                            <rect key="frame" x="228" y="307" width="219" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <state key="normal" title="取 消">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3mU-ye-rEl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-393" y="-321"/>
+        </scene>
+        <!--蓝牙连接2-->
+        <scene sceneID="NAm-7m-3iG">
+            <objects>
+                <viewController id="19P-fR-bg6" userLabel="蓝牙连接2" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="A6C-DM-eeL"/>
+                        <viewControllerLayoutGuide type="bottom" id="PrA-B9-hK9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gh7-yJ-pWR">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="USi-yH-2y3">
+                                <rect key="frame" x="174" y="324" width="421" height="307"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Go-ok-ETU">
+                                        <rect key="frame" x="0.0" y="0.0" width="418" height="331"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PIN码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ea9-YY-PjX" userLabel="Pin Text Field - PIN码">
+                                        <rect key="frame" x="150" y="82" width="158" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="已连接蓝牙盾，请输入PIN码..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJK-S4-eWL">
+                                        <rect key="frame" x="66" y="30" width="287" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="请确认蓝牙盾上信息按确认键..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oXZ-lV-hBD">
+                                        <rect key="frame" x="66" y="74" width="301" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="数字签名成功！" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEj-eG-i5Q">
+                                        <rect key="frame" x="66" y="117" width="203" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="数字签名结果：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oam-zP-BZa">
+                                        <rect key="frame" x="66" y="168" width="301" height="58"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zw5-7D-Fh3" userLabel="DoneButton - 确 定">
+                                        <rect key="frame" x="149" y="248" width="121" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <state key="normal" title="确 定">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZTz-GQ-359" userLabel="CancelButton - 取 消">
+                                        <rect key="frame" x="268" y="248" width="121" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <state key="normal" title="取 消">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TiB-X6-T0i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="501" y="-321"/>
+        </scene>
+        <!--直接签署叠加层-->
+        <scene sceneID="wlg-Gs-3uV">
+            <objects>
+                <viewController storyboardIdentifier="DirectSignViewController" id="Q08-hx-vkG" userLabel="直接签署叠加层" customClass="HandSignViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pio-Pm-PmA"/>
+                        <viewControllerLayoutGuide type="bottom" id="XFZ-bR-cle"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="w42-Bb-UkJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TsN-Rb-CUW">
+                                <rect key="frame" x="12" y="64" width="1000" height="648"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5IA-NS-Huc" userLabel="Draw Canvas">
+                                <rect key="frame" x="12" y="64" width="1000" height="648"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FPo-qe-AN1" userLabel="Func-Undo">
+                                <rect key="frame" x="822" y="593" width="86" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="63" id="WWl-dR-ER1"/>
+                                    <constraint firstAttribute="width" constant="86" id="oid-Tu-PW1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" backgroundImage="CommandUndo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toolUndo:" destination="Q08-hx-vkG" eventType="touchUpInside" id="eM1-VF-JfL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bus-NA-ggj" userLabel="Func-Clear">
+                                <rect key="frame" x="728" y="593" width="86" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="86" id="SMH-Kj-SI5"/>
+                                    <constraint firstAttribute="height" constant="62" id="XuP-Oe-row"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" backgroundImage="CommandClear">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toolClear:" destination="Q08-hx-vkG" eventType="touchUpInside" id="Oni-qt-Qqu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lwd-l8-4CB" userLabel="Func-Submit">
+                                <rect key="frame" x="916" y="593" width="86" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="86" id="Htm-ta-DtE"/>
+                                    <constraint firstAttribute="height" constant="62" id="uDx-Re-E6w"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" backgroundImage="CommandFinish">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toolSubmit:" destination="Q08-hx-vkG" eventType="touchUpInside" id="1MQ-T6-sbH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V8c-2b-TQ2" userLabel="Style-Thin">
+                                <rect key="frame" x="20" y="438" width="61" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="61" id="B9F-x1-TNp"/>
+                                    <constraint firstAttribute="height" constant="61" id="hIn-1T-N1Q"/>
+                                </constraints>
+                                <state key="normal" image="WritePencilUnsel" backgroundImage="ColorRingBlack">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="WritePencilSel"/>
+                                <connections>
+                                    <action selector="penSelected:" destination="Q08-hx-vkG" eventType="touchUpInside" id="goo-2m-eJc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7E-Mp-giH" userLabel="Style-Thick">
+                                <rect key="frame" x="20" y="353" width="61" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="61" id="2uj-KX-5hI"/>
+                                    <constraint firstAttribute="width" constant="61" id="pyA-Id-noD"/>
+                                </constraints>
+                                <state key="normal" image="WriteBrushUnsel" backgroundImage="ColorRingBlack">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="WriteBrushSel"/>
+                                <connections>
+                                    <action selector="penSelected:" destination="Q08-hx-vkG" eventType="touchUpInside" id="rAD-Mc-6pQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nHQ-KT-gm5" userLabel="Style-Pen">
+                                <rect key="frame" x="20" y="267" width="61" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="61" id="nTf-Ob-eK5"/>
+                                    <constraint firstAttribute="height" constant="61" id="pYo-ip-p5F"/>
+                                </constraints>
+                                <state key="normal" image="WritePenUnsel" backgroundImage="ColorRingBlack">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="WritePenSel"/>
+                                <connections>
+                                    <action selector="penSelected:" destination="Q08-hx-vkG" eventType="touchUpInside" id="560-uD-MOO"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iju-ap-FXZ" userLabel="Color Selector">
+                                <rect key="frame" x="-20" y="70" width="139" height="150"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" tag="5003" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1mR-YC-9CV" userLabel="WhitPicker">
+                                        <rect key="frame" x="64" y="79" width="28" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" backgroundImage="ColorWhite">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colorSelected:" destination="Q08-hx-vkG" eventType="touchUpInside" id="JsB-3V-ZGk"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5000" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etd-Ob-O0p" userLabel="BlackPicker">
+                                        <rect key="frame" x="0.0" y="5" width="110" height="105"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" backgroundImage="ColorBlack">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colorSelected:" destination="Q08-hx-vkG" eventType="touchUpInside" id="oen-AR-XuU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5002" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L1C-2F-tsO" userLabel="RedPicker">
+                                        <rect key="frame" x="86" y="73" width="48" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" backgroundImage="ColorRed">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colorSelected:" destination="Q08-hx-vkG" eventType="touchUpInside" id="nEg-ML-FQq"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5001" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x9C-sS-m5H" userLabel="OrangePicker">
+                                        <rect key="frame" x="35" y="100" width="52" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" backgroundImage="ColorBlue">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colorSelected:" destination="Q08-hx-vkG" eventType="touchUpInside" id="429-y8-Elc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="oMX-II-kYy"/>
+                                    <constraint firstAttribute="width" constant="139" id="tNV-an-4CZ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="XFZ-bR-cle" firstAttribute="top" secondItem="5IA-NS-Huc" secondAttribute="bottom" constant="56" id="1E5-pj-0LJ"/>
+                            <constraint firstItem="XFZ-bR-cle" firstAttribute="top" secondItem="lwd-l8-4CB" secondAttribute="bottom" constant="113" id="6S4-Kw-B0s"/>
+                            <constraint firstAttribute="trailing" secondItem="lwd-l8-4CB" secondAttribute="trailing" constant="22" id="6VQ-iZ-pZm"/>
+                            <constraint firstAttribute="centerY" secondItem="nHQ-KT-gm5" secondAttribute="centerY" constant="86.5" id="7ja-Hh-8Te"/>
+                            <constraint firstAttribute="trailing" secondItem="bus-NA-ggj" secondAttribute="trailing" constant="210" id="Cba-yQ-umb"/>
+                            <constraint firstItem="5IA-NS-Huc" firstAttribute="top" secondItem="pio-Pm-PmA" secondAttribute="bottom" constant="44" id="EHd-F2-xAc"/>
+                            <constraint firstItem="V8c-2b-TQ2" firstAttribute="leading" secondItem="w42-Bb-UkJ" secondAttribute="leading" constant="20" id="IvG-mW-bpR"/>
+                            <constraint firstItem="Iju-ap-FXZ" firstAttribute="leading" secondItem="w42-Bb-UkJ" secondAttribute="leading" constant="-20" id="MhJ-Ou-Nyc"/>
+                            <constraint firstItem="I7E-Mp-giH" firstAttribute="leading" secondItem="w42-Bb-UkJ" secondAttribute="leading" constant="20" id="MkZ-Yl-FBt"/>
+                            <constraint firstAttribute="centerY" secondItem="I7E-Mp-giH" secondAttribute="centerY" constant="0.5" id="NfO-2U-plh"/>
+                            <constraint firstItem="XFZ-bR-cle" firstAttribute="top" secondItem="FPo-qe-AN1" secondAttribute="bottom" constant="112" id="Wjb-r1-Lr0"/>
+                            <constraint firstAttribute="trailing" secondItem="5IA-NS-Huc" secondAttribute="trailing" constant="12" id="gCs-Xs-q7K"/>
+                            <constraint firstAttribute="centerY" secondItem="V8c-2b-TQ2" secondAttribute="centerY" constant="-84.5" id="onp-uW-sjW"/>
+                            <constraint firstAttribute="trailing" secondItem="FPo-qe-AN1" secondAttribute="trailing" constant="116" id="qyG-an-SPI"/>
+                            <constraint firstItem="5IA-NS-Huc" firstAttribute="leading" secondItem="w42-Bb-UkJ" secondAttribute="leading" constant="12" id="rRC-uj-7Qs"/>
+                            <constraint firstItem="XFZ-bR-cle" firstAttribute="top" secondItem="bus-NA-ggj" secondAttribute="bottom" constant="113" id="tCv-ad-31s"/>
+                            <constraint firstItem="Iju-ap-FXZ" firstAttribute="top" secondItem="pio-Pm-PmA" secondAttribute="bottom" constant="50" id="uuy-nh-xUa"/>
+                            <constraint firstItem="nHQ-KT-gm5" firstAttribute="leading" secondItem="w42-Bb-UkJ" secondAttribute="leading" constant="20" id="xQN-LB-jlC"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="1024" height="768"/>
+                    <connections>
+                        <outlet property="blackPicker" destination="etd-Ob-O0p" id="0PM-r6-Jds"/>
+                        <outlet property="bluePicker" destination="x9C-sS-m5H" id="JgX-ns-hrM"/>
+                        <outlet property="drawCanvas" destination="5IA-NS-Huc" id="XNx-Fy-zS5"/>
+                        <outlet property="redPicker" destination="L1C-2F-tsO" id="0fE-hz-eFo"/>
+                        <outlet property="whitePicker" destination="1mR-YC-9CV" id="OXI-ow-12h"/>
+                        <outlet property="writeBrush" destination="I7E-Mp-giH" id="3fF-IA-btT"/>
+                        <outlet property="writePen" destination="nHQ-KT-gm5" id="Nma-4C-f17"/>
+                        <outlet property="writeSlim" destination="V8c-2b-TQ2" id="Mpt-LD-hKz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Y0-P1-mxL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-393" y="-1403"/>
+        </scene>
+        <!--创建预置签名-->
+        <scene sceneID="8HB-n7-3pO">
+            <objects>
+                <viewController storyboardIdentifier="NewSignViewController" id="hDB-mh-68U" userLabel="创建预置签名" customClass="HandSignViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cO0-TG-hSg"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wxz-ZK-24H"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gEC-4w-lPe">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="63i-TX-dso">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d6a-ZY-je8" userLabel="paletteView">
+                                <rect key="frame" x="12" y="33" width="1000" height="660"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ucl-jn-2xK" userLabel="writePen">
+                                <rect key="frame" x="20" y="199" width="61" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="61" id="bEt-Yw-Bht"/>
+                                    <constraint firstAttribute="height" constant="61" id="rIy-bL-QUB"/>
+                                </constraints>
+                                <state key="normal" image="WritePenUnsel" backgroundImage="ColorRingBlack">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="WritePenSel"/>
+                                <connections>
+                                    <action selector="penSelected:" destination="hDB-mh-68U" eventType="touchUpInside" id="Wtw-lo-Vvk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oCC-tg-pza" userLabel="writeBrush">
+                                <rect key="frame" x="20" y="289" width="61" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="61" id="Cfg-Bq-hvP"/>
+                                    <constraint firstAttribute="width" constant="61" id="Xo7-xM-mrk"/>
+                                </constraints>
+                                <state key="normal" image="WriteBrushUnsel" backgroundImage="ColorRingBlack">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="WriteBrushSel"/>
+                                <connections>
+                                    <action selector="penSelected:" destination="hDB-mh-68U" eventType="touchUpInside" id="Sca-XB-Hzq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DPI-Pi-3PQ" userLabel="writePencil">
+                                <rect key="frame" x="20" y="379" width="61" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="61" id="J0g-h8-LgI"/>
+                                    <constraint firstAttribute="height" constant="61" id="LuK-nG-0MA"/>
+                                </constraints>
+                                <state key="normal" image="WritePencilUnsel" backgroundImage="ColorRingBlack">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="WritePencilSel"/>
+                                <connections>
+                                    <action selector="penSelected:" destination="hDB-mh-68U" eventType="touchUpInside" id="Iqy-SG-mP9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ywY-Z4-aHb" userLabel="Camera">
+                                <rect key="frame" x="12" y="697" width="86" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="62" id="EXh-uW-kXz"/>
+                                    <constraint firstAttribute="width" constant="86" id="Yie-b4-K8J"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="CommandCamera">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="CameraBtnClicked:" destination="hDB-mh-68U" eventType="touchUpInside" id="xBO-rh-u6r"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9D-50-rDp" userLabel="Gallery">
+                                <rect key="frame" x="106" y="697" width="86" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="86" id="70e-VX-gWL"/>
+                                    <constraint firstAttribute="height" constant="62" id="7wg-6W-kqx"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="CommandGallery">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="PhotoLibBtnClicked:" destination="hDB-mh-68U" eventType="touchUpInside" id="5Op-Y9-9RV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wlh-5n-IHW" userLabel="Confirm">
+                                <rect key="frame" x="926" y="697" width="86" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="86" id="8PD-JS-cp7"/>
+                                    <constraint firstAttribute="height" constant="62" id="cfG-GM-tcY"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="CommandFinish">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toolSubmit:" destination="hDB-mh-68U" eventType="touchUpInside" id="uQm-dX-Ufe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e9z-nf-ZIb" userLabel="Undo">
+                                <rect key="frame" x="832" y="697" width="86" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="86" id="9FP-zH-m0V"/>
+                                    <constraint firstAttribute="height" constant="62" id="e1s-Qv-jCY"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="CommandUndo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toolUndo:" destination="hDB-mh-68U" eventType="touchUpInside" id="zdp-uO-ret"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EDh-bJ-a9Z" userLabel="Clean">
+                                <rect key="frame" x="738" y="697" width="86" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="62" id="GBg-NU-Uz6"/>
+                                    <constraint firstAttribute="width" constant="86" id="bBT-Td-x26"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="CommandClear">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toolClear:" destination="hDB-mh-68U" eventType="touchUpInside" id="y6X-oq-WI5"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3DJ-SV-clp" userLabel="ColorSelector">
+                                <rect key="frame" x="-10" y="-15" width="139" height="150"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" tag="5003" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aM5-4I-idg" userLabel="WhitPicker">
+                                        <rect key="frame" x="64" y="79" width="28" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" backgroundImage="ColorWhite">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colorSelected:" destination="hDB-mh-68U" eventType="touchUpInside" id="nu6-vN-ITG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5000" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUC-ON-W6M" userLabel="BlackPicker">
+                                        <rect key="frame" x="0.0" y="5" width="110" height="105"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" backgroundImage="ColorBlack">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colorSelected:" destination="hDB-mh-68U" eventType="touchUpInside" id="qSk-7y-GEw"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5002" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0KR-gc-19l" userLabel="RedPicker">
+                                        <rect key="frame" x="86" y="73" width="48" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" backgroundImage="ColorRed">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colorSelected:" destination="hDB-mh-68U" eventType="touchUpInside" id="PL9-bP-Fxb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5001" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7UB-0C-hbv" userLabel="OrangePicker">
+                                        <rect key="frame" x="35" y="100" width="52" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" backgroundImage="ColorBlue">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="colorSelected:" destination="hDB-mh-68U" eventType="touchUpInside" id="CCH-3I-IOC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="139" id="Wcn-f8-HZp"/>
+                                    <constraint firstAttribute="height" constant="150" id="fq8-no-azx"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Wxz-ZK-24H" firstAttribute="top" secondItem="63i-TX-dso" secondAttribute="bottom" id="2Q7-Y2-AJr"/>
+                            <constraint firstItem="D9D-50-rDp" firstAttribute="top" secondItem="d6a-ZY-je8" secondAttribute="bottom" constant="4" id="5K5-nT-fir"/>
+                            <constraint firstItem="e9z-nf-ZIb" firstAttribute="leading" secondItem="EDh-bJ-a9Z" secondAttribute="trailing" constant="8" id="94z-Xe-p7V"/>
+                            <constraint firstItem="63i-TX-dso" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" id="9Ln-71-keB"/>
+                            <constraint firstItem="d6a-ZY-je8" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" constant="12" id="9yu-41-5MC"/>
+                            <constraint firstItem="Wxz-ZK-24H" firstAttribute="top" secondItem="ywY-Z4-aHb" secondAttribute="bottom" constant="9" id="DB4-dq-QCq"/>
+                            <constraint firstItem="e9z-nf-ZIb" firstAttribute="top" secondItem="d6a-ZY-je8" secondAttribute="bottom" constant="4" id="Dqm-4e-P9u"/>
+                            <constraint firstItem="63i-TX-dso" firstAttribute="top" secondItem="gEC-4w-lPe" secondAttribute="top" id="FO8-ak-dyh"/>
+                            <constraint firstItem="DPI-Pi-3PQ" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" constant="20" id="IrG-nO-ZEB"/>
+                            <constraint firstAttribute="trailing" secondItem="wlh-5n-IHW" secondAttribute="trailing" constant="12" id="KXC-O3-yCu"/>
+                            <constraint firstItem="ucl-jn-2xK" firstAttribute="top" secondItem="3DJ-SV-clp" secondAttribute="bottom" constant="64" id="Mj7-ht-ckI"/>
+                            <constraint firstItem="wlh-5n-IHW" firstAttribute="top" secondItem="d6a-ZY-je8" secondAttribute="bottom" constant="4" id="PiH-dk-A1C"/>
+                            <constraint firstItem="EDh-bJ-a9Z" firstAttribute="top" secondItem="d6a-ZY-je8" secondAttribute="bottom" constant="4" id="QlX-Is-fbL"/>
+                            <constraint firstItem="ywY-Z4-aHb" firstAttribute="top" secondItem="d6a-ZY-je8" secondAttribute="bottom" constant="4" id="UaD-SF-8Pw"/>
+                            <constraint firstItem="3DJ-SV-clp" firstAttribute="top" secondItem="gEC-4w-lPe" secondAttribute="top" constant="-15" id="VdT-jV-toV"/>
+                            <constraint firstItem="3DJ-SV-clp" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" constant="-10" id="ZRe-Zl-7RV"/>
+                            <constraint firstItem="DPI-Pi-3PQ" firstAttribute="top" secondItem="oCC-tg-pza" secondAttribute="bottom" constant="29" id="dj9-2w-JcE"/>
+                            <constraint firstItem="wlh-5n-IHW" firstAttribute="leading" secondItem="e9z-nf-ZIb" secondAttribute="trailing" constant="8" id="dkf-Hb-OAW"/>
+                            <constraint firstItem="oCC-tg-pza" firstAttribute="top" secondItem="ucl-jn-2xK" secondAttribute="bottom" constant="29" id="f7k-mI-hq0"/>
+                            <constraint firstItem="d6a-ZY-je8" firstAttribute="top" secondItem="cO0-TG-hSg" secondAttribute="bottom" constant="13" id="i3K-hQ-PsA"/>
+                            <constraint firstAttribute="trailing" secondItem="63i-TX-dso" secondAttribute="trailing" id="k3Z-zn-ubg"/>
+                            <constraint firstItem="oCC-tg-pza" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" constant="20" id="mA6-2p-ViJ"/>
+                            <constraint firstItem="ucl-jn-2xK" firstAttribute="top" secondItem="3DJ-SV-clp" secondAttribute="bottom" constant="64" id="o3s-DS-vLR"/>
+                            <constraint firstAttribute="trailing" secondItem="d6a-ZY-je8" secondAttribute="trailing" constant="12" id="oNk-49-4yc"/>
+                            <constraint firstItem="ywY-Z4-aHb" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" constant="12" id="vAW-vK-s7s"/>
+                            <constraint firstItem="ucl-jn-2xK" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" constant="20" id="wGc-FD-flQ"/>
+                            <constraint firstItem="D9D-50-rDp" firstAttribute="leading" secondItem="ywY-Z4-aHb" secondAttribute="trailing" constant="8" id="wYM-tk-Bb1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="uhi-9k-CzH"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="1024" height="768"/>
+                    <connections>
+                        <outlet property="backgroundView" destination="63i-TX-dso" id="RGW-b0-h58"/>
+                        <outlet property="drawCanvas" destination="d6a-ZY-je8" id="96k-T3-wVC"/>
+                        <outlet property="writeBrush" destination="oCC-tg-pza" id="1FY-Gy-wQy"/>
+                        <outlet property="writePen" destination="ucl-jn-2xK" id="lEZ-7j-8eN"/>
+                        <outlet property="writeSlim" destination="DPI-Pi-3PQ" id="8qc-hK-sOW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6z2-TW-9uc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1176" y="-1403"/>
+        </scene>
+        <!--二维码扫描-->
+        <scene sceneID="5ap-DQ-Dxs">
+            <objects>
+                <viewController storyboardIdentifier="QRCodeSearchController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="obk-FC-6RF" userLabel="二维码扫描" customClass="QRCodeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aCL-Z0-5Gp"/>
+                        <viewControllerLayoutGuide type="bottom" id="zBI-wt-rwg"/>
+                    </layoutGuides>
+                    <view key="view" alpha="0.60000002384185791" contentMode="scaleToFill" id="JIO-Hq-ZGH">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YtH-3n-2pr">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="172"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CFp-N2-rWj">
+                                <rect key="frame" x="164" y="172" width="440" height="440"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pick_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="DND-EQ-3m9">
+                                        <rect key="frame" x="0.0" y="0.0" width="440" height="440"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line.png" translatesAutoresizingMaskIntoConstraints="NO" id="cfV-Ik-SwH">
+                                        <rect key="frame" x="0.0" y="-1" width="440" height="2"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="Pwc-9G-9ps"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="440" id="3uE-wI-1oy"/>
+                                    <constraint firstItem="DND-EQ-3m9" firstAttribute="trailing" secondItem="cfV-Ik-SwH" secondAttribute="trailing" id="7UE-Ih-78L"/>
+                                    <constraint firstAttribute="trailing" secondItem="DND-EQ-3m9" secondAttribute="trailing" id="7zv-Xs-ZJ3"/>
+                                    <constraint firstItem="DND-EQ-3m9" firstAttribute="top" secondItem="CFp-N2-rWj" secondAttribute="top" id="8tI-5r-Kic"/>
+                                    <constraint firstAttribute="height" constant="440" id="AXT-yI-p6h"/>
+                                    <constraint firstItem="cfV-Ik-SwH" firstAttribute="top" secondItem="CFp-N2-rWj" secondAttribute="top" constant="-1" id="EiC-u8-do1"/>
+                                    <constraint firstItem="DND-EQ-3m9" firstAttribute="leading" secondItem="cfV-Ik-SwH" secondAttribute="leading" id="cdh-1m-BvV"/>
+                                    <constraint firstItem="DND-EQ-3m9" firstAttribute="leading" secondItem="CFp-N2-rWj" secondAttribute="leading" id="hFQ-fB-q1N"/>
+                                    <constraint firstAttribute="bottom" secondItem="DND-EQ-3m9" secondAttribute="bottom" id="pRi-ae-ATT"/>
+                                </constraints>
+                            </view>
+                            <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5a-Wr-Gxt">
+                                <rect key="frame" x="0.0" y="172" width="164" height="440"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FMs-3h-Ns6">
+                                <rect key="frame" x="0.0" y="612" width="768" height="412"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请将二维码/条码放入框内，即可自动扫描" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GuS-re-hKK">
+                                        <rect key="frame" x="164" y="20" width="440" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="7Gl-Yu-cLc"/>
+                                            <constraint firstAttribute="width" constant="440" id="MJ9-1n-9fa"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="GuS-re-hKK" firstAttribute="top" secondItem="FMs-3h-Ns6" secondAttribute="top" constant="20" id="OAy-ca-JFA"/>
+                                    <constraint firstItem="GuS-re-hKK" firstAttribute="centerX" secondItem="FMs-3h-Ns6" secondAttribute="centerX" id="rXF-zN-CJw"/>
+                                </constraints>
+                            </view>
+                            <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8B5-NE-SF3">
+                                <rect key="frame" x="604" y="172" width="164" height="440"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="r5a-Wr-Gxt" firstAttribute="leading" secondItem="JIO-Hq-ZGH" secondAttribute="leading" id="1ty-Rg-hHJ"/>
+                            <constraint firstItem="FMs-3h-Ns6" firstAttribute="top" secondItem="JIO-Hq-ZGH" secondAttribute="top" constant="612" id="7wb-dN-lRW"/>
+                            <constraint firstItem="r5a-Wr-Gxt" firstAttribute="trailing" secondItem="CFp-N2-rWj" secondAttribute="leading" id="8Yd-Xz-ue7"/>
+                            <constraint firstItem="r5a-Wr-Gxt" firstAttribute="height" secondItem="CFp-N2-rWj" secondAttribute="height" id="9jz-aM-Xjs"/>
+                            <constraint firstAttribute="trailing" secondItem="FMs-3h-Ns6" secondAttribute="trailing" id="DaQ-xx-9KY"/>
+                            <constraint firstItem="FMs-3h-Ns6" firstAttribute="centerX" secondItem="CFp-N2-rWj" secondAttribute="centerX" id="HIa-dW-XDH"/>
+                            <constraint firstItem="FMs-3h-Ns6" firstAttribute="trailing" secondItem="YtH-3n-2pr" secondAttribute="trailing" id="HuS-V4-Phv"/>
+                            <constraint firstItem="CFp-N2-rWj" firstAttribute="top" secondItem="8B5-NE-SF3" secondAttribute="top" id="JwR-Zq-xtd"/>
+                            <constraint firstItem="FMs-3h-Ns6" firstAttribute="leading" secondItem="JIO-Hq-ZGH" secondAttribute="leading" id="MmU-Dc-NMx"/>
+                            <constraint firstItem="YtH-3n-2pr" firstAttribute="bottom" secondItem="r5a-Wr-Gxt" secondAttribute="top" id="NdG-Na-hil"/>
+                            <constraint firstAttribute="bottom" secondItem="FMs-3h-Ns6" secondAttribute="bottom" id="OLM-5q-XSt"/>
+                            <constraint firstItem="CFp-N2-rWj" firstAttribute="height" secondItem="8B5-NE-SF3" secondAttribute="height" id="OoC-E3-AuF"/>
+                            <constraint firstItem="YtH-3n-2pr" firstAttribute="leading" secondItem="JIO-Hq-ZGH" secondAttribute="leading" id="UxI-7P-wW7"/>
+                            <constraint firstItem="CFp-N2-rWj" firstAttribute="trailing" secondItem="8B5-NE-SF3" secondAttribute="leading" id="VtS-c9-pRf"/>
+                            <constraint firstItem="CFp-N2-rWj" firstAttribute="bottom" secondItem="8B5-NE-SF3" secondAttribute="bottom" id="Wju-ue-hgp"/>
+                            <constraint firstItem="YtH-3n-2pr" firstAttribute="bottom" secondItem="CFp-N2-rWj" secondAttribute="top" id="ZGe-XD-KxA"/>
+                            <constraint firstItem="CFp-N2-rWj" firstAttribute="bottom" secondItem="FMs-3h-Ns6" secondAttribute="top" id="auF-Tj-lvU"/>
+                            <constraint firstAttribute="trailing" secondItem="8B5-NE-SF3" secondAttribute="trailing" id="cX3-Vr-XML"/>
+                            <constraint firstItem="YtH-3n-2pr" firstAttribute="top" secondItem="JIO-Hq-ZGH" secondAttribute="top" id="rZX-aK-7yU"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="e3o-gh-t2d"/>
+                    <connections>
+                        <outlet property="line" destination="cfV-Ik-SwH" id="fEw-wR-XRA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RQZ-1D-lAE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1432" y="-321"/>
+        </scene>
+        <!--登录导航口-->
+        <scene sceneID="Jt3-9Y-tVG">
+            <objects>
+                <navigationController storyboardIdentifier="NavLoginViewController" definesPresentationContext="YES" id="bIk-56-rfU" userLabel="登录导航口" customClass="AllNaviViewController" sceneMemberID="viewController">
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="1024" height="768"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3h0-ct-R0W">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="bCT-oK-heM" kind="relationship" relationship="rootViewController" id="jej-i4-ZqW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mPA-u7-ewf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-393" y="-2424"/>
+        </scene>
+        <!--登录窗口-->
+        <scene sceneID="FRz-Mi-ubS">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" id="bCT-oK-heM" userLabel="登录窗口" customClass="LoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DnV-Jr-aFd"/>
+                        <viewControllerLayoutGuide type="bottom" id="xZ7-Cm-5xH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WLA-rf-qSy">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Woj-q6-arv">
+                                <rect key="frame" x="955" y="78" width="51" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="K4s-Yj-rov"/>
+                                    <constraint firstAttribute="width" constant="49" id="jq2-df-Aiz"/>
+                                </constraints>
+                            </switch>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用脱机登录" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmi-vk-w0B">
+                                <rect key="frame" x="604" y="78" width="343" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="3jZ-9i-I8n"/>
+                                    <constraint firstAttribute="height" constant="31" id="583-ae-0U4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yyh-YD-HuL">
+                                <rect key="frame" x="256" y="189" width="512" height="410"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6EZ-G8-Gnc">
+                                        <rect key="frame" x="56" y="256" width="400" height="55"/>
+                                        <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                        <state key="normal" image="LoginButton">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginBtnClicked:" destination="bCT-oK-heM" eventType="touchUpInside" id="UNo-dU-8oX"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="用户" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="3Ed-c1-vLO">
+                                        <rect key="frame" x="56" y="141" width="400" height="30"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="1" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="editDidBegin:" destination="bCT-oK-heM" eventType="editingDidBegin" id="n0g-16-rJi"/>
+                                            <action selector="editDidEnd:" destination="bCT-oK-heM" eventType="editingDidEnd" id="nS3-Od-q9T"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="密码" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="vAB-R4-njF">
+                                        <rect key="frame" x="56" y="197" width="400" height="30"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="1" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                        <connections>
+                                            <action selector="editDidBegin:" destination="bCT-oK-heM" eventType="editingDidBegin" id="EMJ-Zz-Lls"/>
+                                            <action selector="editDidEnd:" destination="bCT-oK-heM" eventType="editingDidEnd" id="bse-Mj-Mbz"/>
+                                        </connections>
+                                    </textField>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WelcomeText" translatesAutoresizingMaskIntoConstraints="NO" id="VcI-Ds-ZSj">
+                                        <rect key="frame" x="56" y="66" width="400" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="410" id="IRG-jR-Azw"/>
+                                    <constraint firstAttribute="width" constant="512" id="TGu-zW-mTE"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYQ-pO-D5C">
+                                <rect key="frame" x="872" y="695" width="75" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.12455410240000001" green="0.71484375" blue="0.43267058860000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="EHe-N9-hHK"/>
+                                    <constraint firstAttribute="height" constant="30" id="zcd-SH-XFY"/>
+                                </constraints>
+                                <state key="normal" title="注  册">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="registFromWeb:" destination="bCT-oK-heM" eventType="touchUpInside" id="BvF-lZ-rVJ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="yyh-YD-HuL" secondAttribute="centerX" id="MdV-Ln-G3K"/>
+                            <constraint firstItem="Woj-q6-arv" firstAttribute="top" secondItem="DnV-Jr-aFd" secondAttribute="bottom" constant="14" id="TEb-9t-mXS"/>
+                            <constraint firstAttribute="trailing" secondItem="RYQ-pO-D5C" secondAttribute="trailing" constant="77" id="VRy-L7-3iW"/>
+                            <constraint firstAttribute="trailing" secondItem="Woj-q6-arv" secondAttribute="trailing" constant="20" id="Vec-VI-5Jl"/>
+                            <constraint firstItem="Woj-q6-arv" firstAttribute="leading" secondItem="lmi-vk-w0B" secondAttribute="trailing" constant="8" id="bvH-Mk-CRd"/>
+                            <constraint firstItem="lmi-vk-w0B" firstAttribute="top" secondItem="DnV-Jr-aFd" secondAttribute="bottom" constant="14" id="iMb-PG-4dZ"/>
+                            <constraint firstItem="yyh-YD-HuL" firstAttribute="top" secondItem="lmi-vk-w0B" secondAttribute="bottom" constant="80" id="wva-Ol-aIP"/>
+                            <constraint firstAttribute="bottom" secondItem="RYQ-pO-D5C" secondAttribute="bottom" constant="43" id="xtx-az-nkx"/>
+                        </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="pjQ-wQ-koD">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="hWH-N7-hb7">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nE7-Rh-rQ0">
+                                <rect key="frame" x="16" y="-8" width="300" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
+                                <state key="normal" image="CompanyLogo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="canOffline" destination="Woj-q6-arv" id="xGW-9A-dSw"/>
+                        <outlet property="loginPartView" destination="yyh-YD-HuL" id="YTj-V6-fl7"/>
+                        <outlet property="nameTextField" destination="3Ed-c1-vLO" id="hKG-7c-eV9"/>
+                        <outlet property="pwdTextField" destination="vAB-R4-njF" id="S8C-wP-6jc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="skn-a5-5uM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1176" y="-2424"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="ColorBlack" width="110" height="105"/>
+        <image name="ColorBlue" width="52" height="50"/>
+        <image name="ColorRed" width="48" height="44"/>
+        <image name="ColorRingBlack" width="61" height="61"/>
+        <image name="ColorWhite" width="28" height="31"/>
+        <image name="CommandCamera" width="102" height="74"/>
+        <image name="CommandClear" width="102" height="74"/>
+        <image name="CommandFinish" width="102" height="74"/>
+        <image name="CommandGallery" width="102" height="74"/>
+        <image name="CommandUndo" width="102" height="74"/>
+        <image name="CompanyLogo" width="140" height="50"/>
+        <image name="LoginButton" width="400" height="45"/>
+        <image name="WelcomeText" width="400" height="45"/>
+        <image name="WriteBrushSel" width="61" height="61"/>
+        <image name="WriteBrushUnsel" width="61" height="61"/>
+        <image name="WritePenSel" width="61" height="61"/>
+        <image name="WritePenUnsel" width="61" height="61"/>
+        <image name="WritePencilSel" width="61" height="61"/>
+        <image name="WritePencilUnsel" width="61" height="61"/>
+        <image name="line.png" width="32" height="32"/>
+        <image name="pick_bg.png" width="32" height="32"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

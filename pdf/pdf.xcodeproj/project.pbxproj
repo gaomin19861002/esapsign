@@ -1,0 +1,267 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0596A2019AEFD57000A7350 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0596A1F19AEFD57000A7350 /* Foundation.framework */; };
+		D0BA373A19AF2BF700933E0F /* pdf.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BA373919AF2BF700933E0F /* pdf.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D0596A1A19AEFD57000A7350 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D0596A1C19AEFD57000A7350 /* libpdf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libpdf.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0596A1F19AEFD57000A7350 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D0596A2319AEFD57000A7350 /* pdf-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "pdf-Prefix.pch"; sourceTree = "<group>"; };
+		D0596A2D19AEFD57000A7350 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D0596A3019AEFD57000A7350 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		D0BA373819AF2BF700933E0F /* pdf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pdf.h; sourceTree = "<group>"; };
+		D0BA373919AF2BF700933E0F /* pdf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pdf.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0596A1919AEFD57000A7350 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0596A2019AEFD57000A7350 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D0596A1319AEFD57000A7350 = {
+			isa = PBXGroup;
+			children = (
+				D0596A2119AEFD57000A7350 /* pdf */,
+				D0596A1E19AEFD57000A7350 /* Frameworks */,
+				D0596A1D19AEFD57000A7350 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0596A1D19AEFD57000A7350 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0596A1C19AEFD57000A7350 /* libpdf.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0596A1E19AEFD57000A7350 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D0596A1F19AEFD57000A7350 /* Foundation.framework */,
+				D0596A2D19AEFD57000A7350 /* XCTest.framework */,
+				D0596A3019AEFD57000A7350 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D0596A2119AEFD57000A7350 /* pdf */ = {
+			isa = PBXGroup;
+			children = (
+				D0BA373819AF2BF700933E0F /* pdf.h */,
+				D0BA373919AF2BF700933E0F /* pdf.m */,
+				D0596A2219AEFD57000A7350 /* Supporting Files */,
+			);
+			path = pdf;
+			sourceTree = "<group>";
+		};
+		D0596A2219AEFD57000A7350 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D0596A2319AEFD57000A7350 /* pdf-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0596A1B19AEFD57000A7350 /* pdf */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0596A3F19AEFD57000A7350 /* Build configuration list for PBXNativeTarget "pdf" */;
+			buildPhases = (
+				D0596A1819AEFD57000A7350 /* Sources */,
+				D0596A1919AEFD57000A7350 /* Frameworks */,
+				D0596A1A19AEFD57000A7350 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pdf;
+			productName = pdf;
+			productReference = D0596A1C19AEFD57000A7350 /* libpdf.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0596A1419AEFD57000A7350 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Caland;
+			};
+			buildConfigurationList = D0596A1719AEFD57000A7350 /* Build configuration list for PBXProject "pdf" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D0596A1319AEFD57000A7350;
+			productRefGroup = D0596A1D19AEFD57000A7350 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0596A1B19AEFD57000A7350 /* pdf */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0596A1819AEFD57000A7350 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0BA373A19AF2BF700933E0F /* pdf.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D0596A3D19AEFD57000A7350 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D0596A3E19AEFD57000A7350 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D0596A4019AEFD57000A7350 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/pdf.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "pdf/pdf-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D0596A4119AEFD57000A7350 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/pdf.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "pdf/pdf-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0596A1719AEFD57000A7350 /* Build configuration list for PBXProject "pdf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0596A3D19AEFD57000A7350 /* Debug */,
+				D0596A3E19AEFD57000A7350 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0596A3F19AEFD57000A7350 /* Build configuration list for PBXNativeTarget "pdf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0596A4019AEFD57000A7350 /* Debug */,
+				D0596A4119AEFD57000A7350 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0596A1419AEFD57000A7350 /* Project object */;
+}

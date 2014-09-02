@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Client_account" representedClassName="Client_account" syncable="YES">
+        <attribute name="account_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cert" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="major_email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Client_content" representedClassName="Client_content" syncable="YES">
+        <attribute name="account_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentType" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="contentValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="major" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="clientUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_user" inverseName="clientContents" inverseEntity="Client_user" syncable="YES"/>
+    </entity>
+    <entity name="Client_file" representedClassName="Client_file" syncable="YES">
+        <attribute name="download_size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="file_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="file_type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="local_version" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="locker_account_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="owner_account_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phsical_backup_filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phsical_filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="record_references" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="server_version" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="sign_flow_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign_status" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="store_type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="total_size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="trans_filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="upload_size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="version" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="version_guid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="clientTarget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_target" syncable="YES"/>
+        <relationship name="clientTargets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Client_target" inverseName="clientFile" inverseEntity="Client_target" syncable="YES"/>
+        <relationship name="currentSignflow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_sign_flow" inverseName="clientFile" inverseEntity="Client_sign_flow" syncable="YES"/>
+    </entity>
+    <entity name="Client_sign" representedClassName="Client_sign" syncable="YES">
+        <attribute name="refuse_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="sequence" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="sign_account_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign_address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="sign_displayname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign_flow_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign_id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sign_flow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_sign_flow" inverseName="clientSigns" inverseEntity="Client_sign_flow" syncable="YES"/>
+    </entity>
+    <entity name="Client_sign_flow" representedClassName="Client_sign_flow" syncable="YES">
+        <attribute name="current_sequence" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="current_sign_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="current_sign_status" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="file_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign_flow_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="clientFile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_file" inverseName="currentSignflow" inverseEntity="Client_file" syncable="YES"/>
+        <relationship name="clientSigns" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Client_sign" inverseName="sign_flow" inverseEntity="Client_sign" syncable="YES"/>
+    </entity>
+    <entity name="Client_signfile" representedClassName="Client_signfile" syncable="YES">
+        <attribute name="signfile_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="signfile_path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="signfile_serverpath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="signfile_updatedate" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="Client_target" representedClassName="Client_target" syncable="YES">
+        <attribute name="account_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="client_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="create_time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="display_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="file_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="last_time_stamp" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="parent_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="record_status" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="update_time" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="clientFile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_file" inverseName="clientTargets" inverseEntity="Client_file" syncable="YES"/>
+    </entity>
+    <entity name="Client_user" representedClassName="Client_user" syncable="YES">
+        <attribute name="family_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="last_timestamp" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="person_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="selectedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="clientContents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Client_content" inverseName="clientUser" inverseEntity="Client_content" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Client_account" positionX="-378" positionY="-187" width="128" height="133"/>
+        <element name="Client_content" positionX="-173" positionY="231" width="128" height="165"/>
+        <element name="Client_file" positionX="-173" positionY="-153" width="128" height="360"/>
+        <element name="Client_sign" positionX="198" positionY="-18" width="128" height="180"/>
+        <element name="Client_sign_flow" positionX="9" positionY="-19" width="128" height="163"/>
+        <element name="Client_signfile" positionX="9" positionY="291" width="128" height="105"/>
+        <element name="Client_target" positionX="-378" positionY="-18" width="128" height="210"/>
+        <element name="Client_user" positionX="-378" positionY="246" width="128" height="150"/>
+    </elements>
+</model>

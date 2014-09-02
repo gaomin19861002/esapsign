@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SetSlideTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="与联系人签署记录条目数量" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3J-lJ-BpL">
+                        <rect key="frame" x="21" y="12" width="204" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="204" id="bTP-OM-nXU"/>
+                            <constraint firstAttribute="height" constant="21" id="pow-V7-nh9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="QK9-pI-KZH">
+                        <rect key="frame" x="243" y="6" width="414" height="31"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="9sr-fd-j0R"/>
+                            <constraint firstAttribute="width" constant="410" id="Rlx-Ox-C0I"/>
+                        </constraints>
+                        <connections>
+                            <action selector="slideValueChanged:" destination="KGk-i7-Jjw" eventType="valueChanged" id="Sgr-Ok-KJD"/>
+                        </connections>
+                    </slider>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="111" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDW-Sz-erW">
+                        <rect key="frame" x="726" y="11" width="34" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Bz6-Qt-DRe"/>
+                            <constraint firstAttribute="width" constant="34" id="Cnq-Gk-xG0"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="QK9-pI-KZH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="12i-C2-dQI"/>
+                    <constraint firstItem="pDW-Sz-erW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="ASg-nJ-7t6"/>
+                    <constraint firstItem="b3J-lJ-BpL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="21" id="EjA-HB-eVi"/>
+                    <constraint firstItem="b3J-lJ-BpL" firstAttribute="trailing" secondItem="QK9-pI-KZH" secondAttribute="leading" constant="-20" id="N8d-OL-6l2"/>
+                    <constraint firstItem="b3J-lJ-BpL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="Uvx-hJ-6Wh"/>
+                    <constraint firstAttribute="trailing" secondItem="pDW-Sz-erW" secondAttribute="trailing" constant="8" id="xdu-Dx-z7m"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="nameLabel" destination="b3J-lJ-BpL" id="ajq-ez-8Ck"/>
+                <outlet property="numLabel" destination="pDW-Sz-erW" id="aes-Pp-ov6"/>
+                <outlet property="slider" destination="QK9-pI-KZH" id="fHb-56-GtN"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

@@ -1,0 +1,81 @@
+Copyright (C) 2014 Foxit Corporation. All Rights Reserved.
+No part of this document can be reproduced, transferred, distributed or stored in any 
+format without the prior written permission of Foxit.
+
+
+Anti-Grain  Geometry - Version  2.3,  Copyright  (C)  2002-2005  Maxim  Shemanarev 
+(http://www.antigrain.com). 
+
+Permission to copy, use, modify, sell and distribute this software is granted provided 
+this copyright notice appears in all copies. This software is provided "as is" without 
+express or implied warranty, and with no claim as to its suitability for any purpose.
+
+
+
+FreeType2, Copyright 1996-2001, 2006 David Turner, Robert Wilhelm, and Werner emberg.  
+(http://git.savannah.gnu.org/cgit/freetype/freetype2.git/tree/docs/FTL.TXT)
+
+Permission to use, copy, modify, distribute, and sell this software and its documentation 
+for any  purpose is hereby  granted without fee, providedthat  (i)  the above copyright 
+notices  and  this  permission  notice  appear  inall  copies  of  the  software  and  related 
+documentation, and (ii) the names of Sam Leffler and Silicon Graphics may not be used 
+in any advertising or publicity relating to the software without the specific, prior written
+permission of Sam Leffler and Silicon Graphics.
+THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY 
+KIND,  EXPRESS,  IMPLIED  OR  OTHERWISE,  INCLUDING  WITHOUT 
+LIMITATION, ANY WARRANTY OF MERCHANTABILITY OR FITNESS FOR A 
+PARTICULAR PURPOSE.  
+IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR 
+ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF
+ANY KIND,OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF 
+USE, DATA OR PROFITS,WHETHER OR NOT ADVISED OF THE POSSIBILITY 
+OF DAMAGE, AND ON ANY THEORY OF LIABILITY, ARISING OUT OF OR IN 
+CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+LibJPEG  copyright  (C)  1991-1998  independent  JPEG  Group. 
+(http://sourceforge.net/projects/libjpeg/)
+
+
+ZLib  (zlib  1.2.2),  Copyright  (C)  1995-2003  Jean-loup  Gailly  and  Mark  Adler. 
+(http://www.zlib.net/zlib_license.html)
+Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler This software is provided 
+'as-is', without any express or implied warranty.   In no event will the authors be held 
+liable for any damages arising from the use of this software.
+Permission  is  granted  to  anyone  to  use  this  software  for  any  purpose,including 
+commercial applications, and to alter it and redistribute it freely, subject to the following 
+restrictions:
+1. The origin of this software must not be misrepresented; you must not claim that you 
+wrote the original software. If you use this software in a product, an acknowledgment 
+in the product documentation would be appreciated but is not required.
+2.  Altered  source  versions  must  be  plainly  marked  as  such,  and  must  not  be
+misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.
+Jean-loup Gailly         Mark Adler
+jloup@gzip.org           madler@alumni.caltech.edu
+
+
+Little CMS, Copyright (c) 1998-2010 Marti Maria Saguer.
+(http://www.littlecms.com/)
+
+
+Kakadu, Copyright (C)   2001, David Taubman, The University of New South Wales 
+(UNSW). 
+(http://www.kakadusoftware.com/index.php?option=com_content&task=blogcategory
+&id=6&Itemid=12)
+
+
+PNG, Copyright (C) 1998-2009 Glenn Randers-Pehrson. 
+
+
+LibTIFF, Copyright (C) 1988-1997 Sam Leffler and Copyright (C) 1991-1997 Silicon Graphics, Inc.
+
+
+ZXing (Zebra Crossing), Copyright 2007 ZXing authors Apache 2.0
+
+
+libjpeg-turbo ,Copyright (C)2011 D. R. Commander. All Rights Reserved.
+
+Permission to copy, use, modify, sell and distribute this software is granted provided 
+this copyright notice appears in all copies. This software is provided "as is" without 
+express or im-plied warranty, and with no claim as to its suitability for any purpose. 
