@@ -560,8 +560,8 @@
     [self.tableView reloadData];
     [_addSignerPopoverController dismissPopoverAnimated:YES];
     
-    NSDictionary *signsetAction = [[ActionManager defaultInstance] signsetAction:fileTarget.clientFile];
-    self.signflowRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:signsetAction];
+    //NSDictionary *signsetAction = [[ActionManager defaultInstance] signsetAction:fileTarget.clientFile];
+    //self.signflowRequest = [[ActionManager defaultInstance] addToQueue:signsetAction];
 }
 
 #pragma mark - SignsListViewDelegate Methods

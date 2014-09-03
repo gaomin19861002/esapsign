@@ -30,10 +30,10 @@
 @property (nonatomic, retain) NSString* currentImageID;
 @property (nonatomic, copy) NSString *currentImagePath;
 
-@property (nonatomic, retain) ASIFormDataRequest *upSignRequest;
-@property (nonatomic, retain) ASIFormDataRequest *uploadImageRequest;
-@property (nonatomic, retain) ASIFormDataRequest *uploadCompleteRequest;
-@property (nonatomic, retain) ASIFormDataRequest *delSignRequest;
+@property (nonatomic, retain) ASIFormDataRequest *upSignRequest;// 上传签名图请求 Action
+@property (nonatomic, retain) ASIFormDataRequest *uploadImageRequest; // 上传签名图图片 upload
+@property (nonatomic, retain) ASIFormDataRequest *uploadCompleteRequest; // 上传签名图完成 complete
+@property (nonatomic, retain) ASIFormDataRequest *delSignRequest; // 删除签名图 Action
 
 @end
 
@@ -149,8 +149,7 @@
     {
         // 上传签名图的请求
         NSDictionary* action = [[ActionManager defaultInstance] signpenNewAction:self.currentImageID];
-        [[ActionManager defaultInstance] addToQueue:action];
-        self.upSignRequest = [ActionManager defaultInstance].actionRequest;
+        self.upSignRequest = [[ActionManager defaultInstance] addToQueue:action];
        
 #warning 更为合理的做法应该是提交Action的异步操作成功以后再清理本地数据
         // 在本地添加数据
@@ -168,8 +167,7 @@
     
     // 发送删除Action
     NSDictionary* action = [[ActionManager defaultInstance] signpenDelAction:delSignID];
-    [[ActionManager defaultInstance] addToQueue:action];
-    self.delSignRequest = [ActionManager defaultInstance].actionRequest;
+    self.delSignRequest = [[ActionManager defaultInstance] addToQueue:action];
     
 #warning 更为合理的做法应该是发送删除Action的异步操作成功以后再清理本地数据
     // 从本地清除数据
@@ -213,21 +211,13 @@
 // 异步请求开始通知外部程序
 - (void)asynRequestStarted:(ASIHTTPRequest *)request
 {
-    if (request == self.upSignRequest)
-    {
-        // 该请求可以通过Action Manager响应
-    }
 }
 
 // 异步请求失败通知外部程序
 - (void)asynRequestFailed:(ASIHTTPRequest *)request
 {
-    if (request == self.upSignRequest)
+    if (request == self.uploadImageRequest)
     {
-        // 该请求可以通过Action Manager响应
-    }
-    
-    if (request == self.uploadImageRequest) {
         DebugLog(@"upload image file failed");
         [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
     }
@@ -241,11 +231,6 @@
 // 异步请求结束通知外部程序
 - (void)asynRequestFinished:(ASIHTTPRequest *)request
 {
-    if (request == self.upSignRequest)
-    {
-        // 该请求可以通过Action Manager响应
-    }
-    
     if (request == self.uploadImageRequest)
     {
         NSLog(@"upload image file succeed");
@@ -271,7 +256,7 @@
     {
         [[CAAppDelegate sharedDelegate].window.rootViewController showProgressText:@"上传中..."];
     }
-    else if (request == self.delSignRequest)
+    if (request == self.delSignRequest)
     {
         
     }

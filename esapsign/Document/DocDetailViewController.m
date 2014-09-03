@@ -216,8 +216,7 @@ static int signViewTag = SignViewTagBase;
     {
         //请求加锁操作
         NSDictionary* action = [[ActionManager defaultInstance] lockAction:clientTarget];
-        [[ActionManager defaultInstance] addToQueue:action];
-        self.lockSignRequest = [ActionManager defaultInstance].actionRequest;
+        self.lockSignRequest = [[ActionManager defaultInstance] addToQueue:action];
         self.operationBgView.hidden = NO;
     }
     else

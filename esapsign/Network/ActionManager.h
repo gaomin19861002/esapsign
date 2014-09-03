@@ -51,7 +51,7 @@ DefaultInstanceForClassHeader(ActionManager);
 /**
  * 将要发送的Action请求放到队列里面
  */
-- (void) addToQueue:(NSDictionary *) param;
+- (ASIFormDataRequest*) addToQueue:(NSDictionary *) param;
 
 #pragma mark - Actions Package
 

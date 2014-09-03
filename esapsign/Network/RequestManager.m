@@ -204,11 +204,11 @@ DefaultInstanceForClass(RequestManager);
         }
         
         // 检查是否需要跳转到签名页面
-        if (loginDict && [[loginDict objectForKey:@"requireSign"] intValue] == 1)
-        {
+        //if (loginDict && [[loginDict objectForKey:@"requireSign"] intValue] == 1)
+        //{
             // 需要跳转到签名页
-            [[NSNotificationCenter defaultCenter] postNotificationName:NeedCreateHandSignNotification object:nil];
-        }
+        ///    [[NSNotificationCenter defaultCenter] postNotificationName:NeedCreateHandSignNotification object:nil];
+        //}
         
         for (id<RequestManagerDelegate> delegate in self.allDelegates) {
             if ([delegate respondsToSelector:@selector(asynRequestFinished:)]) {

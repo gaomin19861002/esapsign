@@ -432,15 +432,15 @@ DefaultInstanceForClass(ActionManager);
  * @param param Action请求的参数内容
  * @return
  */
-- (void) addToQueue:(NSDictionary *) param
+- (ASIFormDataRequest*) addToQueue:(NSDictionary *) param
 {
     [self.actionQueue addObject:param];
     
     // 如果已经在发送一个action请求，暂时不处理，直接返回。这样保证单例模式ActionManager只有一个actionRequest对象
     if (inRequest)
-        return;
+        return nil;
     
-    [self postAction];
+    return [self postAction];
 }
 
 /**
@@ -451,7 +451,7 @@ DefaultInstanceForClass(ActionManager);
     [self.actionQueue removeAllObjects];
 }
 
-- (void)postAction
+- (ASIFormDataRequest*)postAction
 {
     if ([self.actionQueue count] > 0)
     {
@@ -459,7 +459,9 @@ DefaultInstanceForClass(ActionManager);
         NSDictionary *requestPackage = @{@"login": userInfo, @"actions": self.actionQueue};
         self.actionRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:requestPackage];
         [self clearQueue];
+        return self.actionRequest;
     }
+    return nil;
 }
 
 #pragma mark - Request Method

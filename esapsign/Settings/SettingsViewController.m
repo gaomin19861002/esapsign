@@ -134,7 +134,7 @@
         [pop dismissPopoverAnimated:YES];
     }
     
-    UIStoryboard *storyBoard = self.storyboard;
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Toolkits_iPad" bundle:nil];
     QRCodeViewController *qrcoder = (QRCodeViewController *) [storyBoard instantiateViewControllerWithIdentifier:@"QRCodeSearchController"];
     UINavigationController *nav = [[AllNaviViewController alloc] initWithRootViewController:qrcoder];
     qrcoder.delegate = self;
