@@ -292,6 +292,10 @@
 		D092EBE219A597A400878377 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				CLANG_ENABLE_OBJC_ARC = NO;
 				DSTROOT = /tmp/asihttp.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -307,6 +311,10 @@
 		D092EBE319A597A400878377 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				CLANG_ENABLE_OBJC_ARC = NO;
 				DSTROOT = /tmp/asihttp.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

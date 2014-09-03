@@ -183,7 +183,8 @@ DefaultInstanceForClass(DownloadManager);
     }
 }
 
-- (void)clearDownload {
+- (void)clearDownload
+{
     self.downloadFiles = nil;
     for (ASIHTTPRequest *downRequest in self.workQueue.operations) {
         [downRequest clearDelegatesAndCancel];
