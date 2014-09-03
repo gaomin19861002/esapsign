@@ -47,9 +47,6 @@
 // 提交签名结果
 @property (strong, nonatomic) IBOutlet UIButton *submitButton;
 
-// 高度的资源
-@property (nonatomic, retain) IBOutlet NSLayoutConstraint *operationBgConstraint;
-
 /**
  * @abstract Operating buttons' actions
  */

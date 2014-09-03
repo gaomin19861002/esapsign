@@ -219,22 +219,14 @@ static int signViewTag = SignViewTagBase;
         [[ActionManager defaultInstance] addToQueue:action];
         self.lockSignRequest = [ActionManager defaultInstance].actionRequest;
         self.operationBgView.hidden = NO;
-        _operationBgConstraint.constant = 0.0f;
     }
     else
     {
         //下边的operationBgView不显示
         self.operationBgView.hidden = YES;
-        self.operationBgConstraint.constant = 0.0f;
-        
-        //为webView设置更大的显示空间
-        CGRect frame = self.documentDisplayView.frame;
-        frame.size.height += 56;
-        self.documentDisplayView.frame = frame;
-        NSLog(@"---%f, ---%f", frame.size.width, frame.size.height);
     }
     
-    // 此处纠正位置是因为，在初始生成的时候，还无法判定旋转屏状态，第一次进入页面重新刷下
+    // 此处纠正位置是因为，在初始生成的时候，不会触发旋转响应，需要在这里直接更新
     if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation) || UIDeviceOrientationIsPortrait(self.interfaceOrientation) )
     {
         signsListView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, -(ScreenHeight - ScreenWidth), 0);
@@ -247,7 +239,6 @@ static int signViewTag = SignViewTagBase;
         frame.size.width = 604;
         signsListView.signCollectionView.frame = frame;
         signsListView.signCollectionView.contentOffset = CGPointMake(0, 0);
-        
     }
     else
     {
@@ -257,6 +248,16 @@ static int signViewTag = SignViewTagBase;
         signsListView.signCollectionView.frame = frame;
         signsListView.signCollectionView.contentOffset = CGPointMake(0, 0);
     }
+}
+
+/**
+ * @abstract 视图内容已经显示
+ */
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self.drawSDK resizeDrawCanvas];
 }
 
 /**
@@ -323,6 +324,8 @@ static int signViewTag = SignViewTagBase;
 {
     NSLog(@"%s,%f", __FUNCTION__, self.documentDisplayView.scrollView.zoomScale);
     
+    [self.drawSDK resizeDrawCanvas];
+    
     CGFloat zoomScale = self.documentDisplayView.scrollView.zoomScale;
     
     // 重新计算页高
@@ -340,7 +343,8 @@ static int signViewTag = SignViewTagBase;
     
     // 修复签名页坐标
     [UIView animateWithDuration:0.2 animations:^{
-        if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation)) {
+        if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+        {
             signsListView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, -(ScreenHeight - ScreenWidth), 0);
             CGRect frame = signsListView.signCollectionView.frame;
             frame.origin.x = 291;
@@ -348,7 +352,9 @@ static int signViewTag = SignViewTagBase;
             signsListView.signCollectionView.frame = frame;
             
             [self updateResizableSign:zoomScale];
-        }else {
+        }
+        else
+        {
             signsListView.transform = CGAffineTransformIdentity;
             CGRect frame = signsListView.signCollectionView.frame;
             frame.origin.x = 12;
@@ -530,7 +536,7 @@ static int signViewTag = SignViewTagBase;
     [_addSignerPopoverController dismissPopoverAnimated:YES];
     NSArray *signs = [clientTarget.clientFile sortedSignFlows];
     [self updateSignflowWithSigns:signs];
-    
+#warning 暂时不做signset操作
     // NSDictionary *signsetAction = [[ActionManager defaultInstance] signsetAction:fileTarget.clientFile];
     // self.signflowRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:signsetAction];
 }
@@ -542,7 +548,8 @@ static int signViewTag = SignViewTagBase;
 {
     BOOL isOwner = !![[Util currentLoginUser].accountId isEqualToString:clientTarget.clientFile.owner_account_id];
     NSUInteger signsCount = signs.count;
-    if (isOwner) {
+    if (isOwner)
+    {
         // 增加一个添加签名按钮
         signsCount++;
     }
@@ -648,7 +655,8 @@ static int signViewTag = SignViewTagBase;
 
 - (void)tapped:(UITapGestureRecognizer *)tap
 {
-    if (tap.state == UIGestureRecognizerStateEnded) {
+    if (tap.state == UIGestureRecognizerStateEnded)
+    {
         [self showSignFlow:YES];
     }
 }
@@ -764,6 +772,13 @@ static int signViewTag = SignViewTagBase;
  */
 - (void)CASDKDrawComplete:(CASDKDraw *)controller
 {
+    // 如果没有调用到getDrawImage说明书写的图形因为太小没有被接受，这种情况下等于放弃书写
+    if (bCreateNewSign)
+    {
+        bCreateNewSign = NO;
+        [self.operationBgView setHidden:NO];
+        [self.submitButton setHidden:!bDirtyFlag];
+    }
     [self.directSignView setHidden:YES];
 }
 
@@ -788,7 +803,6 @@ static int signViewTag = SignViewTagBase;
 - (void)SignatureClipListView:(SignatureClipListView *)curSignsListView DidDragSign:(SignatureClipView *)curDragSign ToPoint:(CGPoint)point
 {
     CGRect rectInView = [self.view convertRect:curDragSign.frame fromView:curDragSign.superview];
-    
     CGRect dragRect = [self.documentDisplayView convertRect:curDragSign.frame fromView:curDragSign.superview];
     
     if (CGRectContainsRect(self.documentDisplayView.frame, dragRect))
@@ -1140,12 +1154,12 @@ static int signViewTag = SignViewTagBase;
         if (str && [[str objectForKey:@"actionResult"] intValue] == 0)
         {
             self.operationBgView.hidden = NO;
-            self.operationBgConstraint.constant = 56.0f;
+            //self.operationBgConstraint.constant = 56.0f;
         }
         else
         {
             self.operationBgView.hidden = YES;
-            self.operationBgConstraint.constant = 0.0f;
+            //self.operationBgConstraint.constant = 0.0f;
         }
     }
     

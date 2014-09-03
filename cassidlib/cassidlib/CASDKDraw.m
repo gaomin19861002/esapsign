@@ -36,11 +36,20 @@
     if (self)
     {
         self.boundleView = view;
-        _paletteView = [[CALibCanvas alloc] initWithFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height)];
+        float w = view.frame.size.width;
+        float h = view.frame.size.height;
+        _paletteView = [[CALibCanvas alloc] initWithFrame:CGRectMake(0, 0, w, h)];
         [_paletteView setBackgroundColor:[UIColor clearColor]];
         [self.boundleView addSubview:_paletteView];
     }
     return self;
+}
+
+- (void)resizeDrawCanvas
+{
+    float w = self.boundleView.frame.size.width;
+    float h = self.boundleView.frame.size.height;
+    [_paletteView setFrame:CGRectMake(0, 0, w, h)];
 }
 
 + (void)setPaintColor:(UIColor *)color

@@ -65,6 +65,11 @@
 - (id)initWithBundleView:(UIView*)view;
 
 /**
+ * @abstract 绘图场景可能会发生变化，调用该方法更新绘图场景的尺寸。
+ */
+- (void)resizeDrawCanvas;
+
+/**
  * @abstract 清除操作
  */
 - (void)clearTool;
