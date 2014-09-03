@@ -26,7 +26,6 @@
     bool inRequest;
 }
 
-
 /*!
  *  action缓存队列
  */
@@ -34,14 +33,6 @@
 
 @property(nonatomic, retain) NSMutableArray *allDelegates;
 
-/*!
- 对action追加登录头部信息
- @param action action 信息
- @return 包含登录信息的action
- */
-- (NSDictionary *)appendLoginHead:(NSDictionary *)action;
-
-- (NSDictionary *)signPacket:(Client_sign *)sign;
 
 @end
 
@@ -97,18 +88,6 @@ DefaultInstanceForClass(ActionManager);
     return _actionQueue;
 }
 
-/*!
- 对action追加登录头部信息
- @param action action 信息
- @return 包含登录信息的action
- */
-- (NSDictionary *)appendLoginHead:(NSDictionary *)action
-{
-    NSDictionary *userInfo = [Util currentLoginUserInfo];
-    return @{@"login": userInfo,
-             @"actions": @[action]};
-}
-
 #pragma mark - Action Package factory
 
 #pragma mark - Target actions
@@ -124,7 +103,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData": @"",
                              @"newData": newData,
                              @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 - (NSDictionary*)deleteAction
@@ -138,7 +117,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData": @"",
                              @"newData": newData,
                              @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 - (NSDictionary*)renameAction
@@ -152,7 +131,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData": @"",
                              @"newData": newData,
                              @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 - (NSDictionary*)moveAction
@@ -166,7 +145,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData": @"",
                              @"newData": newData,
                              @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 - (NSDictionary*)updateRequestAction
@@ -180,7 +159,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData": @"",
                              @"newData": newData,
                              @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 #pragma mark - SignPen actions
@@ -204,7 +183,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData": @"",
                              @"newData": pen,
                              @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 /**
@@ -214,14 +193,13 @@ DefaultInstanceForClass(ActionManager);
  */
 - (NSDictionary*)signpenDelAction:(NSString*)delSignID
 {
-    NSDictionary* action = @{@"id": [Util generalUUID],
-                             @"timestamp":[NSString stringWithFormat:@"%@", [NSDate date]],
-                             @"version": @"",
-                             @"category": @"signpendel",
-                             @"orgData": delSignID,
-                             @"newData": @"",
-                             @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return @{@"id": [Util generalUUID],
+             @"timestamp":[NSString stringWithFormat:@"%@", [NSDate date]],
+             @"version": @"",
+             @"category": @"signpendel",
+             @"orgData": delSignID,
+             @"newData": @"",
+             @"actionResult": @""};
 }
 
 
@@ -278,7 +256,7 @@ DefaultInstanceForClass(ActionManager);
                              @"newData" : newData,
                              @"actionResult" : @""};
     
-    return [self appendLoginHead:action];
+    return action;
 }
 
 /**
@@ -314,7 +292,7 @@ DefaultInstanceForClass(ActionManager);
                              @"newData" : newData,
                              @"actionResult" : @""};
     
-    return [self appendLoginHead:action];
+    return action;
 }
 
 /**
@@ -333,7 +311,7 @@ DefaultInstanceForClass(ActionManager);
                              @"newData" : @"",
                              @"actionResult" : @""};
     
-    return [self appendLoginHead:action];
+    return action;
 }
 
 #pragma mark - Signature actions
@@ -361,7 +339,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData" : target.file_id ? target.file_id : @"",//target的id
                              @"newData" : newData,//sign数据包
                              @"actionResult" : @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 /**
@@ -392,7 +370,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData": file.file_id,
                              @"newData": signflowDict,
                              @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 /**
@@ -443,7 +421,7 @@ DefaultInstanceForClass(ActionManager);
                              @"orgData": target.client_id,
                              @"newData": @"",
                              @"actionResult": @""};
-    return [self appendLoginHead:action];
+    return action;
 }
 
 
@@ -477,8 +455,8 @@ DefaultInstanceForClass(ActionManager);
 {
     if ([self.actionQueue count] > 0)
     {
-        NSDictionary *queuePackage = @{@"actions": self.actionQueue};
-        NSDictionary *requestPackage = [self appendLoginHead:queuePackage];
+        NSDictionary *userInfo = [Util currentLoginUserInfo];
+        NSDictionary *requestPackage = @{@"login": userInfo, @"actions": self.actionQueue};
         self.actionRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:requestPackage];
         [self clearQueue];
     }
