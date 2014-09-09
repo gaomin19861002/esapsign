@@ -820,7 +820,7 @@
     {
         NSLog(@"Contact New Action Request Finished!");
         
-        NSDictionary *resDict = [[request responseString] jsonValue];
+        __unused NSDictionary *resDict = [[request responseString] jsonValue];
 
         [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
         self.contactUpdateRequest = nil;
@@ -829,7 +829,7 @@
     {
         NSLog(@"Contact Del Action Request Finished!");
 
-        NSDictionary *resDelDict = [[request responseString] jsonValue];
+        __unused NSDictionary *resDelDict = [[request responseString] jsonValue];
         
         [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
         self.contactDelRequest = nil;

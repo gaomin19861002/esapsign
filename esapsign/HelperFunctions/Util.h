@@ -20,6 +20,11 @@
  */
 + (NSString *)generalUUID;
 
+/**
+ *  @abstract 得到udid
+ */
+// + (NSString *) getUDID;
+
 /*!
  本地读取指定key的缓存值
  */

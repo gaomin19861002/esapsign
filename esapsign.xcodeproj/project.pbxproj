@@ -1050,8 +1050,8 @@
 		D0ECDE9719A489800008062E /* HelperFunctions */ = {
 			isa = PBXGroup;
 			children = (
-				D0ECDEDB19A48DEA0008062E /* Util.m */,
 				D0ECDEDC19A48DEA0008062E /* Util.h */,
+				D0ECDEDB19A48DEA0008062E /* Util.m */,
 				D0ECDF9519A499230008062E /* pinyin.c */,
 				D0ECDF9619A499230008062E /* pinyin.h */,
 				D0E8397419AF47F800ED539D /* Frames */,

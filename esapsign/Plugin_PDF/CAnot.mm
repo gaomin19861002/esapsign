@@ -12,4 +12,16 @@
 
 @implementation CAnot
 
+- (FS_RESULT) doAnnotAction
+{
+    return 0;
+}
+
+- (void)AddStampAnnotWithPngData:(NSData *)imgData
+                    leftTopPoint:(CGPoint)leftTopPoint
+                rightBottomPoint:(CGPoint)rightBottomPoint
+{
+    
+}
+
 @end

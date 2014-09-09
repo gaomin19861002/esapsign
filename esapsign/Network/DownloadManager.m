@@ -199,14 +199,14 @@ DefaultInstanceForClass(DownloadManager);
  @param fileID 文件id
  @return 下载状态
  */
-- (DownloadStatus)downloadingWithFile:(NSString *)fileID {
-    DownloadStatus status;
+- (DownloadStatus)downloadingWithFile:(NSString *)fileID
+{
+    DownloadStatus status = DownloadStatusNoStarted;
     for (DownloadInfo *info in self.downloadFiles) {
         if ([info.fileID isEqualToString:fileID]) {
             status = info.status;
         }
     }
-    
     return status;
 }
 

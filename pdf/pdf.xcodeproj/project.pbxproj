@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D0596A2019AEFD57000A7350 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0596A1F19AEFD57000A7350 /* Foundation.framework */; };
 		D0BA373A19AF2BF700933E0F /* pdf.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BA373919AF2BF700933E0F /* pdf.m */; };
+		F8281B2F19B70EB500E62F3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8281B2E19B70EB500E62F3B /* UIKit.framework */; };
+		F8281B3119B70FF700E62F3B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8281B3019B70FF700E62F3B /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +33,8 @@
 		D0596A3019AEFD57000A7350 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		D0BA373819AF2BF700933E0F /* pdf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pdf.h; sourceTree = "<group>"; };
 		D0BA373919AF2BF700933E0F /* pdf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pdf.m; sourceTree = "<group>"; };
+		F8281B2E19B70EB500E62F3B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F8281B3019B70FF700E62F3B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8281B3119B70FF700E62F3B /* QuartzCore.framework in Frameworks */,
+				F8281B2F19B70EB500E62F3B /* UIKit.framework in Frameworks */,
 				D0596A2019AEFD57000A7350 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,6 +71,8 @@
 		D0596A1E19AEFD57000A7350 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8281B3019B70FF700E62F3B /* QuartzCore.framework */,
+				F8281B2E19B70EB500E62F3B /* UIKit.framework */,
 				D0596A1F19AEFD57000A7350 /* Foundation.framework */,
 				D0596A2D19AEFD57000A7350 /* XCTest.framework */,
 				D0596A3019AEFD57000A7350 /* UIKit.framework */,

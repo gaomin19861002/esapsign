@@ -8,6 +8,7 @@
 
 #import "Util.h"
 #import "User.h"
+//#import "OpenUDID.h"
 
 @implementation Util
 
@@ -22,6 +23,15 @@
     
     NSString *uuidString = (NSString *)CFBridgingRelease(uuidRef);
     return uuidString ;
+}
+
+/**
+ *  @abstract 得到udid
+ */
++ (NSString *) getUDID
+{
+    UIDevice *device=[UIDevice currentDevice];
+    return [NSString stringWithFormat:@"%@_%@", device.name, device.identifierForVendor.UUIDString];
 }
 
 /*!
@@ -51,7 +61,6 @@
     NSData *userData = [self valueForKey:LoginUser];
     if (userData) {
         User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
-        //        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:user.name, @"alias", user.password, @"password", nil];
         NSDictionary *dict = @{@"alias" : user.name,
                                @"password":user.password,
                                @"id" : [Util generalUUID],

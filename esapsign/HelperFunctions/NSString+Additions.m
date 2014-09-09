@@ -13,13 +13,16 @@
 /*!
  计算单行显示时，字符串的显示宽度
  */
-- (CGSize)singleLineSizeWithFont:(UIFont *)font {
+- (CGSize)singleLineSizeWithFont:(UIFont *)font
+{
     CGSize size = CGSizeZero;
     if (IsIOS7OrLater()) {
         CGRect rect = [self boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:@{NSFontAttributeName: font} context:nil];
         size = rect.size;
     } else {
-        size = [self sizeWithFont:font];
+        CGRect rect = [self boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:@{NSFontAttributeName: font} context:nil];
+        size = rect.size;
+        //size = [self sizeWithFont:font];
     }
     
     return size;

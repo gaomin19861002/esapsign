@@ -114,7 +114,8 @@
                                @"requireCert": @"0",
                                @"deviceId" : @"SD23F1AS3D2F4S51FE5T41G54AS1FR2T4",
                                @"deviceType": @"2"};
-        self.loginRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, LoginRequestPath] Parameter:para];
+        NSLog(@"%@" , LoginRequestPath);
+        self.loginRequest = [[RequestManager defaultInstance] asyncPostData:LoginRequestPath Parameter:para];
     }
 }
 

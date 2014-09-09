@@ -100,63 +100,9 @@ DefaultInstanceForClass(RequestManager);
     [asyncRequest setRequestMethod:@"POST"];
     [asyncRequest setTimeOutSeconds:HttpTimeout];
     [asyncRequest setDelegate:self];
+#warning 魏凯解释一下该处改动
+    [asyncRequest setFile:filePath forKey:@"file_upload"];
     
-    NSString *boundary = @"---------------------------7de12b3211498";
-    
-    [asyncRequest addRequestHeader:@"Content-Type" value:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary]];
-    
-	NSMutableData *bodyData = [NSMutableData data];
-
-    NSString *formHeader = @"-----------------------------7de12b3211498\r\n";
-    [bodyData appendData:[formHeader dataUsingEncoding:NSUTF8StringEncoding]];
-    NSString *headerTemplate = isPDF ?
-        @"Content-Disposition: form-data; name=\"file_upload\"; filename=\"%@\"\r\nContent-Type: application/%@\r\n":
-        @"Content-Disposition: form-data; name=\"file_upload\"; filename=\"%@\"\r\nContent-Type: image/%@\r\n";
-    NSString *fileName = [filePath fileNameInPath];
-    NSString *fileExtends = [[fileName componentsSeparatedByString:@"."] lastObject];
-    NSString *header = [NSString stringWithFormat:headerTemplate, fileName, fileExtends];
-    [bodyData appendData:[header dataUsingEncoding:NSUTF8StringEncoding]];
-
-    [bodyData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-
-    NSData *fileData = [NSData dataWithContentsOfFile:filePath];
-    [bodyData appendData:fileData];
-    
-    NSString *formfooter = @"-----------------------------7de12b3211498--\r\n";
-    [bodyData appendData:[formfooter dataUsingEncoding:NSUTF8StringEncoding]];
-    
-//    NSUInteger len = [fileData length];
-//    for (int i = 0; i < len / 1000; i++) {
-//        NSString *formHeader = @"-----------------------------7de12b3211498";
-//        [bodyData appendData:[formHeader dataUsingEncoding:NSUTF8StringEncoding]];
-//        
-//        NSString *headerTemplate = @"Content-Disposition: form-data; name=\"file_upload\"; filename=\"%@\"\r\nContent-Type: \"application/PNG%@\"\r\n";
-//        NSString *fileName = [filePath fileNameInPath];
-//        NSString *fileExtends = [[fileName componentsSeparatedByString:@"."] lastObject];
-//        NSString *header = [NSString stringWithFormat:headerTemplate, fileName, fileExtends];
-//        [bodyData appendData:[header dataUsingEncoding:NSUTF8StringEncoding]];
-//        [bodyData appendData:[fileData subdataWithRange:NSMakeRange(i * 1000, 1000)]];
-//    }
-//    
-//    if (len % 1000) {
-//        NSUInteger subLen = len % 1000;
-//        NSString *formHeader = @"-----------------------------7de12b3211498";
-//        [bodyData appendData:[formHeader dataUsingEncoding:NSUTF8StringEncoding]];
-//        
-//        NSString *headerTemplate = @"Content-Disposition: form-data; name=\"file_upload\"; filename=\"%@\"\r\nContent-Type: \"application/%@\"\r\n";
-//        NSString *fileName = [filePath fileNameInPath];
-//        NSString *fileExtends = [[fileName componentsSeparatedByString:@"."] lastObject];
-//        NSString *header = [NSString stringWithFormat:headerTemplate, fileName, fileExtends];
-//        [bodyData appendData:[header dataUsingEncoding:NSUTF8StringEncoding]];
-//        [bodyData appendData:[fileData subdataWithRange:NSMakeRange(len - subLen - 1    , subLen)]];
-//    }
-//    NSString *formHeader = @"-----------------------------7de12b3211498";
-//    [bodyData appendData:[formHeader dataUsingEncoding:NSUTF8StringEncoding]];
-//    [bodyData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-
-    //[asyncRequest addRequestHeader:@"Content-Length" value:[NSString stringWithFormat:@"%d", [bodyData length]]];
-    
-	[asyncRequest setPostBody:bodyData];
     [asyncRequest startAsynchronous];
     
     return asyncRequest;

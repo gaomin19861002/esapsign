@@ -276,7 +276,7 @@ void CAutoDocument::SaveAttachmentByFileByName(string path)
 	}
 
 	//save attachments by filename
-	FS_DWORD length = 0;
+	__unused FS_DWORD length = 0;
 	for (int k =0; k<count; k++)
 	{
 		string savePath = path + '/';

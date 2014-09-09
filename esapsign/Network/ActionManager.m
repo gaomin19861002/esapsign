@@ -429,7 +429,7 @@ DefaultInstanceForClass(ActionManager);
                              @"timestamp":[NSString stringWithFormat:@"%@", [NSDate date]],
                              @"version": @"",
                              @"category": @"lock",
-                             @"orgData": target.client_id,
+                             @"orgData": target.clientFile.file_id,
                              @"newData": @"",
                              @"actionResult": @""};
     return action;
@@ -480,7 +480,7 @@ DefaultInstanceForClass(ActionManager);
         
         NSDictionary *userInfo = [Util currentLoginUserInfo];
         NSDictionary *requestPackage = @{@"login": userInfo, @"actions": self.actionQueue};
-        self.actionRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:requestPackage];
+        self.actionRequest = [[RequestManager defaultInstance] asyncPostData:ActionRequestPath Parameter:requestPackage];
         [self clearQueue];
         return self.actionRequest;
     }

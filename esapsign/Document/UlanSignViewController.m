@@ -20,7 +20,7 @@
 //==============================================================================
 #pragma mark - 私有变量/方法
 
-@interface UlanSignViewController () <ULANDelegate,UITextFieldDelegate>
+@interface UlanSignViewController () <ULANDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) NSData      *dataToSigan;
 
@@ -170,6 +170,12 @@
         
         NSLog(@"%@",errString);
     }
+}
+
+
+-(void) didCertFetched:(CFISTError*)err  cert:(CFISTCertificate *)cert
+{
+    
 }
 
 //==============================================================================

@@ -455,7 +455,8 @@ static int signViewTag = SignViewTagBase;
         currentSign = [[DataManager defaultInstance] finishSignFlow:currentSignFlow withStatus:@(2)];
 
         NSDictionary *actions = [[ActionManager defaultInstance] signRequestAction:currentSign andTarget:clientTarget];
-        self.signRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:actions];
+        [[ActionManager defaultInstance] addToQueue:actions];
+        self.signRequest = [ActionManager defaultInstance].actionRequest;
      }
 }
 
@@ -535,9 +536,10 @@ static int signViewTag = SignViewTagBase;
     [_addSignerPopoverController dismissPopoverAnimated:YES];
     NSArray *signs = [clientTarget.clientFile sortedSignFlows];
     [self updateSignflowWithSigns:signs];
+    
 #warning 暂时不做signset操作
     // NSDictionary *signsetAction = [[ActionManager defaultInstance] signsetAction:fileTarget.clientFile];
-    // self.signflowRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:signsetAction];
+    // self.signflowRequest = [[RequestManager defaultInstance] asyncPostData:ActionRequestPath Parameter:signsetAction];
 }
 
 /*!
@@ -1079,7 +1081,7 @@ static int signViewTag = SignViewTagBase;
             NSString *url = [filePath objectForKey:@"filePaths"];
             Client_sign_flow *currentSignFlow = clientTarget.clientFile.currentSignflow;
             NSDictionary *complete = [[CompleteManager defaultInstance] uploadCompleteCommand:0 completeId:currentSignFlow.file_id completeURL:url];
-            self.upCompleteRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, UploadCompleteRequestPath] Parameter:complete];
+            self.upCompleteRequest = [[RequestManager defaultInstance] asyncPostData:UploadCompleteRequestPath Parameter:complete];
         }
         else
         {
@@ -1147,10 +1149,13 @@ static int signViewTag = SignViewTagBase;
     {
         //进行结果解析，判断是否需要显示签名版
         NSDictionary *dict = [[request responseString] jsonValue];
+        
+        NSLog(@"the lock response：\n %@", dict);
+        
         NSArray *arr = [dict objectForKey:@"actions"];
         NSDictionary *str = [arr firstObject];
         
-        if (str && [[str objectForKey:@"actionResult"] intValue] == 0)
+        if (str && [[str objectForKey:@"actionResult"] intValue] == 1)
         {
             self.operationBgView.hidden = NO;
             //self.operationBgConstraint.constant = 56.0f;

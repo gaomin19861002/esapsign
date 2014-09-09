@@ -21,8 +21,8 @@
     // Perpare for button to be added and wrapper it with UIBarButtonItem
     UIImage *backgroundImage = nil;
     UIImage *highlightedBackgroundImage = nil;
-    BOOL left = (BarButtonTypeLeft == type) && (index == 0) && (title.length || imageName.length);
-    BOOL right = (BarButtonTypeRight == type) && (index == 0) && (title.length || imageName.length);
+    __unused BOOL left = (BarButtonTypeLeft == type) && (index == 0) && (title.length || imageName.length);
+    __unused BOOL right = (BarButtonTypeRight == type) && (index == 0) && (title.length || imageName.length);
 //    if (left) {
 //        backgroundImage = [UIImage imageWithColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0] size:CGSizeMake(1, 1)];        highlightedBackgroundImage = [UIImage imageWithColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0] size:CGSizeMake(1, 1)];;
 //    } else if (right) {

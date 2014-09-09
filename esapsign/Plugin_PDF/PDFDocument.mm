@@ -95,6 +95,7 @@ static FS_BOOL emb_test_more(FS_LPVOID clientData, int alloc_size, void** new_me
         return FALSE;
 	return TRUE;
 }
+
 static void emb_test_free(FS_LPVOID clientData, void* memory)
 {
 	free(memory);
@@ -323,7 +324,7 @@ FS_BOOL MyMapFont(FS_LPVOID param, FS_LPCSTR name, FS_INT32 charset,
     FS_INT32 count = 0;
     FSPDF_Annot_GetCount(m_current_page, NULL, &count);
     
-    CGPoint pt = CGPointMake(100.0f, 100.0f);
+    __unused CGPoint pt = CGPointMake(100.0f, 100.0f);
 //    FSCRT_RECTF rect = {pt.x - 5, pt.y + 50, pt.x + 50, pt.y - 3};
     FSCRT_RECTF rect = {leftTopPoint.x, leftTopPoint.y, rightBottomPoint.x, rightBottomPoint.y};
     FSCRT_BSTR bsAnnotType;

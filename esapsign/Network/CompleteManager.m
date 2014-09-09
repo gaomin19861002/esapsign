@@ -57,12 +57,10 @@ DefaultInstanceForClass(CompleteManager);
  */
 - (NSDictionary *) uploadCompleteCommand:(int) completeType completeId:(NSString *) completeId completeURL:(NSString *) url
 {
-    NSDictionary *userInfo = [Util currentLoginUserInfo];
     NSDictionary *complete = @{@"completeType" : [NSNumber numberWithInt:completeType],
                                @"completeId" : completeId,
-                               @"completeUrl" : url,
-                               @"login" : userInfo};
-    return complete;
+                               @"completeUrl" : url};
+    return [self appendLoginHead:complete];
 }
 
 @end

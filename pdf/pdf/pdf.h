@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+//#import "PDFManager.h"
 
 @interface pdf : NSObject
+
 
 @end

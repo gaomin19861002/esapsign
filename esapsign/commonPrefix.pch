@@ -13,14 +13,14 @@
  定义开发宏,只有定义该宏为1，才是开发环境
  */
 #ifndef DevelopmentEnvironment
-    #define DevelopmentEnvironment     0
+    #define DevelopmentEnvironment     1
 #endif //DevelopmentEnvironment
 
 /*!
  定义基础IP地址
  */
-#define ServerDevelopment       @"http://192.168.100.176:9080"
-#define ServerProduct           @"http://192.168.100.181:4080"  // #define ServerProduct @"http://118.145.20.14:9081"
+#define ServerDevelopment       @"http://192.168.100.181:4080"
+#define ServerProduct           @"http://118.145.20.14:9081"
 
 #if DevelopmentEnvironment
     #define APIBaseURL      ServerDevelopment
@@ -37,9 +37,9 @@
 #define LoginRequestPath            [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/example/login"]
 #define UpdateRequestPath           [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/contact/update"]
 #define ActionRequestPath           [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/actionlist/action"]
-#define UploadCompleteRequestPath   [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/esap_base/rest/document/uploadcomplete"]
-#define APIBaseDownload             [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/esap_base/rest/document/download_file?id="]
-#define APIBaseUpload               [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/esap_base/rest/document/upload"]
+#define UploadCompleteRequestPath   [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/document/uploadcomplete"]
+#define APIBaseDownload             [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/document/download_file?id="]
+#define APIBaseUpload               [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/document/upload"]
 
 /*!
  定义安全的空语句

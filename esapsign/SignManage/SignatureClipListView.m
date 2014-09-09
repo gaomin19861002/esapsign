@@ -23,6 +23,8 @@
 #import "UIColor+Additions.h"
 #import "UIViewController+Additions.h"
 
+#import "NSObject+Json.h"
+
 #define SignCollectionCellIdentifier @"SignCollectionCellIdentifier"
 
 @interface SignatureClipListView () <ActionManagerDelegate, RequestManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
@@ -231,9 +233,12 @@
 {
     if (request == self.uploadImageRequest)
     {
-        NSLog(@"upload image file succeed");
+        NSDictionary *resDic = [[request responseString] jsonValue];
+        NSString *completeUrl = [[resDic objectForKey:@"filePath"] objectForKey:@"filePaths"];
+
         // 发送完成动作
-        NSDictionary* complete = [[CompleteManager defaultInstance] uploadCompleteCommand:self.currentImageID completeType:@"1"];
+        // NSDictionary* complete = [[CompleteManager defaultInstance] uploadCompleteCommand:self.currentImageID completeType:@"1"];
+        NSDictionary *complete = [[CompleteManager defaultInstance] uploadCompleteCommand:1 completeId:self.currentImageID completeURL: completeUrl];
         self.uploadCompleteRequest = [[RequestManager defaultInstance] asyncPostData:UploadCompleteRequestPath
                                                                            Parameter:complete];
     }

@@ -57,7 +57,7 @@ DefaultInstanceForClass(SyncManager);
     [self performSelector:@selector(asynRequestStarted:) withObject:nil];
     [self performSelector:@selector(asynRequestFinished:) withObject:nil afterDelay:1];
 #else
-    self.updateRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, UpdateRequestPath] Parameter:para];
+    self.updateRequest = [[RequestManager defaultInstance] asyncPostData:UpdateRequestPath Parameter:para];
 #endif
 }
 
