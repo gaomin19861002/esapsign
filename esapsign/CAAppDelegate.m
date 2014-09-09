@@ -20,12 +20,6 @@
 #import "LoginViewController.h"
 #import "DocViewController.h"
 
-@interface CAAppDelegate()
-
-- (void)handleCreateHandSign:(NSNotification *)notification;
-
-@end
-
 @implementation CAAppDelegate
 
 - (DetailViewManager *)detailViewManager
@@ -87,7 +81,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self testForListFont];
+    // [self testForListFont];
     
     // 系统状态栏采用浅色
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];

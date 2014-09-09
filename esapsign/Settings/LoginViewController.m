@@ -107,9 +107,13 @@
     }
     else
     {
-        NSDictionary *para = @{@"alias": self.nameTextField.text,
+        NSDictionary *para = @{@"id":[Util generalUUID],
+                               @"alias": self.nameTextField.text,
+                               @"type": @"0",
                                @"password": self.pwdTextField.text,
-                               @"requireCert": @"0"};
+                               @"requireCert": @"0",
+                               @"deviceId" : @"SD23F1AS3D2F4S51FE5T41G54AS1FR2T4",
+                               @"deviceType": @"2"};
         self.loginRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, LoginRequestPath] Parameter:para];
     }
 }
@@ -135,10 +139,11 @@
 // 异步请求结束通知外部程序
 - (void)asynRequestFinished:(ASIHTTPRequest *)request
 {
-    if (request == self.loginRequest) {
+    if (request == self.loginRequest)
+    {
         [self.navigationController hideProgress];
         NSString *resString = [self.loginRequest responseString];
-        DebugLog(@"res= %@", resString);
+        NSLog(@"res= %@", resString);
         
         NSDictionary *resDict = [resString jsonValue];
         if ([[resDict objectForKey:@"result"] intValue] == 1)

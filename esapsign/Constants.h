@@ -62,13 +62,6 @@
  */
 #define REGISTERWEBURL @"http://www.e-contract.cn/user/register.html"
 
-/*!
- 定义请求地址
- */
-#define LoginRequestPath @"esap_base/rest/example/login"
-#define UpdateRequestPath @"esap_base/rest/contact/update"
-#define ActionRequestPath @"esap_base/rest/actionlist/action"
-#define UploadCompleteRequestPath @"esap_base/rest/document/uploadcomplete"
 
 /*!
  定义签名流程签署状态标签

@@ -51,7 +51,14 @@
     NSData *userData = [self valueForKey:LoginUser];
     if (userData) {
         User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:user.name, @"alias", user.password, @"password", nil];
+        //        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:user.name, @"alias", user.password, @"password", nil];
+        NSDictionary *dict = @{@"alias" : user.name,
+                               @"password":user.password,
+                               @"id" : [Util generalUUID],
+                               @"type": @"0",
+                               @"requireCert": @"0",
+                               @"deviceId" : @"SD23F1AS3D2F4S51FE5T41G54AS1FR2T4",
+                               @"deviceType": @"2" };
         return dict;
     }
     

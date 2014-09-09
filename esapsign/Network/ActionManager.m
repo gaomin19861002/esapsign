@@ -31,8 +31,10 @@
  */
 @property (nonatomic, strong) NSMutableArray *actionQueue;
 
-@property(nonatomic, retain) NSMutableArray *allDelegates;
+// 添加缓存队列的缓存副本 gaomin@20140909
+@property (nonatomic, strong) NSMutableArray *actionCacheQueue;
 
+@property(nonatomic, retain) NSMutableArray *allDelegates;
 
 @end
 
@@ -86,6 +88,15 @@ DefaultInstanceForClass(ActionManager);
         _actionQueue = [[NSMutableArray alloc] initWithCapacity:1];
     }
     return _actionQueue;
+}
+
+- (NSMutableArray *) actionCacheQueue
+{
+    if (!_actionCacheQueue)
+    {
+        _actionCacheQueue = [[NSMutableArray alloc] initWithCapacity:1];
+    }
+    return _actionCacheQueue;
 }
 
 #pragma mark - Action Package factory
@@ -443,6 +454,11 @@ DefaultInstanceForClass(ActionManager);
     return [self postAction];
 }
 
+- (void)addToCacheQueue:(NSDictionary *) param
+{
+    [self.actionCacheQueue addObject:param];
+}
+
 /**
  * @abstract 清空队列请求
  */
@@ -451,10 +467,17 @@ DefaultInstanceForClass(ActionManager);
     [self.actionQueue removeAllObjects];
 }
 
+- (void)clearCacheQueue
+{
+    [self.actionCacheQueue removeAllObjects];
+}
+
 - (ASIFormDataRequest*)postAction
 {
     if ([self.actionQueue count] > 0)
     {
+        [self backupAction];
+        
         NSDictionary *userInfo = [Util currentLoginUserInfo];
         NSDictionary *requestPackage = @{@"login": userInfo, @"actions": self.actionQueue};
         self.actionRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:requestPackage];
@@ -462,6 +485,26 @@ DefaultInstanceForClass(ActionManager);
         return self.actionRequest;
     }
     return nil;
+}
+
+// actions从待发送队列拷贝到缓存队列 suzic@20140909
+- (void)backupAction
+{
+    [self clearCacheQueue];
+    [self.actionCacheQueue addObjectsFromArray:self.actionQueue];
+}
+
+// 网络连接失败情况下要做以下四步把缓存队列中的actions拷贝到发送队列以备重新发送(用四步来完成而不是直接添加到发送队列中是为了保证发送队列的顺序)：suzic@20140909
+// 1.把发送队列中的actions添加到缓存队列
+// 2.清空发送队列
+// 3.把缓存队列中的actions拷贝到发送队列
+// 4.清空缓存队列
+- (void)restoreActionsFromBackup
+{
+    [self.actionCacheQueue addObjectsFromArray:self.actionQueue];
+    [self clearQueue];
+    [self.actionQueue addObjectsFromArray:self.actionCacheQueue];
+    [self clearCacheQueue];
 }
 
 #pragma mark - Request Method
@@ -496,7 +539,9 @@ DefaultInstanceForClass(ActionManager);
                     [delegate actionRequestFailed:request];
                 }
             }
-#warning 这种情况下，之前清除的Action Queue数据应当恢复
+
+            // 这种情况下，之前清除的Action Queue数据应当恢复
+            [self restoreActionsFromBackup];
         });
     }
 }
@@ -507,6 +552,8 @@ DefaultInstanceForClass(ActionManager);
     if (request == self.actionRequest)
     {
         inRequest = NO;
+        [self clearCacheQueue];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             for (id<ActionManagerDelegate> delegate in self.allDelegates) {
                 if ([delegate respondsToSelector:@selector(actionRequestFinished:)]) {
@@ -516,10 +563,27 @@ DefaultInstanceForClass(ActionManager);
 
             // 继续尝试发送剩下的Action
             [self postAction];
-
-# warning 检查所有的Action Result，如果有失败的结果，需要调用同步
-            // NSDictionary *resDict = [[request responseString] jsonValue];
         });
+
+        // 检查所有的Action Result，如果有失败的结果，需要调用同步
+        NSDictionary *resDict = [[request responseString] jsonValue];
+        if ([resDict objectForKey:@"actions"] && [[resDict objectForKey:@"actions"] isKindOfClass:[NSArray class]])
+        {
+            NSArray *actions = [resDict objectForKey:@"actions"];
+            if ([actions count] > 0)
+            {
+                for (int i = 0; i < [actions count]; i++)
+                {
+                    NSDictionary *action = [actions objectAtIndex:i];
+                    if ([[action objectForKey:@"actionResult"] intValue] == 0)
+                    {
+                        [SyncManager defaultInstance].parentController = [CAAppDelegate sharedDelegate].window.rootViewController;
+                        [[SyncManager defaultInstance] startSync];
+                        break; // No more check needed
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -224,8 +224,6 @@ DefaultInstanceForClass(ContactManager);
         // 标记已经导入过通讯录
         [Util setValue:@"1" forKey:user.name];
         
-
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:ContactImportSucceedNotification object:nil];
         });

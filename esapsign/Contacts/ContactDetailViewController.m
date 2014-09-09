@@ -23,11 +23,15 @@
 #import "ActionManager.h"
 #import "AddContentCell.h"
 #import "TypeSelectionTableViewController.h"
+#import "CAAppDelegate.h"
+#import "UIViewController+Additions.h"
+#import "UIAlertView+Additions.h"
+#import "NSObject+Json.h"
 
 #define AlertContactDelTag      1000
 #define AlertContactModifyTag   (AlertContactDelTag + 1)
 
-@interface ContactDetailViewController () <UIAlertViewDelegate, DocSelectedViewControllerDelegate, TypeSelectionTableViewControllerDelegate, UserContentCellDelegate>
+@interface ContactDetailViewController () <UIAlertViewDelegate, DocSelectedViewControllerDelegate, TypeSelectionTableViewControllerDelegate, UserContentCellDelegate, ActionManagerDelegate>
 {
     bool bDirtyFlag;    // 是否发生了修改
     bool bInEdit;       // 是否处于编辑状态
@@ -75,6 +79,11 @@
  */
 @property(nonatomic, retain) UIPopoverController *typeSelectionPopoverController;
 
+// 修改ContactUpdateAction为ActionManager方式 gaomin@20140904
+@property (nonatomic, retain) ASIFormDataRequest *contactUpdateRequest;
+
+@property (nonatomic, retain) ASIFormDataRequest *contactDelRequest;
+
 @end
 
 @implementation ContactDetailViewController
@@ -95,6 +104,13 @@
     
     [self.nameLabel setFont:[UIFont fontWithName:@"Libian SC" size:32.0]];
     [self.signWithSomeOnelabel setFont:[UIFont fontWithName:@"Libian SC" size:22.0]];
+    
+    [[ActionManager defaultInstance] registerDelegate:self];
+}
+
+- (void)dealloc
+{
+    [[ActionManager defaultInstance] unRegisterDelegate:self];
 }
 
 #pragma mark - 视图方法
@@ -309,8 +325,9 @@
     [self.userDetailInfoTable reloadData];
     
     //2 向服务器请求更新
-    NSDictionary *param = [[ActionManager defaultInstance] contactUpdateAction:self.currentUser];//; andContents:self.currentContents];
-    [[ActionManager defaultInstance] addToQueue:param];
+    // 更新联系人，通知服务器端 gaomin@20140904 修改更新联系人时为使用ActionManager方式
+    NSDictionary *action = [[ActionManager defaultInstance] contactUpdateAction:self.currentUser];
+    self.contactUpdateRequest = [[ActionManager defaultInstance] addToQueue:action];
     
     // 通知列表页更新
     [[NSNotificationCenter defaultCenter] postNotificationName:ContactUpdateNotification object:self];
@@ -345,9 +362,9 @@
         case AlertContactDelTag:
             if (buttonIndex == 1)
             {
-                //发送网络请求
-                NSDictionary *param = [[ActionManager defaultInstance] contactDelAction:self.currentUser];
-                [[ActionManager defaultInstance] addToQueue:param];
+                // 删除联系人，通知服务器端 gaomin@20140904 修改更新联系人时为使用ActionManager方式
+                NSDictionary *action = [[ActionManager defaultInstance] contactDelAction:self.currentUser];
+                self.contactDelRequest = [[ActionManager defaultInstance] addToQueue:action];
                 
                 // 删除
                 [[DataManager defaultInstance] deleteClientUser:self.currentUser];
@@ -762,6 +779,60 @@
     {
         Client_user* newUser = [[DataManager defaultInstance] findUserWithId:UserID];
         self.currentUser = newUser;
+    }
+}
+
+#pragma mark - Action Manager Delegate
+
+// 异步请求开始通知外部程序
+- (void)actionRequestStarted:(ASIHTTPRequest *)request
+{
+    if (request == self.contactUpdateRequest)
+    {
+        [[CAAppDelegate sharedDelegate].window.rootViewController showProgressText:@"更新联系人中..."];
+    }
+    else if (request == self.contactDelRequest)
+    {
+        [[CAAppDelegate sharedDelegate].window.rootViewController showProgressText:@"删除联系人中..."];
+    }
+}
+
+// 异步请求失败通知外部程序
+- (void)actionRequestFailed:(ASIHTTPRequest *)request
+{
+    if (request == self.contactUpdateRequest)
+    {
+        NSLog(@"Contact Update Action Request Failed!");
+        [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
+        [UIAlertView showAlertMessage:@"提交失败"];
+        self.contactUpdateRequest = nil;
+    }
+    else if (request == self.contactDelRequest)
+    {
+        self.contactDelRequest = nil;
+    }
+}
+
+// 异步请求结束通知外部程序
+- (void)actionRequestFinished:(ASIHTTPRequest *)request
+{
+    if (request == self.contactUpdateRequest)
+    {
+        NSLog(@"Contact New Action Request Finished!");
+        
+        NSDictionary *resDict = [[request responseString] jsonValue];
+
+        [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
+        self.contactUpdateRequest = nil;
+    }
+    else if (request == self.contactDelRequest)
+    {
+        NSLog(@"Contact Del Action Request Finished!");
+
+        NSDictionary *resDelDict = [[request responseString] jsonValue];
+        
+        [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
+        self.contactDelRequest = nil;
     }
 }
 

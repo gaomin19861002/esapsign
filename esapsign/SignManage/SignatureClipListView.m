@@ -64,7 +64,7 @@
         // collectionView.delegate = self;
         collectionView.showsHorizontalScrollIndicator = YES;
         collectionView.showsVerticalScrollIndicator = NO;
-        
+
         //Regist SignCollectionCell for the CollectionView
         [collectionView registerClass:[SignatureClipCollectionCell class] forCellWithReuseIdentifier:SignCollectionCellIdentifier];
         [self addSubview:collectionView];
@@ -150,8 +150,7 @@
         // 上传签名图的请求
         NSDictionary* action = [[ActionManager defaultInstance] signpenNewAction:self.currentImageID];
         self.upSignRequest = [[ActionManager defaultInstance] addToQueue:action];
-       
-#warning 更为合理的做法应该是提交Action的异步操作成功以后再清理本地数据
+
         // 在本地添加数据
         [[DataManager defaultInstance] addSignWithPath:desFile withID:self.currentImageID];
         self.arrDefaultSigns = [DataManager defaultInstance].allSignFiles;
@@ -168,8 +167,7 @@
     // 发送删除Action
     NSDictionary* action = [[ActionManager defaultInstance] signpenDelAction:delSignID];
     self.delSignRequest = [[ActionManager defaultInstance] addToQueue:action];
-    
-#warning 更为合理的做法应该是发送删除Action的异步操作成功以后再清理本地数据
+
     // 从本地清除数据
     [self.arrDefaultSigns removeObject:signfile];
     [self.signCollectionView reloadData];
@@ -236,7 +234,7 @@
         NSLog(@"upload image file succeed");
         // 发送完成动作
         NSDictionary* complete = [[CompleteManager defaultInstance] uploadCompleteCommand:self.currentImageID completeType:@"1"];
-        self.uploadCompleteRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, UploadCompleteRequestPath]
+        self.uploadCompleteRequest = [[RequestManager defaultInstance] asyncPostData:UploadCompleteRequestPath
                                                                            Parameter:complete];
     }
     if (request == self.uploadCompleteRequest)

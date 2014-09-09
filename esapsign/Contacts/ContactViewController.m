@@ -35,7 +35,7 @@
 #define AlertViewTagImportContact   100
 #define AlertViewModifyContactName  101
 
-@interface ContactViewController () <MBProgressHUDDelegate, RequestManagerDelegate, AddContactViewControllerDelegate>
+@interface ContactViewController () <MBProgressHUDDelegate, AddContactViewControllerDelegate, ActionManagerDelegate>
 {
     NSMutableArray *arrAllUsers;
     MBProgressHUD *HUD;
@@ -51,7 +51,8 @@
 @property (nonatomic, assign) BOOL groupUserData;
 @property (nonatomic, retain) UIPopoverController *AddContactPopover;
 
-@property (nonatomic, retain) ASIHTTPRequest *contactNewRequest;
+// 提交新建联系人时采用ActionManager方式
+@property (nonatomic, retain) ASIFormDataRequest *contactNewRequest;
 
 - (void)importSucceedNotification:(NSNotification *)noti;
 
@@ -65,7 +66,7 @@
 - (void)dealloc
 {
     // 清除异步请求管理器的代理
-    [[RequestManager defaultInstance] unRegisterDelegate:self];
+    [[ActionManager defaultInstance] unRegisterDelegate:self];
 }
 
 - (void)viewDidLoad
@@ -96,7 +97,7 @@
     self.tableView.tableHeaderView = headerView;
     
     // 注册异步请求管理器的代理
-    [[RequestManager defaultInstance] registerDelegate:self];
+    [[ActionManager defaultInstance] registerDelegate:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -111,7 +112,7 @@
             [self updateAndGroupUsers];
         }
         
-        // 是否是不在提醒
+        // 是否是不再提醒
         //        NSData *userData = [Util valueForKey:LoginUser];
         //        User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
         //        // 判定是否曾经导入过通讯录
@@ -501,9 +502,9 @@
         [[DataManager defaultInstance] updateClientUser:user WithContents:contactItems];
         [self updateAndGroupUsers];
         
-        // 新建联系人，通知服务器端
-        NSDictionary *param = [[ActionManager defaultInstance] contactNewAction:user];
-        self.contactNewRequest = [[RequestManager defaultInstance] asyncPostData:[NSString stringWithFormat:@"%@/%@", APIBaseURL, ActionRequestPath] Parameter:param];
+        // 新建联系人，通知服务器端 gaomin@20140904 修改提交新建联系人时为使用ActionManager方式
+        NSDictionary *action = [[ActionManager defaultInstance] contactNewAction:user];
+        self.contactNewRequest = [[ActionManager defaultInstance] addToQueue:action];
         self.detailViewController.currentUserID = user.user_id;
         
         // 设置新加的联系人为选定状态
@@ -538,48 +539,44 @@
     }
 }
 
-#pragma mark - RequestDelegateMethod
+#pragma mark - Action Manager Delegate
 
-- (void)asynRequestStarted:(ASIHTTPRequest *)request
+// 异步请求开始通知外部程序
+- (void)actionRequestStarted:(ASIHTTPRequest *)request
 {
     if (request == self.contactNewRequest)
     {
-        [self.navigationController.parentViewController.parentViewController showProgressText:@"添加联系人中..."];
+        [[CAAppDelegate sharedDelegate].window.rootViewController showProgressText:@"添加联系人中..."];
     }
 }
 
-- (void)asynRequestFailed:(ASIHTTPRequest *)request
+// 异步请求失败通知外部程序
+- (void)actionRequestFailed:(ASIHTTPRequest *)request
 {
     if (request == self.contactNewRequest)
     {
-        // [self.navigationController hideProgress];
+        NSLog(@"Contact New Action Request Failed!");
+        [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
         [self removeLastData];
         [UIAlertView showAlertMessage:@"提交失败"];
+        self.contactNewRequest = nil;
     }
 }
 
-- (void)asynRequestFinished:(ASIHTTPRequest *)request
+// 异步请求结束通知外部程序
+- (void)actionRequestFinished:(ASIHTTPRequest *)request
 {
     if (request == self.contactNewRequest)
     {
-        NSDictionary *resDict = [[request responseString] jsonValue];
-        
-        if ([resDict objectForKey:@"actions"] && [[resDict objectForKey:@"actions"] isKindOfClass:[NSArray class]])
+        NSLog(@"Contact New Action Request Finished!");
+        if (request == self.contactNewRequest)
         {
-            NSArray *actions = [resDict objectForKey:@"actions"];
-            NSDictionary *action = [actions firstObject];
-            if (action)
-            {
-                if ([[action objectForKey:@"actionResult"] intValue] == 1)
-                {
-                    //添加成功
-                    [self.navigationController.parentViewController.parentViewController hideProgress];
-                    return ;
-                }
-            }
+            // NSDictionary *resDict = [[request responseString] jsonValue];
         }
-        [self removeLastData];
-        return ;
+        
+        // ActionManager里面对拒绝的返回已经处理（调用同步还原结果），如果没有特殊的事情，无需修正客户端数据结果
+        [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
+        self.contactNewRequest = nil;
     }
 }
 
