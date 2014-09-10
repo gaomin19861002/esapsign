@@ -112,7 +112,7 @@
                                @"type": @"0",
                                @"password": self.pwdTextField.text,
                                @"requireCert": @"0",
-                               @"deviceId" : @"SD23F1AS3D2F4S51FE5T41G54AS1FR2T4",
+                               @"deviceId" : [Util getUDID],
                                @"deviceType": @"2"};
         NSLog(@"%@" , LoginRequestPath);
         self.loginRequest = [[RequestManager defaultInstance] asyncPostData:LoginRequestPath Parameter:para];
