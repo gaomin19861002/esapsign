@@ -106,10 +106,18 @@
 /*!
  更新签名流程
  */
-- (void)updateSignFlow:(NSArray *)signFlows
+- (void)updateSignFlow:(Client_sign_flow *)signFlow
 {
-    self.currentSignFlows = signFlows;
-    currentFlowCount = [signFlows count];
+    if (signFlow != nil)
+    {
+        self.currentSignFlows = [signFlow sortedSignFlows];
+        currentFlowCount = [self.currentSignFlows count];
+    }
+    else
+    {
+        self.currentSignFlows = [NSMutableArray arrayWithCapacity:6];
+        currentFlowCount = 0;
+    }
     
     // 清空已显示的签名流程信息
     for (int i = 0; i < MaxSignMembers; i++)
@@ -121,10 +129,13 @@
     self.allCenters = [NSMutableArray array];
     
     // 添加签名人信息
-    for (NSInteger i = 0; i < currentFlowCount; i++) {
-        Client_sign *flow = [signFlows objectAtIndex:i];
+    for (NSInteger i = 0; i < currentFlowCount; i++)
+    {
+        Client_sign *sign = [self.currentSignFlows objectAtIndex:i];
         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
-        [signerHead setSign:flow];
+        // 首先判断是否是当前要签名的状态，然后再去依据签名包内部的状态来设置签署状态
+        [signerHead setBeCurrent:[signFlow isCurrentSign:sign]];
+        [signerHead setSign:sign];
         [signerHead setDelegate:self];
         
         [self.allCenters addObject:[NSValue valueWithCGPoint:signerHead.center]];

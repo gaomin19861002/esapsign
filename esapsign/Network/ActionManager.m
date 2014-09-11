@@ -368,7 +368,7 @@ DefaultInstanceForClass(ActionManager);
     [signflowDict setObject:[NSString stringWithFormat:@"%@", signflow.current_sign_status] forKey:@"currentSignStatus"];
     
     NSMutableArray *signs = [NSMutableArray array];
-    for (Client_sign *sign in file.sortedSignFlows)
+    for (Client_sign *sign in [file.currentSignflow sortedSignFlows])
     {
         [signs addObject:[self signPacket:sign]];
     }

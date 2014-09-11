@@ -428,9 +428,8 @@
     if ([file.file_type intValue] == FileExtendTypePdf)
     {
         [cell.rightImageButton setBackgroundImage:[UIImage imageNamed:@"FlowManage"] forState:UIControlStateNormal];
-        if ([[self.foldStatus objectOrNilAtIndex:indexPath.row] boolValue]) {
-            [cell updateSignFlow:[file sortedSignFlows]];
-        }
+        if ([[self.foldStatus objectOrNilAtIndex:indexPath.row] boolValue])
+            [cell updateSignFlow:file.currentSignflow];
     }
     
     // 根据sign flow来设置当前文件的签署流程状态标签和个人签署状态标签

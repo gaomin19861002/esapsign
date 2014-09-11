@@ -34,4 +34,6 @@
 
 - (void)deleteButtonClicked:(id)sender;
 
+- (void)setBeCurrent:(bool)isCurrent;
+
 @end

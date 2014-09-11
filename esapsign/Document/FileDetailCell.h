@@ -123,6 +123,6 @@
 /*!
  更新签名流程
  */
-- (void)updateSignFlow:(NSArray *)signFlows;
+- (void)updateSignFlow:(Client_sign_flow *)signFlow;
 
 @end

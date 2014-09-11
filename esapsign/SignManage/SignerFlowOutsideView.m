@@ -34,22 +34,23 @@
 
 - (void)awakeFromNib
 {
-    self.signImageView.image = [UIImage imageNamed:@"2_bottom2_empty.png"];
-    self.signStatus.hidden = YES;
+    self.signImageView.image = [UIImage imageNamed:@"SignSlot"];
+    self.signStatus.image = nil;
 }
 
 - (void)clear
 {
     self.signLabel.text = nil;
     self.signImageView.image = [UIImage imageNamed:@"SignSlot"];
-    self.signStatus.hidden = YES;
+    self.signStatus.image = nil;
     self.alpha = 0.8;
 }
 
 - (void)setEditing:(BOOL)editing
 {
     _editing = editing;
-    if (_editing) {
+    if (_editing)
+    {
         if (!self.sign.sign_date && !self.sign.refuse_date) {
             //没有签过名的人，添加删除按钮
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -59,8 +60,9 @@
             [btn setImage:[UIImage imageNamed:@"MarkDelete"] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(deleteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
-
-    } else {
+    }
+    else
+    {
         UIButton *btn = (UIButton *)[self viewWithTag:TagDeleteButtonStart];
         [btn removeFromSuperview];
     }
@@ -76,8 +78,22 @@
         headImage = [UIImage imageWithFile:defaultImage];
     }
     [self.signImageView setImage:headImage];
+    
+    if (sign.sign_date != nil)
+        [self.signStatus setImage:[UIImage imageNamed:@"OperationSuccess"]];
+    else if (sign.refuse_date != nil)
+        [self.signStatus setImage:[UIImage imageNamed:@"OperationFail"]];
+    
     [self setAlpha:1];
     self.signLabel.text = _sign.displayName;
+}
+
+- (void)setBeCurrent:(bool)isCurrent
+{
+    if (isCurrent)
+        [self.signStatus setImage:[UIImage imageNamed:@"OperationFail"]];
+    else
+        [self.signStatus setImage:nil];
 }
 
 - (UIImageView *)signImageView
@@ -94,7 +110,7 @@
 {
     if (!_signStatus)
     {
-        _signStatus = [[UIImageView alloc] initWithFrame:CGRectMake(50, 40, 20, 20)];
+        _signStatus = [[UIImageView alloc] initWithFrame:CGRectMake(40, 30, 46, 39)];
         [self addSubview:_signStatus];
     }
     return _signStatus;

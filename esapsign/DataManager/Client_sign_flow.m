@@ -22,4 +22,46 @@
 @dynamic clientFile;
 @dynamic clientSigns;
 
+
+/*!
+ 返回文件的所有签名人，按照签名流程的顺序返回
+ */
+- (NSArray *)sortedSignFlows
+{
+    NSMutableArray *signFlows = [NSMutableArray array];
+    for (Client_sign * sign in self.clientSigns)
+    {
+        [signFlows addObject:sign];
+    }
+    
+    [signFlows sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        Client_sign *sign1 = (Client_sign *)obj1;
+        Client_sign *sign2 = (Client_sign *)obj2;
+        if ([sign1.sequence intValue] < [sign2.sequence intValue]) {
+            return NSOrderedAscending;
+        }
+        
+        return NSOrderedDescending;
+    }];
+    
+    return signFlows;
+}
+
+/*!
+ 判断一个sign是否是当前要执行的sign
+ */
+- (bool)isCurrentSign:(Client_sign*)sign
+{
+    if (sign.sign_flow_id != self.sign_flow_id)
+        return NO;
+    
+    // 如果当前签名ID匹配
+    if ([self.current_sign_id isEqualToString:sign.sign_id]
+        // 或者是在当前签名ID未设置的状态下，当前签名的顺序号匹配
+        || ((self.current_sign_id == nil || [self.current_sign_id isEqualToString:@""]) && (self.current_sequence == sign.sequence)))
+        return YES;
+    
+    return NO;
+}
+
 @end

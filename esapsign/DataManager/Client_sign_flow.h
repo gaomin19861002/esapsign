@@ -29,4 +29,14 @@
 - (void)addClientSigns:(NSSet *)values;
 - (void)removeClientSigns:(NSSet *)values;
 
+/*!
+ 返回文件的所有签名人，按照签名流程的顺序返回
+ */
+- (NSArray *)sortedSignFlows;
+
+/*!
+ 判断一个sign是否是当前要执行的sign
+ */
+- (bool)isCurrentSign:(Client_sign*)sign;
+
 @end

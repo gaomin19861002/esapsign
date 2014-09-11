@@ -19,7 +19,7 @@
 /*!
  定义基础IP地址
  */
-#define ServerDevelopment       @"http://192.168.100.181:4080"
+#define ServerDevelopment       @"http://192.168.100.145:6000"
 #define ServerProduct           @"http://118.145.20.14:9081"
 
 #if DevelopmentEnvironment
@@ -31,13 +31,11 @@
 /*!
  定义接口地址
  */
-//#define LoginRequestPath @"esap_base/rest/example/login"
-//#define UpdateRequestPath @"esap_base/rest/contact/update"
-//#define ActionRequestPath @"esap_base/rest/actionlist/action"
 #define LoginRequestPath            [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/example/login"]
 #define UpdateRequestPath           [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/contact/update"]
 #define ActionRequestPath           [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/actionlist/action"]
 #define UploadCompleteRequestPath   [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/document/uploadcomplete"]
+#define VerifyCodePath              [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/verify/verifyCode"]
 #define APIBaseDownload             [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/document/download_file?id="]
 #define APIBaseUpload               [NSString stringWithFormat:@"%@%@", APIBaseURL, @"/peony-rest/services/rest/document/upload"]
 

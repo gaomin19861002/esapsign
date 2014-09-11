@@ -38,11 +38,6 @@
 @property (nonatomic, retain) NSSet *clientTargets;
 
 /*!
- 返回文件的所有签名人，按照签名流程的顺序返回
- */
-- (NSArray *)sortedSignFlows;
-
-/*!
  添加一个用户到签名流程
  */
 - (Client_sign *)addUserToSignFlow:(NSString *)userName address:(NSString *)address;

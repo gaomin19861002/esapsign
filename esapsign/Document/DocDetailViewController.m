@@ -147,7 +147,7 @@ static int signViewTag = SignViewTagBase;
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
     [self.signFlowView addGestureRecognizer:tapRecognizer];
     
-    NSArray *signs = [clientTarget.clientFile sortedSignFlows];
+    NSArray *signs = [clientTarget.clientFile.currentSignflow sortedSignFlows];
     [self updateSignflowWithSigns:signs];
     
     // 增加滑动检测，滑动时收起签名流
@@ -213,7 +213,8 @@ static int signViewTag = SignViewTagBase;
     [super viewWillAppear:animated];
     
     //判断是否需要加锁,根据是否是收件箱下文件进行判断。
-    if ([[DataManager defaultInstance] isClientTargetEditable:clientTarget])
+    if ([[DataManager defaultInstance] isClientTargetEditable:clientTarget]
+        && [clientTarget.clientFile.currentSignflow isCurrentSign:currentSign])
     {
         //请求加锁操作
         NSDictionary* action = [[ActionManager defaultInstance] lockAction:clientTarget];
@@ -535,7 +536,7 @@ static int signViewTag = SignViewTagBase;
     Client_target *fileTarget = clientTarget;
     [fileTarget.clientFile addUserToSignFlow:userName address:address];
     [_addSignerPopoverController dismissPopoverAnimated:YES];
-    NSArray *signs = [clientTarget.clientFile sortedSignFlows];
+    NSArray *signs = [clientTarget.clientFile.currentSignflow sortedSignFlows];
     [self updateSignflowWithSigns:signs];
     
 #warning 暂时不做signset操作

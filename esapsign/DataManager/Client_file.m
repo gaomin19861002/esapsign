@@ -48,32 +48,6 @@
 @dynamic clientTargets;
 
 /*!
- 返回文件的所有签名人，按照签名流程的顺序返回
- */
-- (NSArray *)sortedSignFlows {
-    if (!self.currentSignflow) {
-        return nil;
-    }
-
-    NSMutableArray *signFlows = [NSMutableArray array];
-    for (Client_sign * sign in self.currentSignflow.clientSigns) {
-        [signFlows addObject:sign];
-    }
-    
-    [signFlows sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        Client_sign *sign1 = (Client_sign *)obj1;
-        Client_sign *sign2 = (Client_sign *)obj2;
-        if ([sign1.sequence intValue] < [sign2.sequence intValue]) {
-            return NSOrderedAscending;
-        }
-        
-        return NSOrderedDescending;
-    }];
-    
-    return signFlows;
-}
-
-/*!
  添加一个用户到签名流程
  */
 - (Client_sign *)addUserToSignFlow:(NSString *)userName address:(NSString *)address {
