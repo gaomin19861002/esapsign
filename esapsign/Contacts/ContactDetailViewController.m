@@ -493,7 +493,6 @@
                 }
             }
 
-            [cell setBackgroundColor:[UIColor clearColor]];
             cell.delegate = self;
             if (tableView.editing)
             {
@@ -511,7 +510,7 @@
                 cell.subTitleLabel.hidden = NO;
                 cell.subTitleTextField.hidden = YES;
             }
-
+            [cell setBackgroundColor:[UIColor clearColor]];
             return cell;
         }
         else
@@ -519,6 +518,7 @@
             AddContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddContentCell" forIndexPath:indexPath];
             [cell.addCellBtn setImage:[UIImage imageNamed:@"AddContactItem"] forState:UIControlStateNormal];
             [cell.addCellBtn addTarget:self action:@selector(addContextBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [cell setBackgroundColor:[UIColor clearColor]];
             return cell;
         }
     }

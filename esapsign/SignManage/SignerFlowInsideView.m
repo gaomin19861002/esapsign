@@ -126,7 +126,8 @@
     }
 }
 
-- (void)clearAllClientSigns {
+- (void)clearAllClientSigns
+{
     [self.clientSignViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UIView *view = obj;
         [view removeFromSuperview];
@@ -134,7 +135,8 @@
     [self.clientSignViews removeAllObjects];
 }
 
-- (void)deleteClientSignView:(SignerLabelInsideView *)clientSignView {
+- (void)deleteClientSignView:(SignerLabelInsideView *)clientSignView
+{
     BOOL shouldDelete = NO;
     if (self.shouldDeleteClientSignBlock) {
         shouldDelete = self.shouldDeleteClientSignBlock(clientSignView.clientSign);
@@ -170,11 +172,13 @@
     SignerLabelInsideView *clientSignView = [[NSBundle mainBundle] loadNibNamed:@"SignerLabelInside" owner:self options:nil].lastObject;
     CGFloat yPos = self.clientSignViews.count * ClientSignViewHeight + 20;
     UIView *addbuttonView = [self.clientSignViews lastObject];
-    if ([addbuttonView isKindOfClass:[UIButton class]]) {
+    if ([addbuttonView isKindOfClass:[UIButton class]])
+    {
         addbuttonView.frame = CGRectMake(0.0, yPos, ClientSignViewWidth, ClientSignViewHeight);
         yPos -= ClientSignViewHeight;
     }
-    if (clientSignView) {
+    if (clientSignView)
+    {
         clientSignView.frame = CGRectMake(0.0, yPos, ClientSignViewWidth, ClientSignViewHeight);
         clientSignView.clientSign = clientSign;
         BlockWeakObject(self, wself);
@@ -199,8 +203,10 @@
     }
 }
 
-- (void)addNewClientSignButton:(BOOL)bAdd {
-    if (bAdd) {
+- (void)addNewClientSignButton:(BOOL)bAdd
+{
+    if (bAdd)
+    {
         CGFloat yPos = self.clientSignViews.count * ClientSignViewHeight + 20;
         UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [addBtn setTitle:@"添加" forState:UIControlStateNormal];
@@ -213,8 +219,10 @@
     }
 }
 
-- (void)addBtnClicked:(id)sender {
-    if (self.newClientSignClickedBlock) {
+- (void)addBtnClicked:(id)sender
+{
+    if (self.newClientSignClickedBlock)
+    {
         self.newClientSignClickedBlock();
     }
 }
@@ -223,11 +231,14 @@
  更新signflow高度
  @param count sign个数
  */
-- (void)updateSignflowConstraintsWithSignCount:(NSUInteger)count {
+- (void)updateSignflowConstraintsWithSignCount:(NSUInteger)count
+{
     self.signCount = count;
     NSArray *constraints = self.constraints;
-    for (NSLayoutConstraint *item in constraints) {
-        if (item.firstAttribute == NSLayoutAttributeHeight) {
+    for (NSLayoutConstraint *item in constraints)
+    {
+        if (item.firstAttribute == NSLayoutAttributeHeight)
+        {
             [self removeConstraint:item];
             NSLayoutConstraint *newWidth =
             [NSLayoutConstraint constraintWithItem:self

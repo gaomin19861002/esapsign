@@ -100,7 +100,7 @@ DefaultInstanceForClass(RequestManager);
     [asyncRequest setRequestMethod:@"POST"];
     [asyncRequest setTimeOutSeconds:HttpTimeout];
     [asyncRequest setDelegate:self];
-#warning 魏凯解释一下该处改动
+    
     [asyncRequest setFile:filePath forKey:@"file_upload"];
     
     [asyncRequest startAsynchronous];

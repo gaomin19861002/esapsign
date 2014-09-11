@@ -107,7 +107,7 @@
                                                           shadow,
                                                           NSShadowAttributeName,
                                                           [UIFont fontWithName:@"Libian SC" size:24.0], NSFontAttributeName, nil]];
-    
+
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;

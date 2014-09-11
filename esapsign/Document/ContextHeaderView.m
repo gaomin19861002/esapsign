@@ -99,8 +99,10 @@
 /*!
  更新显示
  */
-- (void)updateShowWithTargetType:(TargetType)type selected:(BOOL)selected {
+- (void)updateShowWithTargetType:(TargetType)type selected:(BOOL)selected
+{
     self.titleButton.font = [UIFont fontWithName:@"Libian SC" size:23.0];
+    
     if (selected) {
         [self.titleButton setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
         [self.titleButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];

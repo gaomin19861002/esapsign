@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Client_sign.h"
 
-
 typedef BOOL (^ShouldDeleteClientSignBlock)(Client_sign *clienSign);
 
 typedef void (^NewClientSignClickedBlock)(void);

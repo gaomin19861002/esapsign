@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CASetBaseViewController.h"
 
-@interface SetLowViewController : UIViewController
+@interface SetLowViewController : CASetBaseViewController
 
 @end

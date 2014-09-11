@@ -14,8 +14,9 @@
 
 @interface SignerFlowOutsideView()
 
-@property(nonatomic, retain) UIImageView *signImageView;
-@property(nonatomic, retain) UILabel *signLabel;
+@property (nonatomic, retain) UIImageView *signImageView;
+@property (nonatomic, retain) UIImageView *signStatus;
+@property (nonatomic, retain) UILabel *signLabel;
 
 @end
 
@@ -34,15 +35,19 @@
 - (void)awakeFromNib
 {
     self.signImageView.image = [UIImage imageNamed:@"2_bottom2_empty.png"];
+    self.signStatus.hidden = YES;
 }
 
-- (void)clear {
+- (void)clear
+{
     self.signLabel.text = nil;
     self.signImageView.image = [UIImage imageNamed:@"SignSlot"];
+    self.signStatus.hidden = YES;
     self.alpha = 0.8;
 }
 
-- (void)setEditing:(BOOL)editing {
+- (void)setEditing:(BOOL)editing
+{
     _editing = editing;
     if (_editing) {
         if (!self.sign.sign_date && !self.sign.refuse_date) {
@@ -61,11 +66,12 @@
     }
 }
 
-- (void)setSign:(Client_sign *)sign {
+- (void)setSign:(Client_sign *)sign
+{
     _sign = sign;
-    
     UIImage *headImage = [UIImage imageNamed:[_sign.clientUser contentWithType:UserContentTypePhoto useLarge:YES]];
-    if (!headImage) {
+    if (!headImage)
+    {
         NSString *defaultImage = @"IconHeadBig";
         headImage = [UIImage imageWithFile:defaultImage];
     }
@@ -74,17 +80,30 @@
     self.signLabel.text = _sign.displayName;
 }
 
-- (UIImageView *)signImageView {
-    if (!_signImageView) {
+- (UIImageView *)signImageView
+{
+    if (!_signImageView)
+    {
         _signImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 60, 60)];
         [self addSubview:_signImageView];
     }
-    
     return _signImageView;
 }
 
-- (UILabel *)signLabel {
-    if (!_signLabel) {
+- (UIImageView*)signStatus
+{
+    if (!_signStatus)
+    {
+        _signStatus = [[UIImageView alloc] initWithFrame:CGRectMake(50, 40, 20, 20)];
+        [self addSubview:_signStatus];
+    }
+    return _signStatus;
+}
+
+- (UILabel *)signLabel
+{
+    if (!_signLabel)
+    {
         _signLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 65, 80, 21)];
         _signLabel.backgroundColor = [UIColor clearColor];
         _signLabel.font = [UIFont systemFontOfSize:13];
@@ -95,7 +114,8 @@
     return _signLabel;
 }
 
-- (void)deleteButtonClicked:(id)sender {
+- (void)deleteButtonClicked:(id)sender
+{
     if ([self.delegate respondsToSelector:@selector(willRemoveSign:)]) {
         [self.delegate willRemoveSign:self];
     }

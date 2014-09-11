@@ -43,6 +43,7 @@
 		D0E8398119AF47F800ED539D /* LeftTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E8397A19AF47F800ED539D /* LeftTabViewController.m */; };
 		D0E8398219AF47F800ED539D /* NoRotateNaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E8397C19AF47F800ED539D /* NoRotateNaviViewController.m */; };
 		D0E8398319AF47F800ED539D /* RightNaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E8397E19AF47F800ED539D /* RightNaviViewController.m */; };
+		D0E9D40E19C1386E00361B8A /* CASetBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E9D40D19C1386E00361B8A /* CASetBaseViewController.m */; };
 		D0ECDE5919A483F70008062E /* Document.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0ECDE5119A483F70008062E /* Document.xcassets */; };
 		D0ECDE5A19A483F70008062E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0ECDE5219A483F70008062E /* Images.xcassets */; };
 		D0ECDE5D19A483F70008062E /* Toolkits_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0ECDE5619A483F70008062E /* Toolkits_iPad.storyboard */; };
@@ -264,6 +265,8 @@
 		D0E8397C19AF47F800ED539D /* NoRotateNaviViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoRotateNaviViewController.m; sourceTree = "<group>"; };
 		D0E8397D19AF47F800ED539D /* RightNaviViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightNaviViewController.h; sourceTree = "<group>"; };
 		D0E8397E19AF47F800ED539D /* RightNaviViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightNaviViewController.m; sourceTree = "<group>"; };
+		D0E9D40C19C1386E00361B8A /* CASetBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASetBaseViewController.h; sourceTree = "<group>"; };
+		D0E9D40D19C1386E00361B8A /* CASetBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CASetBaseViewController.m; sourceTree = "<group>"; };
 		D0ECDE5119A483F70008062E /* Document.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Document.xcassets; sourceTree = "<group>"; };
 		D0ECDE5219A483F70008062E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D0ECDE5619A483F70008062E /* Toolkits_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Toolkits_iPad.storyboard; path = Storyboard/Toolkits_iPad.storyboard; sourceTree = "<group>"; };
@@ -794,6 +797,8 @@
 			isa = PBXGroup;
 			children = (
 				F8A77C0E19B447D100679F3B /* Setting Cell */,
+				D0E9D40C19C1386E00361B8A /* CASetBaseViewController.h */,
+				D0E9D40D19C1386E00361B8A /* CASetBaseViewController.m */,
 				D03F6F3319B0995800B2FB60 /* SetBlueToothViewController.h */,
 				D03F6F3B19B0995800B2FB60 /* SetBlueToothViewController.m */,
 				D03F6F3519B0995800B2FB60 /* SetLowViewController.h */,
@@ -1731,6 +1736,7 @@
 				D0ECDF3519A48F910008062E /* RequestManager.m in Sources */,
 				D0ECDF5919A496810008062E /* ResizableSignatureClipView.m in Sources */,
 				D0ECDF8619A498020008062E /* ContextHeaderView.m in Sources */,
+				D0E9D40E19C1386E00361B8A /* CASetBaseViewController.m in Sources */,
 				D0E8396D19AF454400ED539D /* SignerFlowOutsideView.m in Sources */,
 				D0ECDEB219A489800008062E /* NSArray+Additions.m in Sources */,
 				D0ECE06519A49F000008062E /* GTMBase64.m in Sources */,

@@ -52,7 +52,7 @@
 {
     [super viewDidLoad];
 
-    [_headImageView setImage:[UIImage imageNamed:@"IconHead"]];
+    [_headImageView setImage:[UIImage imageNamed:@"IconHeadBig"]];
     _headImageView.layer.masksToBounds = YES;
     [self.contactTableView setEditing:YES animated:NO];
     [self.contactTableView reloadData];
@@ -168,13 +168,9 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0)
-    {
         return YES;
-    }
     else
-    {
         return NO;
-    }
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -314,8 +310,8 @@
 
 - (IBAction)tapDone:(id)sender
 {
-    if (self.familyNameField.text == nil || [self.familyNameField.text isEqualToString:@""]
-        || self.personNameField.text == nil || [self.personNameField.text isEqualToString:@""])
+    if ((self.familyNameField.text == nil || [self.familyNameField.text isEqualToString:@""])
+        && (self.personNameField.text == nil || [self.personNameField.text isEqualToString:@""]))
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"新建联系人" message:@"联系人名称不可为空！" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alert.delegate = self;

@@ -143,9 +143,10 @@ static int signViewTag = SignViewTagBase;
     // 设置签名流拖动手势
     UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [self.signFlowView addGestureRecognizer:gesture];
-    UITapGestureRecognizer *tapRecognizer =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
     [self.signFlowView addGestureRecognizer:tapRecognizer];
+    
     NSArray *signs = [clientTarget.clientFile sortedSignFlows];
     [self updateSignflowWithSigns:signs];
     
@@ -560,7 +561,8 @@ static int signViewTag = SignViewTagBase;
     [self.signFlowView clearAllClientSigns];
     
     // 添加签名人信息
-    for (NSInteger i = 0; i < signs.count; i++) {
+    for (NSInteger i = 0; i < signs.count; i++)
+    {
         Client_sign *flow = [signs objectAtIndex:i];
         [self.signFlowView addClientSign:flow];
     }
@@ -582,7 +584,7 @@ static int signViewTag = SignViewTagBase;
     self.signFlowView.shouldDeleteClientSignBlock = ^(Client_sign *clienSign)
     {
         BlockStrongObject(wself, self);
-        [clientTarget.clientFile removeClientSign:clienSign];
+        [self->clientTarget.clientFile removeClientSign:clienSign];
         return YES;
     };
 }
