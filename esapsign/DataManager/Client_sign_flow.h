@@ -37,6 +37,6 @@
 /*!
  判断一个sign是否是当前要执行的sign
  */
-- (bool)isCurrentSign:(Client_sign*)sign;
+- (bool)isActiveSign:(Client_sign*)sign;
 
 @end

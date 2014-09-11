@@ -240,6 +240,19 @@
             UINavigationController* nc = (UINavigationController*)segue.destinationViewController;
             DocDetailViewController* viewFileController = (DocDetailViewController*)nc.topViewController;
             viewFileController->clientTarget = cell.targetInfo;
+
+            // 设置当前用户对应的签名包
+            viewFileController->currentSign = nil;
+            Client_sign_flow* signFlow = cell.targetInfo.clientFile.currentSignflow;
+            if (signFlow != nil)
+            {
+                for (Client_sign * sign in signFlow.clientSigns)
+                {
+                    // 当前用户参与该签名流程，设置个人签名状态标签
+                    if ([sign.sign_account_id isEqualToString:[Util currentLoginUserId]])
+                        viewFileController->currentSign = sign;
+                }
+            }
         }
     }
 }

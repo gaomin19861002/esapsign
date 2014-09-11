@@ -369,11 +369,11 @@ DefaultInstanceForClassHeader(DataManager);
 #pragma mark - DocDetail
 
 /*!
- 保存签名
+ 提交签名并检查是否整个签名流程已经完成
  @param signFlow 当前signflow
- @param signStatus 签名状态
+ @param sign 签名
  */
--(Client_sign* )finishSignFlow:(Client_sign_flow *)signFlow withStatus:(NSNumber *)signStatus;
+- (bool)finishSignFlow:(Client_sign_flow *)signFlow withSign:(Client_sign*)sign;
 
 /*!
  *  清空签名的signdate

@@ -50,9 +50,9 @@
 /*!
  判断一个sign是否是当前要执行的sign
  */
-- (bool)isCurrentSign:(Client_sign*)sign
+- (bool)isActiveSign:(Client_sign*)sign
 {
-    if (sign.sign_flow_id != self.sign_flow_id)
+    if (sign == nil || sign.sign_flow_id != self.sign_flow_id)
         return NO;
     
     // 如果当前签名ID匹配

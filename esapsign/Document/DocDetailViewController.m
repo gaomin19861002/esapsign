@@ -214,7 +214,7 @@ static int signViewTag = SignViewTagBase;
     
     //判断是否需要加锁,根据是否是收件箱下文件进行判断。
     if ([[DataManager defaultInstance] isClientTargetEditable:clientTarget]
-        && [clientTarget.clientFile.currentSignflow isCurrentSign:currentSign])
+        && [clientTarget.clientFile.currentSignflow isActiveSign:currentSign])
     {
         //请求加锁操作
         NSDictionary* action = [[ActionManager defaultInstance] lockAction:clientTarget];
@@ -450,11 +450,12 @@ static int signViewTag = SignViewTagBase;
  */
 - (IBAction)submitButtonClicked:(id)sender
 {
-    if (clientTarget)
+    if (clientTarget.clientFile.currentSignflow != nil)
     {
         // 进行sign请求
+        currentSign.sign_date = [NSDate date];
         Client_sign_flow *currentSignFlow = clientTarget.clientFile.currentSignflow;
-        currentSign = [[DataManager defaultInstance] finishSignFlow:currentSignFlow withStatus:@(2)];
+        [[DataManager defaultInstance] finishSignFlow:currentSignFlow withSign:currentSign];
 
         NSDictionary *actions = [[ActionManager defaultInstance] signRequestAction:currentSign andTarget:clientTarget];
         [[ActionManager defaultInstance] addToQueue:actions];

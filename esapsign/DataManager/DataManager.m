@@ -778,27 +778,36 @@ DefaultInstanceForClass(DataManager);
 #pragma mark - DocDetail
 
 /*!
- 保存签名 修改签名日期
+ 提交签名并检查是否整个签名流程已经完成
  @param signFlow 当前signflow
- @param signStatus 签名状态
+ @param sign 签名
  */
-- (Client_sign* )finishSignFlow:(Client_sign_flow *)signFlow withStatus:(NSNumber *)signStatus
+- (bool)finishSignFlow:(Client_sign_flow *)signFlow withSign:(Client_sign*)sign
 {
-    Client_sign* currentSign = nil;
-    NSData *userData = [Util valueForKey:LoginUser];
-    if (userData) {
-        User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
-        for (Client_sign *sign in signFlow.clientSigns) {
-            if ([sign.sign_address isEqualToString:user.name])
-            {
-                sign.sign_date = [NSDate date];
-                currentSign = sign;
-                break;
-            }
+    // 过滤非当前流程的sign
+    if (![signFlow.sign_flow_id isEqualToString:sign.sign_flow_id])
+        return NO;
+    
+    // 一旦有人拒绝签署也就完事儿了
+    if (sign.refuse_date != nil)
+        return YES;
+
+    bool finished = NO;
+    NSNumber *minSequence = nil;
+    for (Client_sign *member in signFlow.clientSigns)
+    {
+        // 如果还有同等或更大序列号的签名包没有签署
+        if ([member.sequence intValue] >= [sign.sequence intValue] && member.sign_date == nil)
+        {
+            // 最小值如果是nil表示还没有记录初始化，无条件接受当前签名包的顺序值
+            if (minSequence == nil) minSequence = member.sequence;
+            // 记录一个符合条件的最小序号值
+            else minSequence = [minSequence intValue] < [member.sequence intValue] ? minSequence : member.sequence;
         }
     }
-#warning 将来可能还需要修改signflow相关信息
-    return currentSign;
+    signFlow.current_sequence = minSequence;
+
+    return finished;
 }
 
 /*!

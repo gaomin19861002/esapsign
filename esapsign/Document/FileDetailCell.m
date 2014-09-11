@@ -134,7 +134,7 @@
         Client_sign *sign = [self.currentSignFlows objectAtIndex:i];
         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
         // 首先判断是否是当前要签名的状态，然后再去依据签名包内部的状态来设置签署状态
-        [signerHead setBeCurrent:[signFlow isCurrentSign:sign]];
+        [signerHead setBeCurrent:[signFlow isActiveSign:sign]];
         [signerHead setSign:sign];
         [signerHead setDelegate:self];
         
