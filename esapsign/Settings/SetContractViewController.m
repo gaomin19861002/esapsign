@@ -7,6 +7,7 @@
 //
 
 #import "SetContractViewController.h"
+#import "ContactManager.h"
 
 #define SetContractCellIdentifier @"SetContractCellIdentifier"
 #define SetContractDisplayCellIdentifier @"SetContractDisplayCellIdentifier"
@@ -43,6 +44,7 @@
 }
 
 #pragma mark -UITableViewDataSource Delegate methods
+
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
@@ -57,6 +59,7 @@
 {
     return 1;
 }
+
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
@@ -65,6 +68,7 @@
     
     return 56;
 }
+
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -80,7 +84,8 @@
     
     return cell;
 }
-#pragma mark -UITableViewDelegate methods
+#pragma mark - UITableViewDelegate methods
+
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -92,17 +97,17 @@
     }
 }
 
-
 #pragma mark - Instance methods
 /**
  *  @abstract   导入系统通信录
  */
 - (void) importContactFromSystem
 {
-    
+    [[ContactManager defaultInstance] importAddressBook];
 }
 
 #pragma mark - Private methods
+
 - (NSArray *) sectionNames
 {
     if (!_sectionNames) {

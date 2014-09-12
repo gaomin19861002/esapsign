@@ -11,8 +11,7 @@
 @interface ContactManager : NSObject
 
 DefaultInstanceForClassHeader(ContactManager);
-//ReleaseInstanceForClassHeader;
 
--(void)importAddressBook;
+- (void)importAddressBook;
 
 @end

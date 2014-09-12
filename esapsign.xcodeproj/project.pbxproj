@@ -1027,8 +1027,6 @@
 				D0ECDEE519A48EAA0008062E /* ClientContentInEdit.m */,
 				D0ECDEE619A48EAA0008062E /* ContactContextCell.h */,
 				D0ECDEE719A48EAA0008062E /* ContactContextCell.m */,
-				D0ECDEEE19A48EAA0008062E /* ContactManager.h */,
-				D0ECDEEF19A48EAA0008062E /* ContactManager.m */,
 				D0ECDEF019A48EAA0008062E /* ContactSelectedCell.h */,
 				D0ECDEF119A48EAA0008062E /* ContactSelectedCell.m */,
 				D0ECDEF219A48EAA0008062E /* ContactSelectedViewController.h */,
@@ -1120,6 +1118,8 @@
 				D0ECDEE819A48EAA0008062E /* ContactDetailViewController.h */,
 				D0ECDEE919A48EAA0008062E /* ContactDetailViewController.m */,
 				D0E8399219AF4D3900ED539D /* Edit */,
+				D0ECDEEE19A48EAA0008062E /* ContactManager.h */,
+				D0ECDEEF19A48EAA0008062E /* ContactManager.m */,
 				D0E8398D19AF4AD200ED539D /* Type Selection */,
 			);
 			path = Contacts;

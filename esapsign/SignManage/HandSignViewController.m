@@ -89,11 +89,17 @@
     [self.drawSDK setDelegate:self];
     [CASDKDraw setPaintColor:[UIColor blackColor]];
     [CASDKDraw setPenStyle:FastThinSlowThick lineWidth:10.0f widthRange:5.0f];
-    
+
     // 设置画笔的初始状态
     [self.writePen setSelected:YES];
     [self.writeSlim setSelected:NO];
     [self.writeBrush setSelected:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.drawSDK resizeDrawCanvas];
 }
 
 - (void)backButtonClicked:(id)sender

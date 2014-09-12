@@ -166,7 +166,6 @@ DefaultInstanceForClass(SyncManager);
     // 删除本地所有联系人
     [[DataManager defaultInstance] deleteAllClientUsers];
     
-    
     if ([[responseDic objectForKey:@"contact"] isKindOfClass:[NSDictionary class]])
     {
         NSDictionary *contactDict = [responseDic objectForKey:@"contact"];
@@ -185,7 +184,7 @@ DefaultInstanceForClass(SyncManager);
             {
                 // if (start++ >= 10) break;
                 NSString *content = [item objectForKey:@"content"];
-                NSString *type = [item objectForKey:@"type"];
+                NSString *type = [[item objectForKey:@"type"] stringValue];
                 
                 user = [[DataManager defaultInstance] syncUser:content andValue:type];
                 if (user)

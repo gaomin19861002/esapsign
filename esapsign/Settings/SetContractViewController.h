@@ -12,4 +12,5 @@
 @interface SetContractViewController : CASetBaseViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
+
 @end
