@@ -25,6 +25,19 @@
 @property (nonatomic, retain) IBOutlet UITextField *pwdTextField;
 @property (retain, nonatomic) IBOutlet UIView *loginPartView;
 
+
+@property (nonatomic, retain) IBOutlet UILabel *tipsLabel;
+@property (nonatomic, retain) IBOutlet UITextField *verifyTextField;
+@property (nonatomic, retain) IBOutlet UIButton *verifyButton;
+@property (nonatomic, retain) IBOutlet UIView *verifyView;
+
+@property (nonatomic, assign) BOOL isNeedVerifyNumber;
+@property (nonatomic, retain) ASIHTTPRequest *verifyRequest;
+@property (nonatomic, retain) NSString *userAccountId;
+@property (nonatomic, retain) NSTimer *verifyTimer;
+@property (nonatomic, assign) int currentTime;
+@property (nonatomic, assign) BOOL allowLogin;
+
 @property(nonatomic, retain) ASIFormDataRequest *loginRequest;
 
 /*!
@@ -41,6 +54,8 @@
     [super viewDidLoad];
     self.title = @"用户登录";
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LoginBackground"]];
+    self.isNeedVerifyNumber = NO;
+    self.allowLogin = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -76,6 +91,11 @@
  */
 - (IBAction)loginBtnClicked:(id)sender
 {
+    self.allowLogin = NO;
+    [self.verifyTimer invalidate];
+    self.verifyButton.titleLabel.text = @"获取验证码";
+    self.tipsLabel.text = @"";
+
     
     if (![self.nameTextField.text length]) {
         [UIAlertView showAlertMessage:@"请输入用户名"];
@@ -107,23 +127,54 @@
     }
     else
     {
-        NSDictionary *para = @{@"id":[Util generalUUID],
-                               @"alias": self.nameTextField.text,
-                               @"type": @"0",
-                               @"password": self.pwdTextField.text,
-                               @"requireCert": @"0",
-                               @"deviceId" : [Util getUDID],
-                               @"deviceType": @"2"};
-        NSLog(@"%@" , LoginRequestPath);
+        NSDictionary *para;
+        if (self.isNeedVerifyNumber) {
+            
+            para = @{@"id":[Util generalUUID],
+                     @"alias": self.nameTextField.text,
+                     @"type": @"0",
+                     @"password": self.pwdTextField.text,
+                     @"requireCert": @"0",
+                     @"verifyNumber" : self.verifyTextField.text,
+                     @"deviceId" : [Util getUDID],
+                     @"deviceType": @"2"};
+            
+        }else {
+            para = @{@"id":[Util generalUUID],
+                    @"alias": self.nameTextField.text,
+                    @"type": @"0",
+                    @"password": self.pwdTextField.text,
+                    @"requireCert": @"0",
+                    @"deviceId" : [Util getUDID],
+                    @"deviceType": @"2"};
+        }
+        
         self.loginRequest = [[RequestManager defaultInstance] asyncPostData:LoginRequestPath Parameter:para];
     }
 }
 
+/**
+ *  @abstract 获取验证码按钮点击，需要进行获取验证码请求
+ */
+- (IBAction) askForVerifyNumber:(id)sender
+{
+    NSDictionary *para = @{@"accountId":self.userAccountId,
+                           @"deviceId": [Util getUDID],
+                           @"deviceType":@"2"
+                           };
+    self.verifyRequest = [[RequestManager defaultInstance] asyncPostData:VerifyRequestPath Parameter:para];
+}
+
+
+#pragma mark - ASIHttpRequest Delegate
 // 异步请求开始通知外部程序
 - (void)asynRequestStarted:(ASIHTTPRequest *)request
 {
     if (request == self.loginRequest) {
         [self.navigationController showProgressText:@"登录中..."];
+    }
+    if (request == self.verifyRequest) {
+        
     }
 }
 
@@ -134,6 +185,13 @@
         [self.navigationController hideProgress];
         DebugLog(@"login failed=%@", self.loginRequest.error);
         [UIAlertView showAlertMessage:@"登录失败"];
+        self.allowLogin = YES;
+    }
+    if (request == self.verifyRequest) {
+        
+        //请求验证码失败
+        self.verifyButton.enabled = YES;
+        
     }
 }
 
@@ -142,12 +200,33 @@
 {
     if (request == self.loginRequest)
     {
+        self.allowLogin = YES;
+        
         [self.navigationController hideProgress];
         NSString *resString = [self.loginRequest responseString];
-        NSLog(@"res= %@", resString);
         
         NSDictionary *resDict = [resString jsonValue];
-        if ([[resDict objectForKey:@"result"] intValue] == 1)
+        if ([[resDict objectForKey:@"result"] intValue] == 0)
+        {
+            //需要发送验证码
+            
+            self.tipsLabel.text = @"请输入验证码";
+            //进行请求验证码操作
+            self.userAccountId = [resDict objectForKey:@"accountId"];
+            self.isNeedVerifyNumber = YES;
+            
+            //disable verify button
+            self.verifyButton.enabled = NO;
+            
+            //发送请求
+            [self askForVerifyNumber:nil];
+            
+            //TODO:禁用登陆按钮。
+            self.allowLogin = NO;
+            
+            
+            
+        }else if([[resDict objectForKey:@"result"] intValue] == 1)
         {
             // 存储登录成功对象
             User *user = [[User alloc] init];
@@ -162,6 +241,8 @@
             if (!account) {
                 [[DataManager defaultInstance] createAccountWithUser:user];
             }
+#warning 进行签名的处理。
+//            NSString *cert = [resDict objectForKey:@"cert"];
             
             [CAAppDelegate sharedDelegate].loginSucceed = YES;
             [self dismissViewControllerAnimated:YES completion:^{
@@ -170,18 +251,83 @@
                 [[SyncManager defaultInstance] startSync];
             }];
             
+            self.isNeedVerifyNumber = NO;
+        }else if([[resDict objectForKey:@"result"] intValue] == 2)
+        {
+            //用户不存在
+            self.tipsLabel.text = @"该用户不存在";
             
-            //if ([[resDict objectForKey:@"requireSign"] intValue] == 1) {
-                // 需要跳转到签名页
-            //    [[NSNotificationCenter defaultCenter] postNotificationName:NeedCreateHandSignNotification object:nil];
-            //}
+        }else if([[resDict objectForKey:@"result"] intValue] == 3)
+        {
+            
+            //用户输入的密码错误
+            self.tipsLabel.text = @"密码错误，请重新输入";
+            
+        }else if([[resDict objectForKey:@"result"] intValue] == 4)
+        {
+            self.tipsLabel.text = @"拒绝对该设备授权";
         }
         else
         {
             [UIAlertView showAlertMessage:@"登录失败"];
         }
     }
+    
+    //请求完验证码
+    if (request == self.verifyRequest) {
+        
+        self.allowLogin = YES;
+        self.verifyView.hidden = NO;
+        self.tipsLabel.text = @"";
+        
+        NSDictionary *resDict = [[request responseString] jsonValue];
+        
+        if (resDict && [[resDict objectForKey:@"result"] intValue] == 1) {
+            NSString *accountId = [resDict objectForKey:@"id"];
+            NSString *deviceId = [resDict objectForKey:@"deviceId"];
+            NSString *verifyAddress = [resDict objectForKey:@"verifyAddress"];
+            
+            if (![self.userAccountId isEqualToString:accountId] || ![[Util getUDID] isEqualToString:deviceId]) {
+                self.tipsLabel.text = @"请重新获取验证码";
+                self.verifyButton.enabled = YES;
+                return ;
+            }
+            
+            self.tipsLabel.text = [NSString stringWithFormat:@"验证码已经发送到地址:%@。", verifyAddress];
+            self.verifyButton.enabled = NO;
+            
+            //开启定时器
+            [self openTimer];
+            
+        }else {
+            self.tipsLabel.text = @"请重新获取验证码";
+            self.verifyButton.enabled = YES;
+        }
+    }
 }
+
+- (void) openTimer
+{
+    if (self.verifyTimer) {
+        return ;
+    }
+    self.currentTime = 30;
+    self.verifyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerMethod) userInfo:nil repeats:YES];
+    self.verifyView.hidden = NO;
+}
+- (void) timerMethod
+{
+    if (self.currentTime == 0) {
+        //清空定时器
+        self.verifyButton.enabled = YES;
+        self.tipsLabel.text = @"请重新获取验证码";
+        [self.verifyTimer invalidate];
+        return ;
+    }
+//    self.verifyButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.verifyButton.titleLabel.text = [NSString stringWithFormat:@"重新获取%d", self.currentTime--];
+}
+
 
 - (IBAction)editDidBegin:(id)sender
 {

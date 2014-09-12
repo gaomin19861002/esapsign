@@ -415,7 +415,8 @@ static int signViewTag = SignViewTagBase;
             float fWidth = 0.0f;
             float fHeight = 0.0f;
             FSPDF_Page_GetSize([m_pdfdoc getPDFPage:i], &fWidth, &fHeight);
-            float realHeight = fHeight / fWidth * (self.documentDisplayView.frame.size.width - WebViewWidthSpace);
+            float viewWidth = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 768 : 1024;
+            float realHeight = fHeight / fWidth * (viewWidth - WebViewWidthSpace);
             realHeight += WebViewHeightSpace;
             [_arrPageHeight addObject:[NSNumber numberWithFloat:realHeight]];
         }
@@ -807,7 +808,8 @@ static int signViewTag = SignViewTagBase;
  */
 - (void)SignatureClipListView:(SignatureClipListView *)curSignsListView DidDragSign:(SignatureClipView *)curDragSign ToPoint:(CGPoint)point
 {
-    CGRect rectInView = [self.view convertRect:curDragSign.frame fromView:curDragSign.superview];
+//    CGRect rectInView = [self.view convertRect:curDragSign.frame fromView:curDragSign.superview];
+    CGRect rectInView = [self.backgroundView convertRect:curDragSign.frame fromView:curDragSign.superview];
     CGRect dragRect = [self.documentDisplayView convertRect:curDragSign.frame fromView:curDragSign.superview];
     
     if (CGRectContainsRect(self.documentDisplayView.frame, dragRect))
@@ -1113,6 +1115,11 @@ static int signViewTag = SignViewTagBase;
             NSLog(@"the move action is %@", @(bResult));
         }
         
+        //更新file的本地版本号
+        int localversion = [clientTarget.clientFile.local_version intValue];
+        localversion ++;
+        clientTarget.clientFile.local_version = [NSNumber numberWithInt:localversion];
+        
         //隐藏提交信息
         [self.navigationController hideProgress];
         [self.operationBgView setHidden:YES];
@@ -1190,7 +1197,8 @@ static int signViewTag = SignViewTagBase;
                 if ([[action objectForKey:@"actionResult"] intValue] == 1 )
                 {
                     //签名成功，上传文件
-                    NSString *physicalName = [NSString stringWithFormat:@"%@", clientTarget.clientFile.phsical_filename];
+//                    NSString *physicalName = [NSString stringWithFormat:@"%@", clientTarget.clientFile.phsical_filename];
+                    NSString *physicalName = self.fileTempPath;
                     self.upSignRequest = [[RequestManager defaultInstance] asyncPostData:APIBaseUpload file:physicalName isPDF:YES];
                     return;
                 }
