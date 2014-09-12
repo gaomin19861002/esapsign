@@ -305,7 +305,8 @@ DefaultInstanceForClass(SyncManager);
                     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                     sign.sign_date = [formatter dateFromString:[signDict objectForKey:@"signDate"]];
-                    sign.refuse_date = [formatter dateFromString:[signDict objectForKey:@"refuseDate"]];
+#warning 应该获取拒签信息，但目前服务端填写该数据是错误的，暂时屏蔽
+                    //sign.refuse_date = [formatter dateFromString:[signDict objectForKey:@"refuseDate"]];
                     sign.sign_account_id = [signDict objectForKey:@"signerAccountID"];
                     sign.sign_displayname = [signDict objectForKey:@"signerName"];
                     sign.sign_address = [signDict objectForKey:@"signerAddress"];
