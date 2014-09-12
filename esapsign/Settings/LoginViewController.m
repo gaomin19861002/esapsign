@@ -162,7 +162,7 @@
                            @"deviceId": [Util getUDID],
                            @"deviceType":@"2"
                            };
-    self.verifyRequest = [[RequestManager defaultInstance] asyncPostData:VerifyRequestPath Parameter:para];
+    self.verifyRequest = [[RequestManager defaultInstance] asyncPostData:VerifyCodePath Parameter:para];
 }
 
 
