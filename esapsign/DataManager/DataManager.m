@@ -810,31 +810,6 @@ DefaultInstanceForClass(DataManager);
     return finished;
 }
 
-/*!
- *  清空签名的signdate
- *  @param signFlow 当前signflow
- */
-- (Client_sign *) resetSignDate:(Client_sign_flow *) signFlow
-{
-    Client_sign * currentSign = nil;
-    NSData *userData = [Util valueForKey:LoginUser];
-    if (userData)
-    {
-        User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
-        for (Client_sign *sign in signFlow.clientSigns)
-        {
-            if ([sign.sign_address isEqualToString:user.name])
-            {
-                sign.sign_date = nil;
-                currentSign = sign;
-                currentSign.sign_date = nil;
-                break;
-            }
-        }
-    }
-    return currentSign;
-}
-
 - (BOOL)isClientFileFinishedSign:(Client_file *)file
 {
     // 获取当前文件下签名流

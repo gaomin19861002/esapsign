@@ -939,9 +939,11 @@ static int signViewTag = SignViewTagBase;
  */
 - (void) resetSignData
 {
-    [self.navigationController hideProgress];
-    Client_sign_flow *currentSignFlow = clientTarget.clientFile.currentSignflow;
-    [[DataManager defaultInstance] resetSignDate:currentSignFlow];
+    if (currentSign != nil)
+    {
+        currentSign.sign_date = nil;
+        currentSign.refuse_date = nil;
+    }
 }
 
 /**
@@ -1069,6 +1071,7 @@ static int signViewTag = SignViewTagBase;
         [self resetSignData];
         [UIAlertView showAlertMessage:SignFailMessage];
     }
+    [self.navigationController hideProgress];
 }
 
 // 异步请求结束通知外部程序
@@ -1089,6 +1092,7 @@ static int signViewTag = SignViewTagBase;
         }
         else
         {
+            [self.navigationController hideProgress];
             [self resetSignData];
             [UIAlertView showAlertMessage:SignFailMessage];
         }
@@ -1135,14 +1139,17 @@ static int signViewTag = SignViewTagBase;
 // 异步请求失败通知外部程序
 - (void)actionRequestFailed:(ASIHTTPRequest *)request
 {
-    if (request == self.lockSignRequest) {
+    if (request == self.lockSignRequest)
+    {
         NSLog(@"Lock sign file failed!");
         self.operationBgView.hidden = YES;
     }
-    if (request == self.signRequest) {
+    if (request == self.signRequest)
+    {
         [self resetSignData];
         [UIAlertView showAlertMessage:SignFailMessage];
     }
+    [self.navigationController hideProgress];
 }
 
 // 异步请求结束通知外部程序
@@ -1189,13 +1196,14 @@ static int signViewTag = SignViewTagBase;
                 }
                 else
                 {
+                    [self resetSignData];
                     [UIAlertView showAlertMessage:SignFailMessage];
                 }
             }
         }
-
-        [self resetSignData];
     }
+    
+    [self.navigationController hideProgress];
 }
 
 @end

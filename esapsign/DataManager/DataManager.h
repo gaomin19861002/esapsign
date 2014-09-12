@@ -376,12 +376,6 @@ DefaultInstanceForClassHeader(DataManager);
 - (bool)finishSignFlow:(Client_sign_flow *)signFlow withSign:(Client_sign*)sign;
 
 /*!
- *  清空签名的signdate
- *  @param signFlow 当前signflow
- */
-- (Client_sign *) resetSignDate:(Client_sign_flow *) signFlow;
-
-/*!
  是否签名流程已走完
  @param file 签名文件
  @return
