@@ -19,14 +19,17 @@
 // 清除所有的签名人信息
 - (void)clearAllSign;
 
-// 同步写入一个target (创建)
+// 同步写入一个target
 - (Client_target*)syncTarget:(NSDictionary *)dictTargetValue;
 
-// 同步写入一个file (创建)
+// 同步写入一个file
 - (Client_file*)syncFile:(NSDictionary *)dictFileValue;
 
-// 同步写入一个SignFlow (创建)
+// 同步写入一个SignFlow
 - (Client_sign_flow*)syncSignFlow:(NSDictionary*)dicSignFlow;
+
+// 同步写入一个Sign
+- (Client_sign*)syncSign:(NSDictionary*)dicSign;
 
 // 返回指定parent_id的所有文件夹
 - (NSArray *)foldersWithParentTarget:(NSString *)parent_id;

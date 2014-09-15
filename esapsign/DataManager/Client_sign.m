@@ -21,6 +21,7 @@
 @dynamic sign_id;
 @dynamic sign_displayname;
 @dynamic sign_address;
+
 @dynamic sign_flow;
 
 /*!

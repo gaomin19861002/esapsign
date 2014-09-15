@@ -2194,13 +2194,13 @@
                         <outlet property="documentTableView" destination="9lo-m3-0pT" id="UwY-Ef-jrU"/>
                         <outlet property="familyNameLabel" destination="Lu2-Ii-odd" id="nAk-Bb-oYT"/>
                         <outlet property="familyNameTextField" destination="rXr-60-uur" id="crm-AN-Rja"/>
-                        <outlet property="firstNameLabel" destination="qPO-KL-xlq" id="Awr-Jt-W01"/>
-                        <outlet property="firstNameTextField" destination="7F4-BN-mYg" id="RZg-h4-kCE"/>
                         <outlet property="headImageView" destination="KOx-Bq-0Wa" id="RQw-ng-frG"/>
                         <outlet property="line1" destination="5oR-as-Nnk" id="YYt-iK-Qex"/>
                         <outlet property="line2" destination="wPU-r5-LXm" id="qL7-s3-YLs"/>
                         <outlet property="nameCardView" destination="H70-xl-XYi" id="k7X-5e-piW"/>
                         <outlet property="nameLabel" destination="SGN-5r-lY4" id="sxv-Jq-bHG"/>
+                        <outlet property="personNameLabel" destination="qPO-KL-xlq" id="LOX-xo-xtg"/>
+                        <outlet property="personNameTextField" destination="7F4-BN-mYg" id="FuS-E8-2sN"/>
                         <outlet property="selectAddress" destination="MG4-u7-gzh" id="XeQ-Rk-gjX"/>
                         <outlet property="signAddrStaticLabel" destination="Sdv-1f-Bzd" id="GtV-vo-gxq"/>
                         <outlet property="signWithSomeOnelabel" destination="GAP-Eh-kJO" id="6Ud-FW-UfZ"/>

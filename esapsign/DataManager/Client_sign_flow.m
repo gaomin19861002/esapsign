@@ -13,11 +13,12 @@
 
 @implementation Client_sign_flow
 
+@dynamic sign_flow_id;
 @dynamic current_sequence;
 @dynamic current_sign_id;
 @dynamic current_sign_status;
 @dynamic status;
-@dynamic sign_flow_id;
+
 @dynamic clientSigns;
 
 /*!

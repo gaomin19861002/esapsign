@@ -14,10 +14,10 @@
 @interface Client_contact : NSManagedObject
 
 @property (nonatomic, retain) NSString * contact_id;
-@property (nonatomic, retain) NSString * image_filepath;
+@property (nonatomic, retain) NSNumber * gender;
 @property (nonatomic, retain) NSString * family_name;
 @property (nonatomic, retain) NSString * person_name;
-@property (nonatomic, retain) NSNumber * gender;
+@property (nonatomic, retain) NSString * image_filepath;
 
 @property (nonatomic, retain) NSDate * last_timestamp;
 @property (nonatomic, retain) NSDate * last_used;

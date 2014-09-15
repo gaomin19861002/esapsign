@@ -1,5 +1,5 @@
 //
-//  Client_signfile.m
+//  Client_signpic.m
 //  esapsign
 //
 //  Created by Suzic on 14-8-11.

@@ -139,7 +139,6 @@
 		D0ECDFFB19A49B450008062E /* libfsdk_ios_arm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0ECDFF219A49B450008062E /* libfsdk_ios_arm.a */; };
 		D0ECDFFC19A49B450008062E /* libfsdk_ios_emu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0ECDFF319A49B450008062E /* libfsdk_ios_emu.a */; };
 		D0ECE06519A49F000008062E /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE00019A49F000008062E /* GTMBase64.m */; };
-		D0ECE07F19A4A0270008062E /* SyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE06619A4A0270008062E /* SyncViewController.m */; };
 		D0ECE08E19A4A1670008062E /* SettingsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE08B19A4A1670008062E /* SettingsDetailViewController.m */; };
 		D0ECE08F19A4A1670008062E /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE08D19A4A1670008062E /* SettingsViewController.m */; };
 		D0ECE09519A4A7730008062E /* HTBKVObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE09319A4A7730008062E /* HTBKVObservation.m */; };
@@ -590,8 +589,6 @@
 		D0ECE06219A49F000008062E /* RSADataEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataEncryption.h; sourceTree = "<group>"; };
 		D0ECE06319A49F000008062E /* RSADataSigning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataSigning.h; sourceTree = "<group>"; };
 		D0ECE06419A49F000008062E /* SMFileCertOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMFileCertOperations.h; sourceTree = "<group>"; };
-		D0ECE06619A4A0270008062E /* SyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncViewController.m; sourceTree = "<group>"; };
-		D0ECE06719A4A0270008062E /* SyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncViewController.h; sourceTree = "<group>"; };
 		D0ECE08A19A4A1670008062E /* SettingsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsDetailViewController.h; sourceTree = "<group>"; };
 		D0ECE08B19A4A1670008062E /* SettingsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsDetailViewController.m; sourceTree = "<group>"; };
 		D0ECE08C19A4A1670008062E /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -1138,20 +1135,18 @@
 		D0ECDF0719A48F910008062E /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				D09026C819B5DA0B00E48DCB /* CompleteManager.h */,
-				D09026C919B5DA0B00E48DCB /* CompleteManager.m */,
-				D0ECDF0819A48F910008062E /* ActionManager.h */,
-				D0ECDF0919A48F910008062E /* ActionManager.m */,
 				D0ECDF2519A48F910008062E /* RequestManager.h */,
 				D0ECDF2619A48F910008062E /* RequestManager.m */,
+				D0ECDF0819A48F910008062E /* ActionManager.h */,
+				D0ECDF0919A48F910008062E /* ActionManager.m */,
+				D09026C819B5DA0B00E48DCB /* CompleteManager.h */,
+				D09026C919B5DA0B00E48DCB /* CompleteManager.m */,
+				D0ECDF2119A48F910008062E /* DownloadInfo.h */,
+				D0ECDF2219A48F910008062E /* DownloadInfo.m */,
 				D0ECDF2319A48F910008062E /* DownloadManager.h */,
 				D0ECDF2419A48F910008062E /* DownloadManager.m */,
 				D0ECDF2719A48F910008062E /* SyncManager.h */,
 				D0ECDF2819A48F910008062E /* SyncManager.m */,
-				D0ECDF2119A48F910008062E /* DownloadInfo.h */,
-				D0ECDF2219A48F910008062E /* DownloadInfo.m */,
-				D0ECE06719A4A0270008062E /* SyncViewController.h */,
-				D0ECE06619A4A0270008062E /* SyncViewController.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1684,7 +1679,6 @@
 				D0ECDEB719A489800008062E /* UIColor+Additions.m in Sources */,
 				D0ECDF5D19A496810008062E /* SignerFlowInsideView.m in Sources */,
 				D0ECDEF919A48EAA0008062E /* AddContentCell.m in Sources */,
-				D0ECE07F19A4A0270008062E /* SyncViewController.m in Sources */,
 				D0ECDEFC19A48EAA0008062E /* ContactDetailViewController.m in Sources */,
 				D0ECDF8C19A498020008062E /* ESSignViewController.m in Sources */,
 				D0E8397319AF47BC00ED539D /* QRCodeViewController.m in Sources */,

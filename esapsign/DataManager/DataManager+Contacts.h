@@ -19,20 +19,6 @@
 // 从服务器同步一个联系人对象
 - (Client_contact* )syncContact:(NSDictionary*)contactDic andItems:(NSArray*)items;
 
-
-// 同步一个签名信息，如果不存在则添加，如果存在，则更新签名表中的displayName
-//  @param  contentType:条目类型（0：email，1：电话号码，2：文字信息）
-//  @return Client_user对象，如果没找到，则返回nil。
-- (Client_contact *)syncContact:(NSString *)contentType andValue:(NSString *) contentValue;
-
-
-// 同步一个签名信息，如果不存在则添加，如果存在，则更新签名表中的displayName
-- (Client_contact *)syncSignContact:(NSString *)address displayName:(NSString *)displayName;
-
-// 将一组签名包数据内容合并到当前通讯录
-- (Client_contact *)mergeSignContactByAddress:(NSString *)address displayName:(NSString *)displayName userid:(NSString *) userid;
-
-
 // 根据id找对应的联系人
 - (Client_contact *)findContactWithId:(NSString *) contact_id;
 

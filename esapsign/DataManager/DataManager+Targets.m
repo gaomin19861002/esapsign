@@ -116,6 +116,30 @@
     return flow;
 }
 
+// 同步写入一个Sign
+- (Client_sign*)syncSign:(NSDictionary*)dicSign
+{
+    Client_sign *sign = [self fetchSign:[dicSign objectForKey:@"id"]];
+    if (sign == nil)
+    {
+        sign = (Client_sign *)[NSEntityDescription insertNewObjectForEntityForName:EntityClientSign
+                                                            inManagedObjectContext:self.objectContext];
+        sign.sign_id = [dicSign objectForKey:@"id"];
+        [self.objectContext insertObject:sign];
+    }
+
+    sign.sequence = @([[dicSign objectForKey:@"sequence"] integerValue]);
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    sign.sign_date = [formatter dateFromString:[dicSign objectForKey:@"signDate"]];
+#warning 应该获取拒签信息，但目前服务端填写该数据是错误的，暂时屏蔽
+    //sign.refuse_date = [formatter dateFromString:[signDict objectForKey:@"refuseDate"]];
+    sign.sign_account_id = [dicSign objectForKey:@"signerAccountID"];
+    sign.sign_displayname = [dicSign objectForKey:@"signerName"];
+    sign.sign_address = [dicSign objectForKey:@"signerAddress"];
+    return sign;
+}
+
 // 清除不在使用的文件
 - (void)clearUnusedFiles
 {
@@ -337,6 +361,24 @@
         flow = [fetchObjects firstObject];
     
     return flow;
+}
+
+
+// 根据流程ID获取流程数据对象
+- (Client_sign*) fetchSign:(NSString*) signID
+{
+    Client_sign* sign = nil;
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"sign_id==%@", signID];
+    NSArray *fetchObjects = [self arrayFromCoreData:EntityClientSign
+                                          predicate:predicate
+                                              limit:NSUIntegerMax
+                                             offset:0
+                                            orderBy:nil];
+    if ([fetchObjects count])
+        sign = [fetchObjects firstObject];
+    
+    return sign;
 }
 
 // 递归查找当前target下的所有子target

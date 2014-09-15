@@ -47,7 +47,6 @@
         <attribute name="upload_size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="version" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="version_guid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="clientTarget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_target" syncable="YES"/>
         <relationship name="clientTargets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Client_target" inverseName="clientFile" inverseEntity="Client_target" syncable="YES"/>
         <relationship name="currentSignflow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_sign_flow" inverseName="clientFile" inverseEntity="Client_sign_flow" syncable="YES"/>
     </entity>
@@ -94,7 +93,7 @@
         <element name="Client_account" positionX="0" positionY="0" width="128" height="135"/>
         <element name="Client_contact" positionX="0" positionY="0" width="128" height="163"/>
         <element name="Client_contact_item" positionX="0" positionY="0" width="128" height="165"/>
-        <element name="Client_file" positionX="0" positionY="0" width="128" height="360"/>
+        <element name="Client_file" positionX="0" positionY="0" width="128" height="343"/>
         <element name="Client_sign" positionX="0" positionY="0" width="128" height="180"/>
         <element name="Client_sign_flow" positionX="0" positionY="0" width="128" height="150"/>
         <element name="Client_signpic" positionX="0" positionY="0" width="128" height="105"/>

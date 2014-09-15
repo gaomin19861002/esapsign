@@ -11,7 +11,6 @@
 
 @interface ContactDetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
-@property (retain, nonatomic) UIPopoverController* selectDocPopoverController;
 
 // 改直接从联系人列表赋值Client_user为userID以解决类之间直接赋值coredata数据程序有时暴死的情况 gaomin@20140808
 @property (nonatomic ,copy) NSString *currentUserID;
@@ -20,59 +19,17 @@
 @property (nonatomic, strong) IBOutlet UIImageView *headImageView;
 @property (nonatomic, strong) IBOutlet UILabel *familyNameLabel;
 @property (nonatomic, strong) IBOutlet UITextField *familyNameTextField;
-@property (nonatomic, strong) IBOutlet UILabel *firstNameLabel;
-@property (nonatomic, strong) IBOutlet UITextField *firstNameTextField;
+@property (nonatomic, strong) IBOutlet UILabel *personNameLabel;
+@property (nonatomic, strong) IBOutlet UITextField *personNameTextField;
 
 @property (nonatomic, strong) IBOutlet UIImageView *line1;
 @property (nonatomic, strong) IBOutlet UIImageView *line2;
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 
 /**
- * @abstract 签约用地址
- */
-@property (nonatomic, retain) IBOutlet UILabel *signAddrStaticLabel;
-
-/**
- * @abstract 发起签约按钮
- */
-@property (nonatomic, retain) IBOutlet UIButton *startSignBtn;
-
-/**
- * @abstract 背景视图
- */
-@property (nonatomic, retain) IBOutlet UIView *backgroundView;
-
-/**
- * @abstract 我与某某某共同签署过的文件Label
- */
-@property (retain, nonatomic) IBOutlet UILabel *signWithSomeOnelabel;
-
-/**
- * @abstract 与某某某共同签署过的tableview
- */
-@property (retain, nonatomic) IBOutlet UITableView *documentTableView;
-
-/**
- * @abstract 底部占位栏
- */
-@property (retain, nonatomic) IBOutlet UIView *bottomBarView;
-
-/**
  * @abstract 用户信息列表
  */
 @property(nonatomic, retain) IBOutlet UITableView *userDetailInfoTable;
-
-/*
- 默认使用的签约地址
- */
-@property (retain, nonatomic) IBOutlet UILabel *selectAddress;
-
-/**
- * @abstract 其他辅助UI元素
- */
-@property (retain, nonatomic) IBOutlet UIView *nameCardView;
-@property (nonatomic, retain) IBOutlet UIImageView *cardBGImageView;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *topBottom;
 
 /**
  *  发起与某人签名

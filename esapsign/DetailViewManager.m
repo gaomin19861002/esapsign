@@ -49,7 +49,6 @@
 
 #import "DetailViewManager.h"
 #import "DocViewController.h"
-#import "SyncViewController.h"
 #import "SettingsViewController.h"
 #import "UIAlertView+Additions.h"
 #import "UIColor+Additions.h"
@@ -225,46 +224,4 @@
     self.navigationPopoverController = nil;
 }
 
-// -------------------------------------------------------------------------------
-//	splitViewController:willHideViewController:withBarButtonItem:forPopoverController:
-// -------------------------------------------------------------------------------
-//- (void)splitViewController:(UISplitViewController *)svc 
-//     willHideViewController:(UIViewController *)aViewController 
-//          withBarButtonItem:(UIBarButtonItem *)barButtonItem 
-//       forPopoverController:(UIPopoverController *)pc
-//{
-//    // If the barButtonItem does not have a title (or image) adding it to a toolbar
-//    // will do nothing.
-//    barButtonItem.title = @"Navigation";
-//    
-////    self.navigationPaneButtonItem = barButtonItem;
-//    self.navigationPopoverController = pc;
-//    
-//    // Tell the detail view controller to show the navigation button.
-////    self.detailViewController.navigationPaneBarButtonItem = barButtonItem;
-//}
-//
-//// -------------------------------------------------------------------------------
-////	splitViewController:willShowViewController:invalidatingBarButtonItem:
-//// -------------------------------------------------------------------------------
-//- (void)splitViewController:(UISplitViewController *)svc 
-//     willShowViewController:(UIViewController *)aViewController 
-//  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
-//{
-////    self.navigationPaneButtonItem = nil;
-//    self.navigationPopoverController = nil;
-//    
-//    // Tell the detail view controller to remove the navigation button.
-////    self.detailViewController.navigationPaneBarButtonItem = nil;
-//}
-
-//#pragma mark
-//#pragma mark - UIPopoverControllerDelegate method
-//- (BOOL) popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController{
-//    if ([self.navDetailViewController.selectedViewController.title isEqualToString:@"Settings Tab"]) {
-//        return NO;
-//    }
-//    return YES;
-//
-//}
 @end

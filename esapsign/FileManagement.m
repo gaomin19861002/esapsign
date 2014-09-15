@@ -136,7 +136,6 @@
 
 @end
 
-
 @implementation FileManagement (Additions)
 
 + (NSString *)signsImageCachedFolder
@@ -150,73 +149,4 @@
     return  strSigns;
 }
 
-/**
- *  获取本地签名
- *
- *  @return 返回所有签名图片列表
- */
-+ (NSArray *)allDefaultSigns
-{
-    NSString *signCachedFolder = [FileManagement signsImageCachedFolder];
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSMutableArray *arrImages = [[NSMutableArray alloc] initWithCapacity:1];
-	for (NSString *filename in [manager enumeratorAtPath: signCachedFolder])
-    {
-		if (![[filename pathExtension] isEqualToString:@""])
-        {
-            NSString *srcFile = [NSString stringWithFormat:@"%@/%@",signCachedFolder,filename];
-            UIImage *imageItem = [UIImage imageNamed:srcFile];
-            [imageItem setImgURL:srcFile];
-            [arrImages addObjectOrNil:imageItem];
-		}
-	}
-    return arrImages;
-}
-
-/**
- *  添加默认签名
- *
- *  @param signImage 新签名图片
- *
- *  @return 返回执行结果
- */
-+ (BOOL)addDefaultSignWithImage:(UIImage *)signImage
-{
-    if (signImage == nil)
-    {
-        return NO;
-    }
-    NSString *uuidImage = [Util generalUUID];
-    NSLog(@"%s, %@, %@", __FUNCTION__, [Util generalUUID], [Util generalUUID]);
-    NSData *dataImage = UIImagePNGRepresentation(signImage);
-    NSString *signCachedFolder = [FileManagement signsImageCachedFolder];
-    NSString *desFile = [signCachedFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", uuidImage]];
-    NSFileManager *manager = [NSFileManager defaultManager];
-    if ([manager fileExistsAtPath:desFile isDirectory:NO]) {
-        [manager removeItemAtPath:desFile error:nil];
-    }
-    BOOL bResult = [dataImage writeToFile:desFile atomically:YES];
-    if (bResult) {
-        [signImage setImgURL:desFile];
-    }
-    return bResult;
-}
-
-/**
- *  删除签名
- *
- *  @param signImageToBeDel 将要被删除的签名
- *
- *  @return 返回执行结果
- */
-+(BOOL)deleteDefaultSignWithImage:(UIImage *)signImageToBeDel
-{
-    NSString *desFile = [signImageToBeDel imgURL];
-    NSFileManager *manager = [NSFileManager defaultManager];
-    BOOL bResult = YES;
-    if ([manager fileExistsAtPath:desFile isDirectory:NO]) {
-        bResult = [manager removeItemAtPath:desFile error:nil];
-    }
-    return bResult;
-}
 @end

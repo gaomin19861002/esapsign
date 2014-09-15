@@ -101,95 +101,6 @@
     return contactItem;
 }
 
-// 同步一个签名信息，如果不存在则添加，如果存在，则更新签名表中的displayName
-//  @param  contentType:条目类型（0：email，1：电话号码，2：文字信息）
-//  @return Client_user对象，如果没找到，则返回nil。
-- (Client_contact *) syncContact:(NSString *) contentType andValue:(NSString *) contentValue
-{
-    NSPredicate *predict = [NSPredicate predicateWithFormat:@"contentValue==%@ and contentType==%@", contentValue, contentType];
-    NSArray *fetchObjects = [self arrayFromCoreData:EntityClientContactItem
-                                          predicate:predict
-                                              limit:NSUIntegerMax offset:0
-                                            orderBy:nil];
-    if ([fetchObjects count]) {
-        Client_contact_item *content = (Client_contact_item *) [fetchObjects firstObject];
-        return content.clientContact;
-    }
-    return nil;
-}
-
-// 同步一个签名信息，如果不存在则添加，如果存在，则更新签名表中的displayName
-//  @param  contentType:条目类型（0：email，1：电话号码，2：文字信息）
-//  @return Client_user对象，如果没找到，则返回nil。
-- (Client_contact *)syncSignContact:(NSString *)address displayName:(NSString *)displayName
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"contentValue==%@", address];
-    NSArray *fetchObjects = [self arrayFromCoreData:EntityClientContactItem
-                                          predicate:predicate
-                                              limit:NSUIntegerMax
-                                             offset:0
-                                            orderBy:nil];
-    if ([fetchObjects count])
-    {
-        Client_contact_item *content = (Client_contact_item *)[fetchObjects firstObject];
-        return content.clientContact;
-    }
-    
-    Client_contact *user = [NSEntityDescription insertNewObjectForEntityForName:EntityClientContact inManagedObjectContext:self.objectContext];
-    user.family_name = displayName;
-    user.contact_id = [Util generalUUID];
-    
-    Client_contact_item *content = [NSEntityDescription insertNewObjectForEntityForName:EntityClientContactItem inManagedObjectContext:self.objectContext];
-    content.item_id = [Util generalUUID];
-    content.title = @"邮箱";
-    content.contentType = @(UserContentTypeEmail);
-    content.contentValue = address;
-    content.major = @(YES);
-    content.clientContact = user;
-
-    [self.objectContext insertObject:user];
-    [self.objectContext insertObject:content];
-    
-    return user;
-}
-
-/*!
- 同步一个签名信息，如果不存在则添加，如果存在，则更新签名表中的displayName
- */
-- (Client_contact *)mergeSignContactByAddress:(NSString *)address displayName:(NSString *)displayName userid:(NSString *) userid
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"contentValue==%@", address];
-    NSArray *fetchObjects = [self arrayFromCoreData:EntityClientContactItem
-                                          predicate:predicate
-                                              limit:NSUIntegerMax
-                                             offset:0
-                                            orderBy:nil];
-    if ([fetchObjects count]) {
-        Client_contact_item *content = (Client_contact_item *)[fetchObjects firstObject];
-        return content.clientContact;
-    }
-    
-    Client_contact *user = [NSEntityDescription insertNewObjectForEntityForName:EntityClientContact inManagedObjectContext:self.objectContext];
-    user.family_name = displayName;
-    
-    // gaomin@20140805
-    user.contact_id = [Util generalUUID];
-    // user.user_id = userid;
-    
-    Client_contact_item *content = [NSEntityDescription insertNewObjectForEntityForName:EntityClientContactItem inManagedObjectContext:self.objectContext];
-    content.item_id = [Util generalUUID];
-    content.title = @"邮箱";
-    content.contentType = @(UserContentTypeEmail);
-    content.contentValue = address;
-    content.major = @(YES);
-    content.clientContact = user;
-    
-    [self.objectContext insertObject:user];
-    [self.objectContext insertObject:content];
-    
-    return user;
-}
-
 #pragma mark - Contact Search
 
 // 根据id找对应的联系人
@@ -211,7 +122,6 @@
     }
     return nil;
 }
-
 
 // 获取5个常用联系人
 - (NSArray *)lastestConstacts

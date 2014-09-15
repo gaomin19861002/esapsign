@@ -7,15 +7,15 @@
 //
 
 #import "ContactDetailViewController.h"
+#import "DocSelectedViewController.h"
 #import "UINavigationController+Additions.h"
+#import "DocDetailViewController.h"
 
 #import "DataManager.h"
 #import "DataManager+Contacts.h"
 #import "CAAppDelegate.h"
 #import "UserContentCell.h"
 #import "Client_contact_item.h"
-#import "DocSelectedViewController.h"
-#import "DocDetailViewController.h"
 #import "EmailTypeSelctionViewController.h"
 #import "PhoneTypeSelectionViewController.h"
 #import "NewTypeSelectionViewController.h"
@@ -41,6 +41,28 @@
 
 @property (nonatomic, retain) Client_contact *currentContact;
 
+@property (retain, nonatomic) UIPopoverController* selectDocPopoverController;
+
+@property (retain, nonatomic) IBOutlet UILabel *signWithSomeOnelabel;
+@property (retain, nonatomic) IBOutlet UIView *bottomBarView;
+@property (nonatomic, retain) IBOutlet UIView *backgroundView;
+@property (retain, nonatomic) IBOutlet UIView *nameCardView;
+@property (nonatomic, retain) IBOutlet UIImageView *cardBGImageView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *topBottom;
+
+@property (nonatomic, retain) IBOutlet UILabel *signAddrStaticLabel;
+@property (nonatomic, retain) IBOutlet UIButton *startSignBtn;
+@property (retain, nonatomic) IBOutlet UILabel *selectAddress;
+
+/*!
+ 当前显示与某人共同签署的文件条目
+ */
+@property(nonatomic, retain) NSMutableArray *currentSignDocuments;
+
+/**
+ * @abstract 与某某某共同签署过的tableview
+ */
+@property (retain, nonatomic) IBOutlet UITableView *documentTableView;
 /*!
  用户当前编辑的条目
  */
@@ -54,10 +76,6 @@
 @property(nonatomic, retain) NSMutableArray *itemsInStore;
 @property(nonatomic, retain) NSMutableArray *itemsInEditing;
 
-/*!
- 当前显示与某人共同签署的文件条目
- */
-@property(nonatomic, retain) NSMutableArray *currentSignDocuments;
 
 /*!
  当前用户信息编辑状态下，context类型选择框
@@ -114,8 +132,8 @@
         
         self.familyNameLabel.hidden = NO;
         self.familyNameTextField.hidden = NO;
-        self.firstNameLabel.hidden = NO;
-        self.firstNameTextField.hidden = NO;
+        self.personNameLabel.hidden = NO;
+        self.personNameTextField.hidden = NO;
         self.line1.hidden = NO;
         self.line2.hidden = NO;
     }
@@ -129,8 +147,8 @@
         self.familyNameLabel.hidden = YES;
         self.line1.hidden = YES;
 
-        self.firstNameLabel.hidden = YES;
-        self.firstNameTextField.hidden = YES;
+        self.personNameLabel.hidden = YES;
+        self.personNameTextField.hidden = YES;
         self.line2.hidden = YES;
         
         self.nameLabel.hidden = NO;
@@ -229,7 +247,7 @@
     if (self.currentContact.person_name == nil || [self.currentContact.person_name isEqualToString:@"(null)"])
         self.currentContact.person_name = @"";
     
-    self.firstNameTextField.text = self.currentContact.person_name;
+    self.personNameTextField.text = self.currentContact.person_name;
     self.familyNameTextField.text = self.currentContact.family_name;
     
     [self.itemsInEditing removeAllObjects];
@@ -252,7 +270,7 @@
     [self switchShowOfUIItems];
     
     [self.familyNameTextField resignFirstResponder];
-    [self.firstNameTextField resignFirstResponder];
+    [self.personNameTextField resignFirstResponder];
     
     if (self.curUserTableSelectedIndexPath != nil)
     {
@@ -282,12 +300,12 @@
 #warning 应当计算bDirtyFlag 然后再决定是否要进行更新
     
     //1 本地数据更新
-    self.nameLabel.text = [NSString stringWithFormat:@"%@%@", self.familyNameTextField.text, self.firstNameTextField.text];
+    self.nameLabel.text = [NSString stringWithFormat:@"%@%@", self.familyNameTextField.text, self.personNameTextField.text];
     
     NSDictionary* contactDic = [manager createDefaultContactValue];
     [contactDic setValue:self.currentContact.contact_id forKey:@"id"];
     [contactDic setValue:self.familyNameTextField.text forKey:@"familyName"];
-    [contactDic setValue:self.firstNameTextField.text forKey:@"personName"];
+    [contactDic setValue:self.personNameTextField.text forKey:@"personName"];
     [manager syncContact:contactDic andItems:self.itemsInEditing];
     
     NSMutableArray *arrContents = [NSMutableArray arrayWithArray:self.currentContact.showContents];
@@ -349,18 +367,6 @@
 
 #pragma mark -
 
-- (IBAction)signWithSomeOneBtnClicked:(id)sender
-{
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
-    DocSelectedViewController *selectedController = [story instantiateViewControllerWithIdentifier:@"DocSelectedViewController"];
-    _selectDocPopoverController = [[UIPopoverController alloc] initWithContentViewController:selectedController];
-    selectedController.delegate = self;
-    UIButton* signButton = (UIButton*)sender;
-    [_selectDocPopoverController presentPopoverFromRect:signButton.frame
-                                                 inView:self.view
-                               permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-}
-
 - (IBAction)addContextBtnClicked:(id)sender
 {
     // 弹出提示框，给用户选择
@@ -405,11 +411,8 @@
         else
             return 1;
     }
-    if (tableView == self.documentTableView)
-    {
-        return [self.currentSignDocuments count];
-    }
-    return 0;
+
+    return [self.currentSignDocuments count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -611,24 +614,6 @@
     }
 }
 
-#pragma mark - DocSelectedViewControllerDelegate <NSObject>
-
-- (void)DocSelectedViewController:(DocSelectedViewController *)docSelectedViewController DidSelectClientTarget:(Client_target *)clientTarget
-{
-    __block id weakSelf = self;
-    [docSelectedViewController dismissViewControllerAnimated:YES completion:^(){
-        ContactDetailViewController *wSelf = (ContactDetailViewController *)weakSelf;
-        UINavigationController *navDetail = [wSelf.storyboard instantiateViewControllerWithIdentifier:@"NavDocDetail"];
-        DocDetailViewController *viewDetail = (DocDetailViewController *)[navDetail topViewController];
-        viewDetail->clientTarget = clientTarget;
-        navDetail.modalPresentationStyle = UIModalPresentationFullScreen;
-        [wSelf presentViewController:navDetail animated:YES completion:nil];}];
-}
-
-- (void)DocSelectedViewControllerCancel:(DocSelectedViewController *)docSelectedViewController
-{
-    [self.selectDocPopoverController dismissPopoverAnimated:YES];
-}
 
 #pragma mark - Private Methods
 
@@ -732,6 +717,37 @@
         Client_contact* newUser = [[DataManager defaultInstance] findContactWithId:UserID];
         self.currentContact = newUser;
     }
+}
+
+- (IBAction)signWithSomeOneBtnClicked:(id)sender
+{
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
+    DocSelectedViewController *selectedController = [story instantiateViewControllerWithIdentifier:@"DocSelectedViewController"];
+    self.selectDocPopoverController = [[UIPopoverController alloc] initWithContentViewController:selectedController];
+    selectedController.delegate = self;
+    UIButton* signButton = (UIButton*)sender;
+    [self.selectDocPopoverController presentPopoverFromRect:signButton.frame
+                                                     inView:self.view
+                                   permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+#pragma mark - DocSelectedViewControllerDelegate <NSObject>
+
+- (void)DocSelectedViewController:(DocSelectedViewController *)docSelectedViewController DidSelectClientTarget:(Client_target *)clientTarget
+{
+    __block id weakSelf = self;
+    [docSelectedViewController dismissViewControllerAnimated:YES completion:^(){
+        ContactDetailViewController *wSelf = (ContactDetailViewController *)weakSelf;
+        UINavigationController *navDetail = [wSelf.storyboard instantiateViewControllerWithIdentifier:@"NavDocDetail"];
+        DocDetailViewController *viewDetail = (DocDetailViewController *)[navDetail topViewController];
+        viewDetail->clientTarget = clientTarget;
+        navDetail.modalPresentationStyle = UIModalPresentationFullScreen;
+        [wSelf presentViewController:navDetail animated:YES completion:nil];}];
+}
+
+- (void)DocSelectedViewControllerCancel:(DocSelectedViewController *)docSelectedViewController
+{
+    [self.selectDocPopoverController dismissPopoverAnimated:YES];
 }
 
 #pragma mark - Action Manager Delegate

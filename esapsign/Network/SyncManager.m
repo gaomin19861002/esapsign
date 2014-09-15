@@ -227,8 +227,9 @@ DefaultInstanceForClass(SyncManager);
                 }
             }
         }
-#warning  设置一个合理的时机发送可能迟滞的Action
-        //[[ActionManager defaultInstance] sendQueueAtOnce];
+
+        // 设置一个合理的时机发送可能迟滞的Action
+        [[ActionManager defaultInstance] sendQueueAtOnce];
     }
 }
 
@@ -279,26 +280,15 @@ DefaultInstanceForClass(SyncManager);
             for (NSDictionary* signDict in signList)
             {
                 // 获取Sign数据包
-                Client_sign *sign = (Client_sign *)[NSEntityDescription insertNewObjectForEntityForName:EntityClientSign
-                                                                                 inManagedObjectContext:[DataManager defaultInstance].objectContext];
+                Client_sign* sign = [manager syncSign:signDict];
+                
                 sign.sign_flow_id = signFlow.sign_flow_id;
-                sign.sign_id = [signDict objectForKey:@"id"];
-                sign.sequence = @([[signDict objectForKey:@"sequence"] integerValue]);
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                sign.sign_date = [formatter dateFromString:[signDict objectForKey:@"signDate"]];
-#warning 应该获取拒签信息，但目前服务端填写该数据是错误的，暂时屏蔽
-                //sign.refuse_date = [formatter dateFromString:[signDict objectForKey:@"refuseDate"]];
-                sign.sign_account_id = [signDict objectForKey:@"signerAccountID"];
-                sign.sign_displayname = [signDict objectForKey:@"signerName"];
-                sign.sign_address = [signDict objectForKey:@"signerAddress"];
                 sign.sign_flow = signFlow;
-
+                
                 // 查找本地用户表中，对应的用户名
                 Client_contact *user = [[DataManager defaultInstance] findUserWithAddress:sign.sign_address];
                 if (user != nil)
                     sign.sign_displayname = user.user_name;
-                [manager.objectContext insertObject:sign];
             }
             
             NSString *cacheFolder = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];

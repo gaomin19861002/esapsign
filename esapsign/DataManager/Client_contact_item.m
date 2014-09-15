@@ -1,5 +1,5 @@
 //
-//  Client_content.m
+//  Client_contact_item.m
 //  esapsign
 //
 //  Created by Suzic on 14-8-11.
@@ -47,4 +47,5 @@
     
     return _contentTypeName;
 }
+
 @end

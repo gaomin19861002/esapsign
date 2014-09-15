@@ -1,5 +1,5 @@
 //
-//  Client_user.m
+//  Client_contact.m
 //  esapsign
 //
 //  Created by Suzic on 14-8-11.
@@ -12,14 +12,16 @@
 
 @implementation Client_contact
 
-@dynamic family_name;
+@dynamic contact_id;
 @dynamic gender;
+@dynamic person_name;
+@dynamic family_name;
+@dynamic image_filepath;
 @dynamic last_used;
 @dynamic last_timestamp;
-@dynamic person_name;
-@dynamic contact_id;
+
 @dynamic clientItems;
-@dynamic image_filepath;
+
 @synthesize user_name = _user_name;
 
 - (NSString *)user_name
@@ -42,7 +44,7 @@
 }
 
 /*!
- 返回条目
+ 以字典方式返回条目
  */
 - (NSArray *)showContents
 {

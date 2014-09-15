@@ -1,5 +1,5 @@
 //
-//  Client_signfile.h
+//  Client_signpic.h
 //  esapsign
 //
 //  Created by Suzic on 14-8-11.
