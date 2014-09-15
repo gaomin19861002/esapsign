@@ -10,6 +10,8 @@
 #import "Client_target.h"
 #import "UINavigationController+Additions.h"
 #import "DataManager.h"
+#import "DataManager+SignPic.h"
+#import "DataManager+Targets.h"
 #import "UIImage+Additions.h"
 #import "UIColor+Additions.h"
 #import "FileDetailCell.h"
@@ -113,7 +115,7 @@
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allDefaultSignFiles];
+    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allDefaultSignPics];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSignFileDownloadUpdate:) name:DownloadSignFileUpdateNotification object:nil];
     NSLog(@"%s", __FUNCTION__);
@@ -378,7 +380,7 @@
         {
             UITextField *field = [alertView textFieldAtIndex:0];
             self.title = field.text;
-            [[DataManager defaultInstance] modifyTarget:self.parentTarget.client_id displayName:field.text];
+            [[DataManager defaultInstance] modifyTarget:self.parentTarget.target_id displayName:field.text];
             [[NSNotificationCenter defaultCenter] postNotificationName:DocViewUpdateNotification object:nil];
         }
         else if (alertView.tag == AlertViewCreateFile)
@@ -387,7 +389,7 @@
             [[DataManager defaultInstance] addFile:FileExtendTypePdf
                                        displayName:field.text
                                               path:nil
-                                          parentID:self.parentTarget.client_id];
+                                          parentID:self.parentTarget.target_id];
             self.parentTarget.subFiles = nil;
             [self.tableView reloadData];
         }
@@ -396,7 +398,7 @@
             if (self.selectedRow > -1) {
                 UITextField *field = [alertView textFieldAtIndex:0];
                 Client_target *fileTarget = [self.parentTarget.subFiles objectAtIndex:self.selectedRow];
-                [[DataManager defaultInstance] modifyTarget:fileTarget.client_id displayName:field.text];
+                [[DataManager defaultInstance] modifyTarget:fileTarget.target_id displayName:field.text];
                 self.parentTarget.subFiles = nil;
                 [self.tableView reloadData];
             }
@@ -568,7 +570,7 @@
                   address:(NSString *)address
 {
     Client_target *fileTarget = (Client_target *)[self.parentTarget.subFiles objectAtIndex:self.lastRow];
-    self.currentAppendSign = [fileTarget.clientFile addUserToSignFlow:userName address:address];
+    self.currentAppendSign = [fileTarget.clientFile.currentSignflow addUserToSignFlow:userName address:address];
     [self.tableView reloadData];
     [_addSignerPopoverController dismissPopoverAnimated:YES];
     
@@ -596,7 +598,7 @@
     Client_account *account = [[DataManager defaultInstance] queryAccountByAccountId:[NSString stringWithFormat:@"%@", user.accountId]];
     Assert(account, @"account shouldn't be null");
     int limitCount = [account.sign_count intValue];
-    int signCount = [DataManager defaultInstance].allSignFiles.count;
+    int signCount = [DataManager defaultInstance].allSignPics.count;
     
     if (signCount >= limitCount && needVerifyCount)
     {
@@ -617,8 +619,8 @@
 
 - (void)handleSignFileDownloadUpdate:(NSNotification *)notification
 {
-    [DataManager defaultInstance].allSignFiles = nil;
-    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allDefaultSignFiles];
+    [DataManager defaultInstance].allSignPics = nil;
+    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allDefaultSignPics];
 }
 
 #pragma mark - RequestManager Delegate

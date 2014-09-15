@@ -12,6 +12,7 @@
 
 #import "FileManagement.h"
 #import "DataManager.h"
+#import "DataManager+SignPic.h"
 #import "RequestManager.h"
 #import "ActionManager.h"
 #import "CompleteManager.h"
@@ -151,11 +152,11 @@
     {
         // 上传签名图的请求
         NSDictionary* action = [[ActionManager defaultInstance] signpenNewAction:self.currentImageID];
-        self.upSignRequest = [[ActionManager defaultInstance] addToQueue:action];
+        self.upSignRequest = [[ActionManager defaultInstance] addToQueue:action sendAtOnce:YES];
 
         // 在本地添加数据
         [[DataManager defaultInstance] addSignWithPath:desFile withID:self.currentImageID];
-        self.arrDefaultSigns = [DataManager defaultInstance].allSignFiles;
+        self.arrDefaultSigns = [DataManager defaultInstance].allSignPics;
     }
 }
 
@@ -163,12 +164,12 @@
 
 - (void)SignatureClipViewDidRemove:(SignatureClipView *)signView
 {
-    Client_signfile *signfile = signView.defaultSign;
-    NSString* delSignID = [NSString stringWithFormat:@"%@", signView.defaultSign.signfile_id];
+    Client_signpic *signfile = signView.defaultSign;
+    NSString* delSignID = [NSString stringWithFormat:@"%@", signView.defaultSign.signpic_id];
     
     // 发送删除Action
     NSDictionary* action = [[ActionManager defaultInstance] signpenDelAction:delSignID];
-    self.delSignRequest = [[ActionManager defaultInstance] addToQueue:action];
+    self.delSignRequest = [[ActionManager defaultInstance] addToQueue:action sendAtOnce:YES];
 
     // 从本地清除数据
     [self.arrDefaultSigns removeObject:signfile];
@@ -323,7 +324,7 @@
     
     //init the cell
     // int index = arrDefaultSigns.count - indexPath.row - 1;
-    Client_signfile *item = [self.arrDefaultSigns objectAtIndex:indexPath.row];
+    Client_signpic *item = [self.arrDefaultSigns objectAtIndex:indexPath.row];
     CGRect viewRect =  CGRectMake(2, 3, SignViewItemWidth-4, SignViewItemHeight-10);
     SignatureClipView *defaultSignView = [[SignatureClipView alloc] initWithFrame:viewRect];
     defaultSignView.defaultSign = item;

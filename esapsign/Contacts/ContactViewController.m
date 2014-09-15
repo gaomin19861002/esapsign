@@ -13,7 +13,8 @@
 #import "CAAppDelegate.h"
 
 #import "DataManager.h"
-#import "Client_user.h"
+#import "DataManager+Contacts.h"
+#import "Client_contact.h"
 #import "ContactManager.h"
 #import "ContactHeader.h"
 #import "ContactTableViewCell.h"
@@ -39,16 +40,17 @@
 {
     NSMutableArray *arrAllUsers;
     MBProgressHUD *HUD;
+    
+    bool firstUpdateGroupUserData;
 }
 
-@property (nonatomic, retain) NSMutableArray *arrAllUsers;
-@property (nonatomic, retain) NSMutableArray *arrAllSections;
+@property (nonatomic, strong) NSMutableArray *arrAllUsers;
+@property (nonatomic, strong) NSMutableArray *arrAllSections;
 
 // 新增索引名称数组 gaomin@20140818
 @property (nonatomic, retain) NSMutableArray *arrAllIndexTitles;
 @property (nonatomic, retain) NSIndexPath *curSelectedIndexPath;
 @property (nonatomic, retain) ContactDetailViewController *detailViewController;
-@property (nonatomic, assign) BOOL groupUserData;
 @property (nonatomic, retain) UIPopoverController *AddContactPopover;
 
 // 提交新建联系人时采用ActionManager方式
@@ -73,6 +75,7 @@
 {
     [super viewDidLoad];
 
+    firstUpdateGroupUserData = YES;
     self.view.backgroundColor = [UIColor clearColor];
  
     // 添加工具按钮
@@ -102,48 +105,42 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    NSLog(@"viewDidAppear self.groupUserData %d", self.groupUserData);
     [super viewDidAppear:animated];
+    
     if ([Util valueForKey:LoginUser] && [CAAppDelegate sharedDelegate].loginSucceed)
     {
-        if (!self.groupUserData)
+        if (firstUpdateGroupUserData)
         {
-            self.groupUserData = YES;
+            firstUpdateGroupUserData = NO;
             [self updateAndGroupUsers];
         }
         
         // 是否是不再提醒
-        //        NSData *userData = [Util valueForKey:LoginUser];
-        //        User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
-        //        // 判定是否曾经导入过通讯录
-        //        //annotated by weikaikai 移除导入本地通信录功能
-        //        if (![[Util valueForKey:user.name] intValue]) {
-        //            // 是否是不在提醒
-        //            BOOL disabledAsk = [[Util valueForKey:ContactImportDisabledAskedKey] boolValue];
-        //            if (!disabledAsk) {
-        //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-        //                                                                message:@"是否从系统通讯录中导入联系人？"
-        //                                                               delegate:self
-        //                                                      cancelButtonTitle:nil
-        //                                                      otherButtonTitles:@"导入", @"不导入", @"不再询问", nil];
-        //                alert.tag = AlertViewTagImportContact;
-        //                [alert show];
-        //                [alert release];
-        //            }
-        //        }
+        // NSData *userData = [Util valueForKey:LoginUser];
+        // User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
+        // // 判定是否曾经导入过通讯录
+        // //annotated by weikaikai 移除导入本地通信录功能
+        // if (![[Util valueForKey:user.name] intValue]) {
+        // // 是否是不在提醒
+        // BOOL disabledAsk = [[Util valueForKey:ContactImportDisabledAskedKey] boolValue];
+        // if (!disabledAsk)
+        // {
+        //      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
+        //                              message:@"是否从系统通讯录中导入联系人？"
+        //                              delegate:self
+        //                              cancelButtonTitle:nil
+        //                              otherButtonTitles:@"导入", @"不导入", @"不再询问", nil];
+        //                              alert.tag = AlertViewTagImportContact;
+        //      [alert show];
+        //      [alert release];
+        //  }
+        //  }
         
-        if (self.detailViewController.currentUserID == nil)
+        if (self.detailViewController.currentUserID == nil && self.arrAllSections.count > 0)
         {
-            if (self.arrAllSections.count > 0)
-            {
-                self.detailViewController.currentUserID =  [[[self.arrAllSections objectAtIndex:0] objectAtIndex:0] user_id];
-                // 选定当前行
-                UITableViewCell *firstCell = [self.tableView cellForRowAtIndexPath:self.curSelectedIndexPath];
-                if (firstCell)
-                {
-                    firstCell.selected = YES;
-                }
-            }
+            self.detailViewController.currentUserID =  [[[self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section] objectAtIndex:self.curSelectedIndexPath.row] contact_id];
+            UITableViewCell *firstCell = [self.tableView cellForRowAtIndexPath:self.curSelectedIndexPath];
+            if (firstCell) firstCell.selected = YES;
         }
     }
 }
@@ -155,46 +152,37 @@
  */
 - (void)updateAndGroupUsers
 {
-    self.arrAllUsers = [[DataManager defaultInstance] allClientUsers];
-    self.arrAllSections = [NSMutableArray array];
-    
-    for(int i = 0; i < 29; i ++)
-    {
-        [self.arrAllSections addObject:[NSMutableArray array]];
-    }
-    
+    // 所有用户对象，获取时先排序一次
+    self.arrAllUsers = [NSMutableArray arrayWithArray:[[[DataManager defaultInstance] allContacts] sortedArrayUsingSelector:@selector(compare:)]];
     ContactHeaderFooterView *headerView = (ContactHeaderFooterView *)self.tableView.tableHeaderView;
     headerView.subTitleLabel.text = [NSString stringWithFormat:@"%d", [self.arrAllUsers count]];
+
+    // 所有分组块
+    self.arrAllSections = [NSMutableArray arrayWithCapacity:29];
+    for (int i = 0; i < 29; i++)
+        [self.arrAllSections addObject:[NSMutableArray array]];
     
-    // 分组
-    
-    // 字母_a~z姓名排序
-	for (int i = 0; i < [self.arrAllUsers count]; i ++)
+    // 字母_a~z姓名归类
+	for (int i = 0; i < [self.arrAllUsers count]; i++)
     {
-        Client_user *user = [self.arrAllUsers objectAtIndex:i];
+        Client_contact *user = [self.arrAllUsers objectAtIndex:i];
         if (user.user_name.length > 0)
         {
             NSString *sectionName = [NSString stringWithFormat:@"%c", pinyinFirstLetter([user.user_name characterAtIndex:0])];
             NSLog(@"%@, %@", sectionName, user.user_name);
             NSUInteger firstLetter = [ALPHA rangeOfString:[[sectionName lowercaseString] substringToIndex:1]].location;
             if (firstLetter != NSNotFound)
-            {
                 [[self.arrAllSections objectAtIndex:firstLetter] addObject:[self.arrAllUsers objectAtIndex:i]];
-            }
             else
-            {
-                // 其他的内容放到 "_"栏目中
-                [[self.arrAllSections objectAtIndex:1] addObject:[self.arrAllUsers objectAtIndex:i]];
-            }
+                [[self.arrAllSections objectAtIndex:1] addObject:[self.arrAllUsers objectAtIndex:i]]; // 其他的内容放到 "_"栏目中
         }
 	}
-    
+
     // 清除没有的section
-    for (int j = self.arrAllSections.count-1; j >= 0; j--)
+    for (int j = self.arrAllSections.count - 1; j >= 0; j--)
     {
-        if ([[self.arrAllSections objectAtIndex:j] count] == 0) {
+        if ([[self.arrAllSections objectAtIndex:j] count] == 0)
             [self.arrAllSections removeObjectAtIndex:j];
-        }
     }
     
     [self.tableView reloadData];
@@ -219,22 +207,22 @@
     [self.AddContactPopover presentPopoverFromBarButtonItem:addItem permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
-/**
- * @abstract Remove Data for add Contact Fail
- */
-- (void) removeLastData
-{
-    [self.navigationController.parentViewController.parentViewController hideProgress];
-    
-    // 删除数据
-    Client_user *user = [[DataManager defaultInstance] findUserWithId:self.detailViewController.currentUserID];
-    [self.arrAllUsers removeObject:user];
-    self.curSelectedIndexPath = [[NSIndexPath alloc] init];
-    self.detailViewController.currentUserID = [[[self.arrAllSections objectAtIndex:0] objectAtIndex:0] user_id];
-    
-    //重新排序
-    [self updateAndGroupUsers];
-}
+///**
+// * @abstract Remove Data for add Contact Fail
+// */
+//- (void)removeLastData
+//{
+//    [self.navigationController.parentViewController.parentViewController hideProgress];
+//    
+//    // 删除数据
+//    Client_user *user = [[DataManager defaultInstance] findUserWithId:self.detailViewController.currentUserID];
+//    [self.arrAllUsers removeObject:user];
+//    self.curSelectedIndexPath = [[NSIndexPath alloc] init];
+//    self.detailViewController.currentUserID = [[[self.arrAllSections objectAtIndex:0] objectAtIndex:0] user_id];
+//    
+//    //重新排序
+//    [self updateAndGroupUsers];
+//}
 
 /**
  * @abstract 获取对应的详情视图的控制器
@@ -263,6 +251,7 @@
 
 #pragma mark - Notification methods
 
+// 导入完成通知
 - (void)importSucceedNotification:(NSNotification *)noti
 {
     // 更新界面
@@ -272,42 +261,43 @@
     
     if (self.arrAllSections.count > 0)
     {
-        self.detailViewController.currentUserID =  [[[self.arrAllSections objectAtIndex:0] objectAtIndex:0] user_id] ;
-        // 选定当前行
+        self.detailViewController.currentUserID =  [[[self.arrAllSections objectAtIndex:0] objectAtIndex:0] contact_id] ;
         UITableViewCell *firstCell = [self.tableView cellForRowAtIndexPath:self.curSelectedIndexPath];
-        if (firstCell)
-        {
-            firstCell.selected = YES;
-        }
+        if (firstCell != nil) firstCell.selected = YES;
     }
     
     [HUD removeFromSuperview];
     HUD = nil;
 }
 
+// 删除通知
 - (void)delNotification:(NSNotification *)noti
 {
+    NSArray *arrSection = [self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section];
+    Client_contact *user = [arrSection objectAtIndex:self.curSelectedIndexPath.row];
+    // 注意self.arrAllUsers与DataManager里的并不是同一对象，需要额外删除。
+    // 诚然，调用updateAndGroupUsers方法可以取得同步，但小量的改动，尽量不去频繁调用它
+    [self.arrAllUsers removeObject:user];
+    
+    int newSection = 0;
+    int newRow = 0;
+    
     // 查找下一个对应的user信息
-    Client_user *user = [(NSArray *)[self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section] objectAtIndex:self.curSelectedIndexPath.row];
     if (self.curSelectedIndexPath != nil)
     {
-        NSArray *arrSection = [self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section];
         if (self.curSelectedIndexPath.row == arrSection.count - 1)
         {
-            if (self.curSelectedIndexPath.row == 0) {
-                // 取下一个或者上一个section
+            if (arrSection.count <= 1)
+            {
+                // 当前section将被删空，取下一个或者上一个section
                 if (self.curSelectedIndexPath.section == self.arrAllSections.count - 1)
                 {
-                    // 取上一个section
-                    if (self.curSelectedIndexPath.section > 0)
+                    if (self.arrAllSections.count > 1)
                     {
-                        arrSection = [self.arrAllSections objectAtIndex:0];
+                        arrSection = [self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section - 1];
                         user = [arrSection lastObject];
-                    }
-                    else
-                    {
-                        // 为空
-                        user = nil;
+                        newSection = self.curSelectedIndexPath.section - 1;
+                        newRow = arrSection.count - 1;
                     }
                 }
                 else
@@ -315,37 +305,35 @@
                     // 取下一个section
                     arrSection = [self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section + 1];
                     user = [arrSection firstObject];
+                    newSection = self.curSelectedIndexPath.section + 1;
+                    newRow = 0;
                 }
+
+                // 清除当前的section
+                [self.arrAllSections removeObjectAtIndex:self.curSelectedIndexPath.section];
             }
             else
             {
-                user = [arrSection objectAtIndex:1];
+                user = [arrSection objectAtIndex:self.curSelectedIndexPath.row - 1];
+                newSection = self.curSelectedIndexPath.section;
+                newRow = self.curSelectedIndexPath.row - 1;
             }
         }
         else
         {
             user = [arrSection objectAtIndex:self.curSelectedIndexPath.row + 1];
+            newSection = self.curSelectedIndexPath.section;
+            newRow = self.curSelectedIndexPath.row + 1;
         }
     }
+
+    self.curSelectedIndexPath = [NSIndexPath indexPathForRow:newRow inSection:newSection];
     
-    [self updateAndGroupUsers];
     [self.tableView reloadData];
     
-    // 更新选中栏目信息
-    for (int section = 0; section < self.arrAllSections.count; section++) {
-        NSMutableArray *arrSectionUsers = [self.arrAllSections objectAtIndex:section];
-        for (int row = 0; row < arrSectionUsers.count; row++) {
-            Client_user *item = [arrSectionUsers objectAtIndex:row];
-            if ([item.user_id isEqualToString:user.user_id]) {
-                self.curSelectedIndexPath = [NSIndexPath indexPathForRow:row inSection:section];
-            }
-        }
-    }
-    self.detailViewController.currentUserID =  user.user_id;
+    self.detailViewController.currentUserID =  user.contact_id;
     UITableViewCell *firstCell = [self.tableView cellForRowAtIndexPath:self.curSelectedIndexPath];
-    if (firstCell) {
-        firstCell.selected = YES;
-    }
+    if (firstCell != nil) firstCell.selected = YES;
 }
 
 - (void)updateNotification:(NSNotification *)noti
@@ -354,9 +342,7 @@
     // [self updateAndGroupUsers];
     [self.tableView reloadData];
     UITableViewCell *firstCell = [self.tableView cellForRowAtIndexPath:self.curSelectedIndexPath];
-    if (firstCell) {
-        firstCell.selected = YES;
-    }
+    if (firstCell != nil) firstCell.selected = YES;
 }
 
 #pragma mark - Table View Delegate
@@ -379,7 +365,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     ContactHeader *header = [ContactHeader headSection:self.storyboard];
-    Client_user *firstUser = [self.arrAllSections[section] firstObject];
+    Client_contact *firstUser = [self.arrAllSections[section] firstObject];
     if (!firstUser)
     {
         return nil;
@@ -400,7 +386,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    Client_user *firstUser = [self.arrAllSections[section] firstObject];
+    Client_contact *firstUser = [self.arrAllSections[section] firstObject];
     if (!firstUser)
     {
         return nil;
@@ -419,11 +405,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell" forIndexPath:indexPath];
-    // Client_user *object = self.arrAllUsers[indexPath.row];
-    Client_user *object = [[self.arrAllSections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] ;
-    [cell.nameButton setTitle:[object user_name] forState:UIControlStateNormal];
+    Client_contact *user = [[self.arrAllSections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] ;
+    [cell.nameButton setTitle:user.user_name forState:UIControlStateNormal];
     [cell setBackgroundColor:[UIColor clearColor]];
-    UIImage *headImage = [UIImage imageNamed:[object contentWithType:UserContentTypePhoto useLarge:NO]];
+    UIImage *headImage = [UIImage imageNamed:[user headIconUseLarge:NO]];
     cell.headImageView.image = headImage;
     return cell;
 }
@@ -439,7 +424,7 @@
         lastSelectedCell.selected = NO;
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        self.detailViewController.currentUserID =  [[[self.arrAllSections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] user_id];
+        self.detailViewController.currentUserID =  [[[self.arrAllSections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] contact_id];
     }
     self.curSelectedIndexPath = indexPath;
 }
@@ -449,23 +434,15 @@
     self.arrAllIndexTitles = [NSMutableArray array];
     for (int i = 0; i < [self.arrAllSections count]; i++)
     {
-        Client_user *firstUser = [[self.arrAllSections objectAtIndex:i] firstObject];
-        if (!firstUser)
-        {
-            continue;
-        }
-        else
+        Client_contact *firstUser = [[self.arrAllSections objectAtIndex:i] firstObject];
+        if (firstUser != nil)
         {
             NSString *sectionName = [NSString stringWithFormat:@"%c",pinyinFirstLetter([firstUser.user_name characterAtIndex:0])];
             NSUInteger firstLetter = [ALPHA rangeOfString:[[sectionName lowercaseString] substringToIndex:1]].location;
             if (firstLetter != NSNotFound)
-            {
                 [self.arrAllIndexTitles addObject:[sectionName uppercaseString]];
-            }
             else
-            {
                 [self.arrAllIndexTitles addObject:@"_"];
-            }
         }
     }
     return self.arrAllIndexTitles;
@@ -493,46 +470,43 @@
 /**
  * @abstract 添加新联系人完成，该操作将发送contactnew Action以及插入新联系人条目
  */
-- (void)AddContactViewControllerDidDone:(AddContactViewController *)addContactController userBasicItems:(NSDictionary *)userBasic contactItems:(NSArray *)contactItems
+- (void)AddContactViewControllerDidDone:(AddContactViewController *)addContactController
+                         userBasicItems:(NSDictionary *)userBasic
+                           contactItems:(NSArray *)contactItems
 {
+    DataManager* manager = [DataManager defaultInstance];
     if (self.AddContactPopover)
     {
         // 更新本地数据库条目
-        Client_user* user = [[DataManager defaultInstance] createUserWithDictionary:userBasic];
-        [[DataManager defaultInstance] updateClientUser:user WithContents:contactItems];
+        Client_contact* user = [manager syncContact:userBasic andItems:contactItems];
         [self updateAndGroupUsers];
         
         // 新建联系人，通知服务器端 gaomin@20140904 修改提交新建联系人时为使用ActionManager方式
         NSDictionary *action = [[ActionManager defaultInstance] contactNewAction:user];
-        self.contactNewRequest = [[ActionManager defaultInstance] addToQueue:action];
-        self.detailViewController.currentUserID = user.user_id;
+        self.contactNewRequest = [[ActionManager defaultInstance] addToQueue:action sendAtOnce:YES];
         
-        // 设置新加的联系人为选定状态
+        // 取消原有选中单元
         UITableViewCell *originCell = [self.tableView cellForRowAtIndexPath:self.curSelectedIndexPath];
-        if (originCell)
-        {
-            originCell.selected = NO;
-        }
+        if (originCell) originCell.selected = NO;
         
+        // 重新加载表格
+        [self.tableView reloadData];
+
+        // 寻找并设置新加的联系人为选定状态
+        self.detailViewController.currentUserID = user.contact_id;
         for (int section = 0; section < self.arrAllSections.count; section++)
         {
             NSMutableArray *arrSectionUsers = [self.arrAllSections objectAtIndex:section];
             for (int row = 0; row < arrSectionUsers.count; row++)
             {
-                Client_user *item = [arrSectionUsers objectAtIndex:row];
-                if ([item.user_id isEqualToString:user.user_id])
-                {
+                Client_contact *item = [arrSectionUsers objectAtIndex:row];
+                if ([item.contact_id isEqualToString:user.contact_id])
                     self.curSelectedIndexPath = [NSIndexPath indexPathForRow:row inSection:section];
-                }
             }
         }
         
-        [self.tableView reloadData];
         originCell = [self.tableView cellForRowAtIndexPath:self.curSelectedIndexPath];
-        if (originCell)
-        {
-            originCell.selected = YES;
-        }
+        if (originCell)  originCell.selected = YES;
         
         [self.AddContactPopover dismissPopoverAnimated:YES];
         self.AddContactPopover = nil;
@@ -557,7 +531,7 @@
     {
         NSLog(@"Contact New Action Request Failed!");
         [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
-        [self removeLastData];
+        //[self removeLastData];  没必要回滚，自然有其他方法会更新结果
         [UIAlertView showAlertMessage:@"提交失败"];
         self.contactNewRequest = nil;
     }
@@ -571,7 +545,7 @@
         NSLog(@"Contact New Action Request Finished!");
         if (request == self.contactNewRequest)
         {
-            // NSDictionary *resDict = [[request responseString] jsonValue];
+            __unused NSDictionary *resDict = [[request responseString] jsonValue];
         }
         
         // ActionManager里面对拒绝的返回已经处理（调用同步还原结果），如果没有特殊的事情，无需修正客户端数据结果

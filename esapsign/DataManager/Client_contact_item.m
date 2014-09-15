@@ -6,21 +6,21 @@
 //  Copyright (c) 2014年 Caland. All rights reserved.
 //
 
-#import "Client_content.h"
-#import "Client_user.h"
-#import "ClientContentInEdit.h"
+#import "Client_contact_item.h"
+#import "Client_contact.h"
 
+@implementation Client_contact_item
 
-@implementation Client_content
-
-@dynamic content_id;
+@dynamic item_id;
 @dynamic contentType;
 @dynamic contentValue;
 @dynamic major;
 @dynamic title;
-@dynamic user_id;
+@dynamic contact_id;
 @dynamic account_id;
-@dynamic clientUser;
+
+@dynamic clientContact;
+
 @synthesize contentTypeName = _contentTypeName;
 
 - (NSString *)contentTypeName
@@ -30,9 +30,6 @@
         NSString *name = nil;
         switch ([self.contentType intValue])
         {
-            case UserContentTypeName:
-                name = @"姓名";
-                break;
             case UserContentTypePhone:
                 name = @"电话";
                 break;
@@ -42,10 +39,6 @@
             case UserContentTypeAddress:
                 name = @"地址";
                 break;
-            case UserContentTypePhoto:
-                name = @"照片";
-                break;
-                
             default:
                 break;
         }

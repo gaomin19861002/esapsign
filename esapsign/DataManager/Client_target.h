@@ -15,15 +15,18 @@
 @interface Client_target : NSManagedObject
 
 @property (nonatomic, retain) NSString * account_id;
-@property (nonatomic, retain) NSString * client_id;
-@property (nonatomic, retain) NSDate * create_time;
-@property (nonatomic, retain) NSString * display_name;
-@property (nonatomic, retain) NSString * file_id;
-@property (nonatomic, retain) NSDate * last_time_stamp;
 @property (nonatomic, retain) NSString * parent_id;
-@property (nonatomic, retain) NSNumber * record_status;
+@property (nonatomic, retain) NSString * target_id;
+@property (nonatomic, retain) NSString * display_name;
 @property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, retain) NSString * file_id;
+
+@property (nonatomic, retain) NSDate * last_time_stamp;
 @property (nonatomic, retain) NSDate * update_time;
+@property (nonatomic, retain) NSDate * create_time;
+
+@property (nonatomic, retain) NSNumber * record_status;
+
 @property (nonatomic, retain) Client_file *clientFile;
 
 /*!

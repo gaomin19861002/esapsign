@@ -122,11 +122,14 @@
         [Util setValue:userData forKey:LoginUser];
         
         [CAAppDelegate sharedDelegate].loginSucceed = YES;
+        [CAAppDelegate sharedDelegate].offlineMode = YES;
         // 登录
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else
     {
+        [CAAppDelegate sharedDelegate].offlineMode = NO;
+        
         NSDictionary *para;
         if (self.isNeedVerifyNumber) {
             

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Client_user;
+@class Client_contact;
 @class Client_sign_flow, Client_target;
 @class Client_sign;
 
@@ -33,18 +33,10 @@
 @property (nonatomic, retain) NSNumber * upload_size;
 @property (nonatomic, retain) NSNumber * version;
 @property (nonatomic, retain) NSNumber * version_guid;
-@property (nonatomic, retain) Client_target *clientTarget;
+
 @property (nonatomic, retain) Client_sign_flow *currentSignflow;
 @property (nonatomic, retain) NSSet *clientTargets;
 
-/*!
- 添加一个用户到签名流程
- */
-- (Client_sign *)addUserToSignFlow:(NSString *)userName address:(NSString *)address;
-
-/*!
- 删除一个签名
- */
 - (BOOL)removeClientSign:(Client_sign *)sign;
 
 - (FileStatus)fileStatus;

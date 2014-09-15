@@ -8,7 +8,7 @@
 
 #import "SignerLabelInsideView.h"
 #import "UIImage+Additions.h"
-#import "Client_user.h"
+#import "Client_contact.h"
 
 @interface SignerLabelInsideView ()
 

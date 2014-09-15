@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Client_signfile.h"
+#import "Client_signpic.h"
 
 #define SignViewItemWidth   140.0f
 #define SignViewDistance    10.0f
@@ -48,7 +48,7 @@
 
 @property (nonatomic, assign) id <SignatureClipViewDelegate> del;
 
-@property (nonatomic, retain) Client_signfile *defaultSign;
+@property (nonatomic, retain) Client_signpic *defaultSign;
 
 @property (nonatomic, assign) BOOL bInEdit;
 

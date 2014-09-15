@@ -9,19 +9,16 @@
 #import "Client_sign_flow.h"
 #import "Client_file.h"
 #import "Client_sign.h"
-
+#import "DataManager.h"
 
 @implementation Client_sign_flow
 
 @dynamic current_sequence;
 @dynamic current_sign_id;
 @dynamic current_sign_status;
-@dynamic file_id;
 @dynamic status;
 @dynamic sign_flow_id;
-@dynamic clientFile;
 @dynamic clientSigns;
-
 
 /*!
  返回文件的所有签名人，按照签名流程的顺序返回
@@ -62,6 +59,11 @@
         return YES;
     
     return NO;
+}
+
+- (Client_sign *)addUserToSignFlow:(NSString *)userName address:(NSString *)address
+{
+    return [[DataManager defaultInstance] addFileSignFlow:self displayName:userName address:address];
 }
 
 @end

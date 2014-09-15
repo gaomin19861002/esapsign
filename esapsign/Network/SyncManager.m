@@ -12,10 +12,14 @@
 #import "Util.h"
 #import "CAAppDelegate.h"
 #import "DataManager.h"
+#import "DataManager+Contacts.h"
+#import "DataManager+Targets.h"
+#import "DataManager+SignPic.h"
 #import "DownloadManager.h"
 #import "NSObject+DelayBlocks.h"
 #import "UIViewController+Additions.h"
 #import "NSObject+Json.h"
+#import "ActionManager.h"
 
 //#define UseTestDataPacket   1
 
@@ -49,6 +53,11 @@ DefaultInstanceForClass(SyncManager);
 
 - (void)startSync
 {
+    if ([CAAppDelegate sharedDelegate].offlineMode)
+    {
+        return;
+    }
+    
     [[RequestManager defaultInstance] registerDelegate:self];
 
     NSDictionary *userInfo = [Util currentLoginUserInfo];
@@ -163,47 +172,21 @@ DefaultInstanceForClass(SyncManager);
 // 处理联系人信息
 - (void)processContactData:(NSDictionary*)responseDic
 {
-    // 删除本地所有联系人
-    [[DataManager defaultInstance] deleteAllClientUsers];
+    DataManager* manager = [DataManager defaultInstance];
+    
+    // 删除本地所有联系人 - 这一步不太有效率，暂时这样
+    [manager clearAllContacts];
+    [manager clearAllContactItems];
     
     if ([[responseDic objectForKey:@"contact"] isKindOfClass:[NSDictionary class]])
     {
         NSDictionary *contactDict = [responseDic objectForKey:@"contact"];
         NSArray *contacts = [contactDict objectForKey:@"contacts"];
         
-        for (NSDictionary *contact in contacts)
+        for (NSDictionary *contactDic in contacts)
         {
-            Client_user *user = nil;
-            
-            //只根据邮箱和手机号进行匹配。
-            //得到联系人信息列表
-            NSArray *contactItems = [contact objectForKey:@"contactItems"];
-            // int limit = 10;
-            // int start = 0;
-            for (NSDictionary *item in contactItems)
-            {
-                // if (start++ >= 10) break;
-                NSString *content = [item objectForKey:@"content"];
-                NSString *type = [[item objectForKey:@"type"] stringValue];
-                
-                user = [[DataManager defaultInstance] syncUser:content andValue:type];
-                if (user)
-                {
-                    //找到用户,更新displayname
-                    user.family_name = [contact objectForKey:@"familyName"];
-                    user.person_name = [contact objectForKey:@"personName"];
-                }
-            }
-            //没有找到用户的处理
-            if (!user)
-            {
-                //新建联系人并且加入条目
-                user = [[DataManager defaultInstance] createUserWithDictionary:contact];
-                for (NSDictionary *item  in [contact objectForKey:@"contactItems"])
-                {
-                    [[DataManager defaultInstance] addContentWithUser:user content:item];
-                }
-            }
+            NSArray *contactItems = [contactDic objectForKey:@"contactItems"];
+            __unused Client_contact *user = [manager syncContact:contactDic andItems:contactItems];
         }
     }
 }
@@ -211,12 +194,13 @@ DefaultInstanceForClass(SyncManager);
 // 将位于签名包中的联系人整合入通讯录
 - (void)appendSignToContact:(NSDictionary*)responseDic
 {
+    DataManager *manager = [DataManager defaultInstance];
     NSDictionary *targetDict = [responseDic objectForKey:@"target"];
     NSArray *targetList = [targetDict objectForKey:@"targets"];
     for (NSDictionary *dict in targetList)
     {
         NSDictionary* fileDict = [dict objectForKey:@"file"];
-        if ([[dict objectForKey:@"type"] integerValue] == 2 && fileDict != nil)
+        if ([[dict objectForKey:@"type"] integerValue] == TargetTypeFile && fileDict != nil)
         {
             NSDictionary* signFlowDict = [fileDict objectForKey:@"signFlow"];
             if (signFlowDict != nil)
@@ -225,14 +209,26 @@ DefaultInstanceForClass(SyncManager);
                 for (NSDictionary* signDict in signListNew)
                 {
                     // 根据地址判断是否已经存在对应地址的用户
-                    Client_user *findUser = [[DataManager defaultInstance] findUserWithAddress:[signDict objectForKey:@"signerAddress"]];
-                    if (!findUser)
-                        [[DataManager defaultInstance] syncSignUser:[signDict objectForKey:@"signerAddress"]
-                                                        displayName:[signDict objectForKey:@"signerName"]
-                                                             userid:[signDict objectForKey:@"id"]];
+                    Client_contact *findUser = [manager findUserWithAddress:[signDict objectForKey:@"signerAddress"]];
+                    if (findUser == nil)
+                    {
+                        NSString* aid = [signDict objectForKey:@"id"];
+                        Client_contact* contact = [manager addContactByPersonName:[signDict objectForKey:@"signerName"] familyName:@""];
+                        [manager addContactItem:contact
+                                    itemAccount:aid
+                                      itemTitle:@""
+                                       itemType:UserContentTypeEmail
+                                      itemValue:[signDict objectForKey:@"signerAddress"]
+                                        isMajor:[aid isEqualToString:@""]];
+                        
+                        NSDictionary *action = [[ActionManager defaultInstance] contactNewAction:contact];
+                        [[ActionManager defaultInstance] addToQueue:action sendAtOnce:NO];
+                    }
                 }
             }
         }
+#warning  设置一个合理的时机发送可能迟滞的Action
+        //[[ActionManager defaultInstance] sendQueueAtOnce];
     }
 }
 
@@ -261,63 +257,48 @@ DefaultInstanceForClass(SyncManager);
         Client_target *target = [manager syncTarget:dict];
         
         NSDictionary* fileDict = [dict objectForKey:@"file"];
-        if ([target.type isEqualToNumber:@(2)] && fileDict != nil)
+        if ([target.type isEqualToNumber:@(TargetTypeFile)] && fileDict != nil)
         {
             // 同步file对象
             Client_file *file = [manager syncFile:fileDict];
             
-            // 补充文件Target字段
+            // 补充Target关联File的字段
             target.file_id = [fileDict objectForKey:@"id"];
             target.clientFile = file;
-            //file.clientTarget = target;
             
             NSDictionary* signFlowDict = [fileDict objectForKey:@"signFlow"];
-            if (signFlowDict != nil)
+
+            // 同步SignFlow对象 注意：即便SignFlow是空的也一样处理
+            Client_sign_flow* signFlow = [manager syncSignFlow:signFlowDict];
+            
+            // 补充File关联SignFlow的字段
+            file.sign_flow_id = [signFlowDict objectForKey:@"id"];
+            file.currentSignflow = signFlow;
+            
+            NSArray* signList = [signFlowDict objectForKey:@"signs"];
+            for (NSDictionary* signDict in signList)
             {
-                // 补充文件的SignFlow字段
-                file.sign_flow_id = [signFlowDict objectForKey:@"id"];
-                
-                // 填写signFlow对象
-                Client_sign_flow* signFlow = (Client_sign_flow *)[NSEntityDescription insertNewObjectForEntityForName:EntityClientSignFlow
-                                                                                               inManagedObjectContext:[DataManager defaultInstance].objectContext];
-                signFlow.sign_flow_id = [signFlowDict objectForKey:@"id"];
-                signFlow.file_id = file.file_id;
-                // signFlow.starterAccount = [signFlowDict objectForKey:@"starterAccount"]; 需要增加 starterAccount字段
-                signFlow.current_sequence = @([[signFlowDict objectForKey:@"currentSequence"] integerValue]);
-                signFlow.current_sign_id = [signFlowDict objectForKey:@"currentSignId"];
-                signFlow.current_sign_status = @([[signFlowDict objectForKey:@"currentSignStatus"] integerValue]);
-                // signFlow.status = ; 通过事后的综合判断，随后填写
-                [[DataManager defaultInstance].objectContext insertObject:signFlow];
-                
-                file.sign_flow_id = file.sign_flow_id;
-                file.sign_status = file.sign_status;
-                file.currentSignflow = signFlow;
-                
-                NSArray* signList = [signFlowDict objectForKey:@"signs"];
-                for (NSDictionary* signDict in signList)
-                {
-                    // 获取Sign数据包
-                    Client_sign *sign = (Client_sign *)[NSEntityDescription insertNewObjectForEntityForName:EntityClientSign
-                                                                                     inManagedObjectContext:[DataManager defaultInstance].objectContext];
-                    sign.sign_flow_id = signFlow.sign_flow_id;
-                    sign.sign_id = [signDict objectForKey:@"id"];
-                    sign.sequence = @([[signDict objectForKey:@"sequence"] integerValue]);
-                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    sign.sign_date = [formatter dateFromString:[signDict objectForKey:@"signDate"]];
+                // 获取Sign数据包
+                Client_sign *sign = (Client_sign *)[NSEntityDescription insertNewObjectForEntityForName:EntityClientSign
+                                                                                 inManagedObjectContext:[DataManager defaultInstance].objectContext];
+                sign.sign_flow_id = signFlow.sign_flow_id;
+                sign.sign_id = [signDict objectForKey:@"id"];
+                sign.sequence = @([[signDict objectForKey:@"sequence"] integerValue]);
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                sign.sign_date = [formatter dateFromString:[signDict objectForKey:@"signDate"]];
 #warning 应该获取拒签信息，但目前服务端填写该数据是错误的，暂时屏蔽
-                    //sign.refuse_date = [formatter dateFromString:[signDict objectForKey:@"refuseDate"]];
-                    sign.sign_account_id = [signDict objectForKey:@"signerAccountID"];
-                    sign.sign_displayname = [signDict objectForKey:@"signerName"];
-                    sign.sign_address = [signDict objectForKey:@"signerAddress"];
-                    sign.sign_flow = signFlow;
-                    
-                    // 查找本地用户表中，对应的用户名
-                    Client_user *user = [[DataManager defaultInstance] clientUserWithAddress:sign.sign_address];
+                //sign.refuse_date = [formatter dateFromString:[signDict objectForKey:@"refuseDate"]];
+                sign.sign_account_id = [signDict objectForKey:@"signerAccountID"];
+                sign.sign_displayname = [signDict objectForKey:@"signerName"];
+                sign.sign_address = [signDict objectForKey:@"signerAddress"];
+                sign.sign_flow = signFlow;
+
+                // 查找本地用户表中，对应的用户名
+                Client_contact *user = [[DataManager defaultInstance] findUserWithAddress:sign.sign_address];
+                if (user != nil)
                     sign.sign_displayname = user.user_name;
-                    
-                    [[DataManager defaultInstance].objectContext insertObject:sign];
-                }
+                [manager.objectContext insertObject:sign];
             }
             
             NSString *cacheFolder = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -337,7 +318,7 @@ DefaultInstanceForClass(SyncManager);
     if ([penList isKindOfClass:[NSArray class]])
     {
         for (NSDictionary *dict in penList)
-            [manager syncSignFileWithDict:dict];
+            [manager syncSignPicWithDict:dict];
     }
 }
 

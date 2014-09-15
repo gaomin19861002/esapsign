@@ -9,9 +9,10 @@
 #import "ContactManager.h"
 #import <AddressBook/AddressBook.h>
 
-#import "Client_user.h"
-#import "Client_content.h"
+#import "Client_contact.h"
+#import "Client_contact_item.h"
 #import "DataManager.h"
+#import "DataManager+Contacts.h"
 #import "Util.h"
 #import "NSString+Additions.h"
 #import "User.h"
@@ -84,7 +85,7 @@ DefaultInstanceForClass(ContactManager);
             if ([familyName hasSuffix:@" "])
                 familyName = [familyName substringToIndex:familyName.length - 1];
             
-            Client_user *user = nil;
+            Client_contact *user = nil;
             // 读取邮件地址，判定是否之前已导入过
             ABMultiValueRef emailsToRead = ABRecordCopyValue(person, kABPersonEmailProperty);
             ABMultiValueRef phone = ABRecordCopyValue(person, kABPersonPhoneProperty);
@@ -99,7 +100,7 @@ DefaultInstanceForClass(ContactManager);
                 NSString *email = (NSString *)CFBridgingRelease(ABMultiValueCopyValueAtIndex(emailsToRead, k));
                 if ([email length])
                 {
-                    user = [[DataManager defaultInstance] clientUserWithAddress:email];
+                    user = [[DataManager defaultInstance] findUserWithAddress:email];
                     //如果存在用户，就跳出循环
                     if (user)
                         break;
@@ -114,7 +115,7 @@ DefaultInstanceForClass(ContactManager);
                     NSString * personPhone = (NSString*)CFBridgingRelease(ABMultiValueCopyValueAtIndex(phone, k));
                     if ([personPhone length])
                     {
-                        user = [[DataManager defaultInstance] clientUserWithAddress:personPhone];
+                        user = [[DataManager defaultInstance] findUserWithAddress:personPhone];
                         if (user)
                             break;
                     }
@@ -123,7 +124,7 @@ DefaultInstanceForClass(ContactManager);
             if (!user)
             {
                 // 都没有，重新生成
-                user = [[DataManager defaultInstance] addContactUser:ContactName lastName:familyName];
+                user = [[DataManager defaultInstance] addContactByPersonName:ContactName familyName:familyName];
             }
             else
             {
@@ -142,11 +143,12 @@ DefaultInstanceForClass(ContactManager);
                 
                 if ([personPhone length])
                 {
-                    [[DataManager defaultInstance] addContent:user
-                                                 contentTitle:[label contactLabel]
-                                                  contentType:UserContentTypePhone
-                                                 contentValue:personPhone
-                                                        major:NO];
+                    [[DataManager defaultInstance] addContactItem:user
+                                                      itemAccount:@""
+                                                        itemTitle:[label contactLabel]
+                                                         itemType:UserContentTypePhone
+                                                        itemValue:personPhone
+                                                          isMajor:NO];
                 }
             }
             
@@ -159,11 +161,12 @@ DefaultInstanceForClass(ContactManager);
                 if ([email length])
                 {
                     BOOL isMajor = k > 0 ? NO : YES;
-                    [[DataManager defaultInstance] addContent:user
-                                                 contentTitle:[label contactLabel]
-                                                  contentType:UserContentTypeEmail
-                                                 contentValue:email
-                                                        major:isMajor];
+                    [[DataManager defaultInstance] addContactItem:user
+                                                      itemAccount:@""
+                                                        itemTitle:[label contactLabel]
+                                                         itemType:UserContentTypeEmail
+                                                        itemValue:email
+                                                          isMajor:isMajor];
                 }
             }
             
@@ -195,11 +198,12 @@ DefaultInstanceForClass(ContactManager);
                 }
                 
                 if ([address length]) {
-                    [[DataManager defaultInstance] addContent:user
-                                                 contentTitle:[label contactLabel]
-                                                  contentType:UserContentTypeAddress
-                                                 contentValue:address
-                                                        major:NO];
+                    [[DataManager defaultInstance] addContactItem:user
+                                                      itemAccount:@""
+                                                        itemTitle:[label contactLabel]
+                                                         itemType:UserContentTypeAddress
+                                                        itemValue:address
+                                                          isMajor:NO];
                 }
             }
             
@@ -208,18 +212,14 @@ DefaultInstanceForClass(ContactManager);
             {
                 NSData *imageData = (NSData *)CFBridgingRelease(ABPersonCopyImageDataWithFormat(person, kABPersonImageFormatOriginalSize));
                 
-                NSString *filePath = [NSString stringWithFormat:@"%@/%@.png", [DataManager defaultInstance].userPath, user.user_id];
+                NSString *filePath = [NSString stringWithFormat:@"%@/%@.png", [DataManager defaultInstance].userPath, user.contact_id];
                 [imageData writeToFile:filePath atomically:YES];
-                [[DataManager defaultInstance] addContent:user
-                                             contentTitle:@"照片"
-                                              contentType:UserContentTypePhoto
-                                             contentValue:filePath
-                                                    major:NO];
+                user.image_filepath = filePath;
             }
             
             // 生成action
             NSDictionary *action = [[ActionManager defaultInstance] contactNewAction:user];
-            [[ActionManager defaultInstance] addToQueue:action];//添加到队列中
+            [[ActionManager defaultInstance] addToQueue:action sendAtOnce:YES];//添加到队列中
         }
         
         CFRelease(results);

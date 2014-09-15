@@ -10,7 +10,7 @@
 #import "NSString+Additions.h"
 #import "Client_file.h"
 #import "Client_sign_flow.h"
-#import "Client_user.h"
+#import "Client_contact.h"
 #import "Client_sign.h"
 #import "UIImage+Additions.h"
 #import "DownloadInfo.h"

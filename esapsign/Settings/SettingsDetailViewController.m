@@ -9,6 +9,7 @@
 #import "SettingsDetailViewController.h"
 #import "CAAppDelegate.h"
 #import "DataManager.h"
+#import "DataManager+Targets.h"
 #import "Util.h"
 #import "User.h"
 #import "DownloadManager.h"

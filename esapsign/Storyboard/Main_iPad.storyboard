@@ -1799,7 +1799,7 @@
                                                             <constraint firstAttribute="height" constant="170" id="v0v-bf-0Bb"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <tableView clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JMn-aQ-aaM" userLabel="ContextTableView">
+                                                    <tableView clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JMn-aQ-aaM">
                                                         <rect key="frame" x="153" y="125" width="509" height="176"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1851,8 +1851,8 @@
                                                                                 <outlet property="delegate" destination="eY4-tF-hjx" id="gCb-Cu-FCZ"/>
                                                                             </connections>
                                                                         </textField>
-                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MAl-Ae-0Uk" userLabel="Star Image View">
-                                                                            <rect key="frame" x="471" y="10" width="22" height="22"/>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MAl-Ae-0Uk" userLabel="Star Image View">
+                                                                            <rect key="frame" x="469" y="10" width="22" height="22"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="22" id="Gfa-yR-nLO"/>
@@ -2084,9 +2084,11 @@
                                     </label>
                                     <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9lo-m3-0pT" userLabel="HistoryTabel">
                                         <rect key="frame" x="0.0" y="390" width="703" height="314"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <inset key="separatorInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" restorationIdentifier="MiniFileDetailCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocSignedWithSomeOneCell" rowHeight="50" id="tfs-0Q-GNc" customClass="DocSignedWithSomeOneCell">
                                                 <rect key="frame" x="0.0" y="22" width="703" height="50"/>

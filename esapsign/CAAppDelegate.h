@@ -28,6 +28,8 @@
 
 @property(nonatomic, assign) BOOL loginSucceed;
 
+@property(nonatomic, assign) BOOL offlineMode;
+
 - (void)popLoginView;
 
 + (CAAppDelegate *)sharedDelegate;

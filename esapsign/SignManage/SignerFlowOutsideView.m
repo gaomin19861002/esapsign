@@ -8,7 +8,7 @@
 
 #import "SignerFlowOutsideView.h"
 #import "UIImage+Additions.h"
-#import "Client_user.h"
+#import "Client_contact.h"
 
 #define TagDeleteButtonStart 3000
 
@@ -71,11 +71,11 @@
 - (void)setSign:(Client_sign *)sign
 {
     _sign = sign;
-    UIImage *headImage = [UIImage imageNamed:[_sign.clientUser contentWithType:UserContentTypePhoto useLarge:YES]];
+    UIImage *headImage = [UIImage imageNamed:[_sign.clientContact headIconUseLarge:YES]];
     if (!headImage)
     {
         NSString *defaultImage = @"IconHeadBig";
-        headImage = [UIImage imageWithFile:defaultImage];
+        headImage = [UIImage imageNamed:defaultImage];
     }
     [self.signImageView setImage:headImage];
     

@@ -10,12 +10,12 @@
 #import "Client_file.h"
 #import "Client_file.h"
 #import "DataManager.h"
-
+#import "DataManager+Targets.h"
 
 @implementation Client_target
 
 @dynamic account_id;
-@dynamic client_id;
+@dynamic target_id;
 @dynamic create_time;
 @dynamic display_name;
 @dynamic file_id;
@@ -34,7 +34,7 @@
 {
     if (!_subFolders)
     {
-        NSArray *folders = [self.manager foldersWithParentTarget:self.client_id];
+        NSArray *folders = [self.manager foldersWithParentTarget:self.target_id];
         _subFolders = folders;
     }
     return _subFolders;
@@ -43,7 +43,7 @@
 - (NSArray *)subFiles
 {
     if (!_subFiles) {
-        NSArray *files = [self.manager filesWithParentTarget:self.client_id];
+        NSArray *files = [self.manager filesWithParentTarget:self.target_id];
         _subFiles = files;
     }
     return _subFiles;

@@ -9,16 +9,16 @@
 #import "AddContactViewController.h"
 #import "AddContentCell.h"
 #import "UserContentCell.h"
-#import "Client_content.h"
+#import "Client_contact_item.h"
 #import "TypeSelectionTableViewController.h"
-#import "ClientContentInEdit.h"
 #import "DataManager.h"
+#import "DataManager+Contacts.h"
 #import "util.h"
 #import "NSDate+Additions.h"
 
 @interface AddContactViewController () <UITableViewDataSource, UITableViewDelegate, UserContentCellDelegate, TypeSelectionTableViewControllerDelegate, UITextFieldDelegate>
 
-@property(nonatomic, retain) NSMutableArray *currentContents;
+@property(nonatomic, retain) NSMutableArray *itemsInEditing;
 
 /*!
  当前用户信息编辑状态下，context类型选择框
@@ -57,7 +57,7 @@
     [self.contactTableView setEditing:YES animated:NO];
     [self.contactTableView reloadData];
     
-    self.currentContents = [NSMutableArray array];
+    self.itemsInEditing = [NSMutableArray array];
 }
 
 - (void)didReceiveMemoryWarning
@@ -81,7 +81,7 @@
 {
     if (section == 0)
     {
-        return [self.currentContents count];
+        return [self.itemsInEditing count];
     }
     else
     {
@@ -94,57 +94,35 @@
     if (indexPath.section == 0)
     {
         UserContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserContentCell" forIndexPath:indexPath];
-        ClientContentInEdit *content = [self.currentContents objectAtIndex:indexPath.row];
-        switch (content.contentType)
+        NSDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
+        switch ([[item objectForKey:@"type"] intValue])
         {
             case UserContentTypeEmail:
-            {
                 cell.leftImageView.image = [UIImage imageNamed:@"Mail"];
-            }
-
-            break;
-                
+                break;
             case UserContentTypePhone:
-            {
                 cell.leftImageView.image = [UIImage imageNamed:@"phone"];
-            }
-            
-            break;
-                
+                break;
             case UserContentTypeAddress:
-            {
                 cell.leftImageView.image = [UIImage imageNamed:@"Address"];
-            }
-                
-            break;
-            
+                break;
             default:
                 break;
         }
-        
         [cell setBackgroundColor:[UIColor clearColor]];
+
         cell.delegate = self;
-        cell.titleLabel.text = content.title;
-        cell.subTitleLabel.text = content.contentValue;
-        cell.subTitleTextField.text = content.contentValue;
-        if (tableView.editing)
-        {
-            cell.subTitleLabel.hidden = YES;
-            cell.subTitleTextField.hidden = NO;
-        }
-        else
-        {
-            cell.subTitleLabel.hidden = NO;
-            cell.subTitleTextField.hidden = YES;
-        }
-        
+        cell.titleLabel.text = [item objectForKey:@"title"];
+        cell.subTitleLabel.text = [item objectForKey:@"content"];
+        cell.subTitleTextField.text = [item objectForKey:@"content"];
+        cell.subTitleLabel.hidden = tableView.editing;
+        cell.subTitleTextField.hidden = !tableView.editing;
         return cell;
     }
     else
     {
         AddContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddContentCell" forIndexPath:indexPath];
         [cell.addCellBtn addTarget:self action:@selector(addContextBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        
         return cell;
     }
    
@@ -175,7 +153,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.currentContents removeObjectAtIndex:indexPath.row];
+    [self.itemsInEditing removeObjectAtIndex:indexPath.row];
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
 }
 
@@ -191,21 +169,21 @@
  */
 -(void)UserContentCellModifyTypeTitleButtonClicked:(UserContentCell *)cell
 {
-    if (self.contactTableView.editing) {
+    if (self.contactTableView.editing)
+    {
         [self vcResignFirstResponder];
         NSIndexPath *indexPath = [self.contactTableView indexPathForCell:cell];
-        ClientContentInEdit *content = [self.currentContents objectAtIndex:indexPath.row];
+        NSDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
         UINavigationController *navController = nil;
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
-        if (content.contentType == UserContentTypeEmail || content.contentType == UserContentTypeAddress) {
-            // 编辑邮件类型
+        int typeValue = [[item objectForKey:@"type"] intValue];
+        if (typeValue == UserContentTypeEmail || typeValue == UserContentTypeAddress)
             navController = [story instantiateViewControllerWithIdentifier:@"NavEmailSelection"];
-        }
-        else if (content.contentType == UserContentTypePhone) {
-            // 编辑电话类型
+        else if (typeValue == UserContentTypePhone)
             navController = [story instantiateViewControllerWithIdentifier:@"NavPhoneType"];
-        }
-        if (navController != nil) {
+
+        if (navController != nil)
+        {
             TypeSelectionTableViewController *typeSelectionController = (TypeSelectionTableViewController *)[navController topViewController];
             typeSelectionController.typeSelectionDelegate = self;
             UIPopoverController *popController = [[UIPopoverController alloc] initWithContentViewController:navController];
@@ -223,9 +201,10 @@
 -(void)UserContentCell:(UserContentCell *)cell DidFinishEditingSubTitleWithName:(NSString *)strName
 {
     NSIndexPath *indexPath = [self.contactTableView indexPathForCell:cell];
-    ClientContentInEdit *content = [self.currentContents objectAtIndex:indexPath.row];
+    NSDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
     // 更新界面
-    content.contentValue = strName.length == 0 ? @"" : strName;
+    NSString* content = strName.length == 0 ? @"" : strName;
+    [item setValue:content forKey:@"content"];
     [self.contactTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
@@ -240,27 +219,28 @@
     if (self.curUserTableSelectedIndexPath.section == 0)
     {
         // 更新界面
-        ClientContentInEdit *content = [self.currentContents objectAtIndex:self.curUserTableSelectedIndexPath.row];
-        content.title = strTitle;
+        NSDictionary *item = [self.itemsInEditing objectAtIndex:self.curUserTableSelectedIndexPath.row];
+        [item setValue:strTitle forKey:@"title"];
         [self.contactTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.curUserTableSelectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    else {
+    else
+    {
         // 新增条目
-        //        NSArray *arrTypeTitles = [NSArray arrayWithObjects:@"邮箱", @"电话", nil];
-        if ([strTitle isEqualToString:@"邮箱"]) {
-            //
-            ClientContentInEdit *item = [[ClientContentInEdit alloc] initWithContentTitle:strTitle contentType:UserContentTypeEmail contentValue:@"" major:NO];
-            [self.currentContents addObject:item];
+        NSDictionary *item = [[DataManager defaultInstance] createDefaultContactItemValue];
+        if ([strTitle isEqualToString:@"邮箱"])
+        {
+            [item setValue:[NSString stringWithFormat:@"%d", UserContentTypeEmail] forKey:@"type"];
+            [self.itemsInEditing addObject:item];
         }
-        else if ([strTitle isEqualToString:@"电话"]) {
-            //
-            ClientContentInEdit *item = [[ClientContentInEdit alloc] initWithContentTitle:strTitle contentType:UserContentTypePhone contentValue:@"" major:NO];
-            [self.currentContents addObject:item];
+        else if ([strTitle isEqualToString:@"电话"])
+        {
+            [item setValue:[NSString stringWithFormat:@"%d", UserContentTypePhone] forKey:@"type"];
+            [self.itemsInEditing addObject:item];
         }
-        else if ([strTitle isEqualToString:@"地址"]) {
-            //
-            ClientContentInEdit *item = [[ClientContentInEdit alloc] initWithContentTitle:strTitle contentType:UserContentTypeAddress contentValue:@"" major:NO];
-            [self.currentContents addObject:item];
+        else if ([strTitle isEqualToString:@"地址"])
+        {
+            [item setValue:[NSString stringWithFormat:@"%d", UserContentTypeAddress] forKey:@"type"];
+            [self.itemsInEditing addObject:item];
         }
         [self.contactTableView reloadData];
         // 定位编辑状态
@@ -319,20 +299,12 @@
         return;
     }
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:self.familyNameField.text forKey:@"familyName"];
-    [dict setObject:self.personNameField.text forKey:@"personName"];
-    [dict setObject:[NSNumber numberWithInt:0] forKey:@"gender"];
-    
-    NSString *date = nil;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    date = [[NSDate date] fullDateString];
-    
-    [dict setObject:date forKey:@"lastTimeStamp"];
-    [dict setObject:[Util generalUUID] forKey:@"id"];
+    NSDictionary *dict = [[DataManager defaultInstance] createDefaultContactValue];
 
-    [self.delegate AddContactViewControllerDidDone:self userBasicItems:dict contactItems:self.currentContents];
+    [dict setValue:self.familyNameField.text forKey:@"familyName"];
+    [dict setValue:self.personNameField.text forKey:@"personName"];
+
+    [self.delegate AddContactViewControllerDidDone:self userBasicItems:dict contactItems:self.itemsInEditing];
 }
 
 #pragma mark - 私有方法

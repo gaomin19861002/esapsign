@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Client_user.h"
+#import "Client_contact.h"
 
 @interface ContactDetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
@@ -17,14 +17,15 @@
 @property (nonatomic ,copy) NSString *currentUserID;
 
 /** 联系人头像及姓名的展示和编辑 */
-@property (retain, nonatomic) IBOutlet UIImageView *headImageView;
-@property (nonatomic, retain) IBOutlet UILabel *familyNameLabel;
-@property (retain, nonatomic) IBOutlet UITextField *familyNameTextField;
-@property (strong, nonatomic) IBOutlet UIImageView *line1;
-@property (nonatomic, retain) IBOutlet UILabel *firstNameLabel;
-@property (retain, nonatomic) IBOutlet UITextField *firstNameTextField;
-@property (strong, nonatomic) IBOutlet UIImageView *line2;
-@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, strong) IBOutlet UIImageView *headImageView;
+@property (nonatomic, strong) IBOutlet UILabel *familyNameLabel;
+@property (nonatomic, strong) IBOutlet UITextField *familyNameTextField;
+@property (nonatomic, strong) IBOutlet UILabel *firstNameLabel;
+@property (nonatomic, strong) IBOutlet UITextField *firstNameTextField;
+
+@property (nonatomic, strong) IBOutlet UIImageView *line1;
+@property (nonatomic, strong) IBOutlet UIImageView *line2;
+@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 
 /**
  * @abstract 签约用地址

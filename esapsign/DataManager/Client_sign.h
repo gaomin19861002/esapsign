@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 @class Client_sign_flow;
-@class Client_user;
+@class Client_contact;
 
 @interface Client_sign : NSManagedObject
 
@@ -22,12 +22,13 @@
 @property (nonatomic, retain) NSString * sign_id;
 @property (nonatomic, retain) NSString * sign_displayname;
 @property (nonatomic, retain) NSString * sign_address;
+
 @property (nonatomic, retain) Client_sign_flow *sign_flow;
 
 /*!
  返回sign对应的User对象
  */
-- (Client_user *)clientUser;
+- (Client_contact *)clientContact;
 
 /*!
  返回签名人的显示名称

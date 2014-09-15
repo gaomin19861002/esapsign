@@ -11,6 +11,7 @@
 #import "DetailViewManager.h"
 #import "DocDetailViewController.h"
 #import "DataManager.h"
+#import "DataManager+Targets.h"
 #import "ContextHeaderView.h"
 #import "Client_target.h"
 #import "DocListViewController.h"
@@ -268,7 +269,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     Client_target *target = self.levelOneFolders[indexPath.section];
     Client_target *subTarget = [target.subFolders objectAtIndex:indexPath.row];
-    [[DataManager defaultInstance] deleteFolders:subTarget.client_id];
+    [[DataManager defaultInstance] deleteFolders:subTarget.target_id];
     target.subFolders = nil;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
 }
@@ -282,10 +283,10 @@
 {
     if (!_levelOneFolders)
     {
-        NSString *client_id = @"0";
+        NSString *target_id = @"0";
         if (self.parent)
-            client_id = self.parent.client_id;
-        _levelOneFolders = [[DataManager defaultInstance] foldersWithParentTarget:client_id];
+            target_id = self.parent.target_id;
+        _levelOneFolders = [[DataManager defaultInstance] foldersWithParentTarget:target_id];
     }
     
     return _levelOneFolders;
@@ -371,7 +372,7 @@
     
     Client_target *target = [self.levelOneFolders objectAtIndex:self.lastSection];
     self.navigationItem.rightBarButtonItem = (([target.type intValue] == TargetTypeSystemFolder &&
-                                               ![target.client_id isEqualToString:@"00000000-0000-0000-0000-000000000000"])
+                                               ![target.target_id isEqualToString:@"00000000-0000-0000-0000-000000000000"])
                                               || ![self.foldStatus[self.lastSection] boolValue]) ? nil : self.rightBarItem;
 }
 
@@ -409,7 +410,7 @@
         } else if (alertView.tag == TagAlertViewSectionFolder) {
             UITextField *field = [alertView textFieldAtIndex:0];
             Client_target *target = self.levelOneFolders[self.lastSection];
-            [[DataManager defaultInstance] addFolder:field.text parentID:target.client_id];
+            [[DataManager defaultInstance] addFolder:field.text parentID:target.target_id];
             target.subFolders = nil;
             [self updateNotification:nil];
         }
@@ -451,7 +452,7 @@
 - (void)deleteButtonClicked:(ContextHeaderView *)headerView
 {
     Client_target *target = self.levelOneFolders[headerView.section];
-    [[DataManager defaultInstance] deleteFolders:target.client_id];
+    [[DataManager defaultInstance] deleteFolders:target.target_id];
     self.levelOneFolders = nil;
     self.foldStatus = nil;
     if (headerView.section == self.lastSection) {

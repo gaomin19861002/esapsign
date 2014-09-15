@@ -129,10 +129,10 @@ typedef NS_ENUM(NSInteger, SignatureViewStyle)
     }
 }
 
-- (void)setDefaultSign:(Client_signfile *)defaultSignNew
+- (void)setDefaultSign:(Client_signpic *)defaultSignNew
 {
     _defaultSign = defaultSignNew;
-    UIImage *signImage = [UIImage imageWithContentsOfFile:defaultSignNew.signfile_path];
+    UIImage *signImage = [UIImage imageWithContentsOfFile:defaultSignNew.signpic_path];
     [self.imgView setImage:signImage];
 }
 

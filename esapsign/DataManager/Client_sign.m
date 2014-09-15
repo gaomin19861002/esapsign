@@ -9,6 +9,7 @@
 #import "Client_sign.h"
 #import "Client_sign_flow.h"
 #import "DataManager.h"
+#import "DataManager+Contacts.h"
 
 @implementation Client_sign
 
@@ -25,9 +26,9 @@
 /*!
  返回sign对应的User对象
  */
-- (Client_user *)clientUser
+- (Client_contact *)clientContact
 {
-    return [[DataManager defaultInstance] clientUserWithAddress:self.sign_address];
+    return [[DataManager defaultInstance] findUserWithAddress:self.sign_address];
 }
 
 /*!
@@ -36,9 +37,9 @@
  */
 - (NSString *)displayName
 {
-    if ([self.clientUser.user_name length])
+    if ([self.clientContact.user_name length])
     {
-        self.sign_displayname = self.clientUser.user_name;
+        self.sign_displayname = self.clientContact.user_name;
     }
     return self.sign_displayname;
 }

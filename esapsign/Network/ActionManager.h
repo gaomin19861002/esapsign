@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "Client_sign_flow.h"
 #import "Client_target.h"
-#import "Client_content.h"
+#import "Client_contact_item.h"
 #import "ASIFormDataRequest.h"
 
 @class ActionManager;
@@ -51,7 +51,9 @@ DefaultInstanceForClassHeader(ActionManager);
 /**
  * 将要发送的Action请求放到队列里面
  */
-- (ASIFormDataRequest*) addToQueue:(NSDictionary *) param;
+- (ASIFormDataRequest*) addToQueue:(NSDictionary *) param sendAtOnce:(bool)sendAtOnce;
+
+- (ASIFormDataRequest*) sendQueueAtOnce;
 
 #pragma mark - Actions Package
 
@@ -90,21 +92,21 @@ DefaultInstanceForClassHeader(ActionManager);
  @param user 新建的联系人对象（客户端为user，服务端为contact）
  @return 新建联系人的Contact数据包
  */
-- (NSDictionary *)contactNewAction:(Client_user *) user;
+- (NSDictionary *)contactNewAction:(Client_contact *) user;
 
 /*!
  contactupdate的数据包
  @param user 更新的对象
  @return 联系人的数据包
  */
-- (NSDictionary *)contactUpdateAction:(Client_user *) user;
+- (NSDictionary *)contactUpdateAction:(Client_contact *) user;
 
 /*!
  contactdel的数据包
  @param user 要删除的对象
  @return 联系人的数据包
  */
-- (NSDictionary *)contactDelAction:(Client_user *) user;
+- (NSDictionary *)contactDelAction:(Client_contact *) user;
 
 #pragma mark - Signature actions
 

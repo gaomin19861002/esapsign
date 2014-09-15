@@ -9,6 +9,7 @@
 #import "DocDetailViewController.h"
 #import "PDFDocument.h"
 #import "DataManager.h"
+#import "DataManager+SignPic.h"
 #import "FileManagement.h"
 #import "ActionManager.h"
 #import "CompleteManager.h"
@@ -130,7 +131,7 @@ static int signViewTag = SignViewTagBase;
     // 设置签名列表视图
     signsListView = [[SignatureClipListView alloc] initWithFrame:CGRectMake(0, 0, 1024, 56)];
     [self.operationBgView addSubview:signsListView];
-    signsListView.arrDefaultSigns = [[DataManager defaultInstance] allDefaultSignFiles];
+    signsListView.arrDefaultSigns = [[DataManager defaultInstance] allDefaultSignPics];
     signsListView.signsListDelegate = self;
     signsListView.allowDragSign = YES;
     signsListView.panTargetView = self.backgroundView;
@@ -218,7 +219,7 @@ static int signViewTag = SignViewTagBase;
     {
         //请求加锁操作
         NSDictionary* action = [[ActionManager defaultInstance] lockAction:clientTarget];
-        self.lockSignRequest = [[ActionManager defaultInstance] addToQueue:action];
+        self.lockSignRequest = [[ActionManager defaultInstance] addToQueue:action sendAtOnce:YES];
         self.operationBgView.hidden = NO;
     }
     else
@@ -459,7 +460,7 @@ static int signViewTag = SignViewTagBase;
         [[DataManager defaultInstance] finishSignFlow:currentSignFlow withSign:currentSign];
 
         NSDictionary *actions = [[ActionManager defaultInstance] signRequestAction:currentSign andTarget:clientTarget];
-        [[ActionManager defaultInstance] addToQueue:actions];
+        [[ActionManager defaultInstance] addToQueue:actions sendAtOnce:YES];
         self.signRequest = [ActionManager defaultInstance].actionRequest;
      }
 }
@@ -536,7 +537,7 @@ static int signViewTag = SignViewTagBase;
                   address:(NSString *)address
 {
     Client_target *fileTarget = clientTarget;
-    [fileTarget.clientFile addUserToSignFlow:userName address:address];
+    [fileTarget.clientFile.currentSignflow addUserToSignFlow:userName address:address];
     [_addSignerPopoverController dismissPopoverAnimated:YES];
     NSArray *signs = [clientTarget.clientFile.currentSignflow sortedSignFlows];
     [self updateSignflowWithSigns:signs];
@@ -1088,8 +1089,7 @@ static int signViewTag = SignViewTagBase;
         if (filePath && [filePath objectForKey:@"filePaths"])
         {
             NSString *url = [filePath objectForKey:@"filePaths"];
-            Client_sign_flow *currentSignFlow = clientTarget.clientFile.currentSignflow;
-            NSDictionary *complete = [[CompleteManager defaultInstance] uploadCompleteCommand:0 completeId:currentSignFlow.file_id completeURL:url];
+            NSDictionary *complete = [[CompleteManager defaultInstance] uploadCompleteCommand:0 completeId:clientTarget.clientFile.file_id completeURL:url];
             self.upCompleteRequest = [[RequestManager defaultInstance] asyncPostData:UploadCompleteRequestPath Parameter:complete];
         }
         else

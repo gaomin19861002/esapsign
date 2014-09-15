@@ -18,7 +18,6 @@
 #import "NSDate+Additions.h"
 #import "SyncManager.h"
 #import "CAAppDelegate.h"
-#import "ClientContentInEdit.h"
 
 
 @interface ActionManager()<RequestManagerDelegate>
@@ -221,15 +220,15 @@ DefaultInstanceForClass(ActionManager);
  * @param content 新建的联系人的content对象
  * @return 新建联系人的ContentItem数据包
  */
-- (NSDictionary *)contentItemAction:(Client_content *) content isNew:(bool)isNew
+- (NSDictionary *)contentItemAction:(Client_contact_item *) content isNew:(bool)isNew
 {
     
-    NSDictionary *item = @{@"id": isNew ? [Util generalUUID] : content.content_id,
+    NSDictionary *item = @{@"id": isNew ? [Util generalUUID] : content.item_id,
                            @"accountId": content.account_id ? content.account_id: @"",
-                           @"type": content.contentType ? content.contentType : @"",
+                           @"type": content.contentType ? [content.contentType stringValue] : @"",
                            @"title": content.title ? content.title : @"",
                            @"content": content.contentValue ? content.contentValue : @"",
-                           @"major": content.major ? : @""};
+                           @"major": content.major ? [content.major stringValue]: @""};
     return item;
 }
 
@@ -238,11 +237,11 @@ DefaultInstanceForClass(ActionManager);
  * @param user 新建的联系人对象（客户端为user，服务端为contact）
  * @return 新建联系人的Contact数据包
  */
-- (NSDictionary *)contactNewAction:(Client_user *) user
+- (NSDictionary *)contactNewAction:(Client_contact *) user
 {
     //组装newData，contactItems
     NSMutableArray *contactItems = [NSMutableArray array];
-    for (Client_content *content in user.clientContents) {
+    for (Client_contact_item *content in user.clientItems) {
         [contactItems addObject:[self contentItemAction:content isNew:YES]];
     }
     
@@ -275,19 +274,19 @@ DefaultInstanceForClass(ActionManager);
  * @param user 更新的对象
  * @return 联系人的数据包
  */
-- (NSDictionary *)contactUpdateAction:(Client_user *) user
+- (NSDictionary *)contactUpdateAction:(Client_contact *) user
 {
     //组装newData，contactItems
     NSMutableArray *contactItems = [NSMutableArray array];
-    for (Client_content *content in user.clientContents) {
+    for (Client_contact_item *content in user.clientItems) {
         [contactItems addObject:[self contentItemAction:content isNew:NO]];
     }
     
     //然后拼装newData
     // JSON解析不支持NSDate格式 gaomin@20140818
     NSString *lastTimeStamp = [user.last_timestamp fullDateString];
-    NSDictionary *newData = @{@"id" : user.user_id,
-                              @"contactAccount" : user.user_id ? user.user_id : @"",//用户在ESAP平台上的id
+    NSDictionary *newData = @{@"id" : user.contact_id,
+                              @"contactAccount" : user.contact_id ? user.contact_id : @"",//用户在ESAP平台上的id
                               @"majorEmail" : [user majorAddress] ? [user majorAddress] : @"",
                               @"familyName" : user.family_name ? user.family_name : @"",
                               @"personName" : user.person_name ? user.person_name : @"",
@@ -299,7 +298,7 @@ DefaultInstanceForClass(ActionManager);
                              @"timestamp" : [NSString stringWithFormat:@"%@", [NSDate date]],
                              @"version" : @"",
                              @"category" : @"contactupdate",
-                             @"orgData" : user.user_id,
+                             @"orgData" : user.contact_id,
                              @"newData" : newData,
                              @"actionResult" : @""};
     
@@ -311,14 +310,14 @@ DefaultInstanceForClass(ActionManager);
  * @param user 要删除的对象
  * @return 联系人的数据包
  */
-- (NSDictionary *)contactDelAction:(Client_user *) user
+- (NSDictionary *)contactDelAction:(Client_contact *) user
 {
     //拼装action
     NSDictionary *action = @{@"id": [Util generalUUID],
                              @"timestamp" : [NSString stringWithFormat:@"%@", [NSDate date]],
                              @"version" : @"",
                              @"category" : @"contactdel",
-                             @"orgData" : user.user_id,
+                             @"orgData" : user.contact_id,
                              @"newData" : @"",
                              @"actionResult" : @""};
     
@@ -443,10 +442,20 @@ DefaultInstanceForClass(ActionManager);
  * @param param Action请求的参数内容
  * @return
  */
-- (ASIFormDataRequest*) addToQueue:(NSDictionary *) param
+- (ASIFormDataRequest*) addToQueue:(NSDictionary *) param sendAtOnce:(bool)sendAtOnce
 {
     [self.actionQueue addObject:param];
     
+    // 如果已经在发送一个action请求，暂时不处理，直接返回。这样保证单例模式ActionManager只有一个actionRequest对象
+    // 如果不要求立即发送，也直接返回
+    if (inRequest || !sendAtOnce)
+        return nil;
+    
+    return [self postAction];
+}
+
+- (ASIFormDataRequest*) sendQueueAtOnce
+{
     // 如果已经在发送一个action请求，暂时不处理，直接返回。这样保证单例模式ActionManager只有一个actionRequest对象
     if (inRequest)
         return nil;
@@ -474,7 +483,7 @@ DefaultInstanceForClass(ActionManager);
 
 - (ASIFormDataRequest*)postAction
 {
-    if ([self.actionQueue count] > 0)
+    if ([self.actionQueue count] > 0 && ![CAAppDelegate sharedDelegate].offlineMode)
     {
         [self backupAction];
         

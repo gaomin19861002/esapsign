@@ -22,7 +22,6 @@
 
 @end
 
-
 @implementation Client_file
 
 @dynamic download_size;
@@ -43,23 +42,18 @@
 @dynamic upload_size;
 @dynamic version;
 @dynamic version_guid;
-@dynamic clientTarget;
+
 @dynamic currentSignflow;
 @dynamic clientTargets;
 
-/*!
- 添加一个用户到签名流程
- */
-- (Client_sign *)addUserToSignFlow:(NSString *)userName address:(NSString *)address {
-    return [[DataManager defaultInstance] addFileSignFlow:self displayName:userName address:address];
-}
-
-- (BOOL)removeClientSign:(Client_sign *)sign {
+- (BOOL)removeClientSign:(Client_sign *)sign
+{
     return [[DataManager defaultInstance] removeClientSign:sign
                                             fromClientFile:self];
 }
 
-- (FileStatus)fileStatus {
+- (FileStatus)fileStatus
+{
     FileStatus status = FileStatusFinished;
     int serverVersion = [self.server_version intValue];
     int localVersion = [self.local_version intValue];
@@ -79,15 +73,16 @@
         } else if (dstatus == DownloadStatusFailed) {
             status = FileStatusWaitingDownload;
         }
-    } else if (serverVersion < localVersion) {
+    }
+    else if (serverVersion < localVersion)
+    {
 #warning TODO Upload Status
     }
     
     return status;
 }
 
-#pragma -
-#pragma mark Private Methods
+#pragma mark - Private Methods
 /*!
  返回指定id的签名流对象
  */

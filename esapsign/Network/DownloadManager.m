@@ -8,13 +8,16 @@
 
 #import "DownloadManager.h"
 #import "DataManager.h"
-#import "Client_signfile.h"
+#import "DataManager+SignPic.h"
+#import "DataManager+Targets.h"
+#import "Client_signpic.h"
 #import "DownloadInfo.h"
 #import "ASINetworkQueue.h"
 #import "NSString+Additions.h"
 #import "ASIHTTPRequest.h"
 #import "SyncManager.h"
 #import "NSObject+DelayBlocks.h"
+#import "CAAppDelegate.h"
 
 #define MaxDownloadCount    1
 
@@ -86,20 +89,20 @@ DefaultInstanceForClass(DownloadManager);
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     // 查找所有未下载的签名图片
-    NSArray *signFiles = [[DataManager defaultInstance] allDefaultSignFiles];
-    for (Client_signfile *signFile in signFiles)
+    NSArray *signFiles = [[DataManager defaultInstance] allDefaultSignPics];
+    for (Client_signpic *signFile in signFiles)
     {
-        if ([signFile.signfile_serverpath length])
+        if ([signFile.signpic_serverpath length])
         {
-            if (![fileManager fileExistsAtPath:signFile.signfile_path])
+            if (![fileManager fileExistsAtPath:signFile.signpic_path])
             {
                 self.allSignCount ++;
                 // 添加到下载列表中
                 DownloadInfo *info = [[DownloadInfo alloc] init];
-                info.serverPath = signFile.signfile_serverpath;
-                info.localPath = signFile.signfile_path;
+                info.serverPath = signFile.signpic_serverpath;
+                info.localPath = signFile.signpic_path;
                 info.status = DownLoadStatusWaitingDownload;
-                info.fileID = signFile.signfile_id;
+                info.fileID = signFile.signpic_id;
                 info.fileType = 0;
                 [self.downloadFiles addObject:info];
             }
@@ -133,18 +136,11 @@ DefaultInstanceForClass(DownloadManager);
     }
 }
 
-- (void)startDownload {
-    if (![self.downloadFiles count]) {
+- (void)startDownload
+{
+    if (![self.downloadFiles count] || [CAAppDelegate sharedDelegate].offlineMode)
+    {
         DebugLog(@"no files need to download");
-        
-        if ([SyncManager defaultInstance]->reqireSignMark)
-        {
-            [SyncManager defaultInstance]->reqireSignMark = NO;
-            [self performBlock:^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:NeedCreateHandSignNotification object:nil];
-
-            } afterDelay:.0f];
-        }
         [[NSNotificationCenter defaultCenter] postNotificationName:DownloadSignFileUpdateNotification object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:DownloadAllSignFinishedNotitication object:nil];
         return;

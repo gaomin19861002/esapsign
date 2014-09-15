@@ -8,8 +8,9 @@
 
 #import "ContactSelectedViewController.h"
 #import "DataManager.h"
-#import "Client_user.h"
-#import "Client_content.h"
+#import "DataManager+Contacts.h"
+#import "Client_contact.h"
+#import "Client_contact_item.h"
 #import "pinyin.h"
 #import "ContactSelectedCell.h"
 #import "NSDate+Additions.h"
@@ -50,7 +51,7 @@
 
 @property(nonatomic, assign) NSInteger allUserCount;
 
-@property(nonatomic, retain) Client_user *selectedUser;
+@property(nonatomic, retain) Client_contact *selectedUser;
 
 /*!
  返回按钮响应方法
@@ -118,12 +119,12 @@
             [_allUserGroups addObject:[NSMutableArray array]];
         }
         
-        NSArray *allUsers = [[DataManager defaultInstance] allClientUsers];
+        NSArray *allUsers = [[DataManager defaultInstance] allContacts];
         self.allUserCount = [allUsers count];
         // 分组
         // 字母_a~z姓名排序
         for (int i = 0; i < [allUsers count]; i ++) {
-            Client_user *user = [allUsers objectAtIndex:i];
+            Client_contact *user = [allUsers objectAtIndex:i];
             if (user.user_name.length) {
                 NSString *sectionName = [NSString stringWithFormat:@"%c",pinyinFirstLetter([user.user_name characterAtIndex:0])];
 
@@ -207,16 +208,16 @@
         return;
     }
     self.selectedUser = [[self.allUserGroups objectAtIndex:selectedIndexPath.section] objectAtIndex:selectedIndexPath.row];
-    UIImage *headImage = [UIImage imageNamed:[self.selectedUser contentWithType:UserContentTypePhoto useLarge:YES]];
+    UIImage *headImage = [UIImage imageNamed:[self.selectedUser headIconUseLarge:YES]];
     self.contactHead.image = headImage;
     //self.contactLabel.text = self.selectedUser.user_name;
     self.contactName.text = self.selectedUser.user_name;
     [self.contactDetail reloadData];
     
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    if ([self.selectedUser.showContexts count])
+    if ([self.selectedUser.showContents count])
     {
-        Client_content *context = [self.selectedUser.showContexts objectAtIndex:indexPath.row];
+        Client_contact_item *context = [self.selectedUser.showContents objectAtIndex:indexPath.row];
         self.contactAddr.text = context.contentValue;
     }
 }
@@ -272,7 +273,7 @@
     }
     
     if (tableView == self.contactDetail) {
-        return [self.selectedUser.showContexts count];
+        return [self.selectedUser.showContents count];
     }
     
     return 0;
@@ -317,7 +318,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (tableView == self.contactList) {
         if (section > 0) {
-            Client_user *firstUser = [self.allUserGroups[section] firstObject];
+            Client_contact *firstUser = [self.allUserGroups[section] firstObject];
             NSString *sectionName = [NSString stringWithFormat:@"%c",pinyinFirstLetter([firstUser.user_name characterAtIndex:0])];
             
             return [sectionName uppercaseString];
@@ -335,19 +336,19 @@
     if (tableView == self.contactList) {
         ContactSelectedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactSelectedCell" forIndexPath:indexPath];
         
-        Client_user *object = [[self.allUserGroups objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] ;
+        Client_contact *object = [[self.allUserGroups objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] ;
         cell.nameLabel.text = [object user_name];
-        UIImage *headImage = [UIImage imageNamed:[object contentWithType:UserContentTypePhoto useLarge:NO]];
+        UIImage *headImage = [UIImage imageNamed:[object headIconUseLarge:NO]];
         
         cell.headImageView.image = headImage;
-        cell.selectedDateLabel.text = [object.selectedDate fullDateString];
+        cell.selectedDateLabel.text = [object.last_used fullDateString];
         
         return cell;
     }
     
     if (tableView == self.contactDetail) {
         ContactContextCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactContextCell" forIndexPath:indexPath];
-        Client_content *context = [self.selectedUser.showContexts objectAtIndex:indexPath.row];
+        Client_contact_item *context = [self.selectedUser.showContents objectAtIndex:indexPath.row];
         cell.titleLabel.text = context.title;
         cell.subTitleLabel.text = context.contentValue;
         
@@ -363,7 +364,7 @@
     }
     
     if (tableView == self.contactDetail) {
-        Client_content *context = [self.selectedUser.showContexts objectAtIndex:indexPath.row];
+        Client_contact_item *context = [self.selectedUser.showContents objectAtIndex:indexPath.row];
         if (context != nil)
             self.contactAddr.text = context.contentValue;
     }

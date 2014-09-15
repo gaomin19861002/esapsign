@@ -15,11 +15,11 @@
 @property (nonatomic, retain) NSNumber * current_sequence;
 @property (nonatomic, retain) NSString * current_sign_id;
 @property (nonatomic, retain) NSNumber * current_sign_status;
-@property (nonatomic, retain) NSString * file_id;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * sign_flow_id;
-@property (nonatomic, retain) Client_file *clientFile;
+
 @property (nonatomic, retain) NSSet *clientSigns;
+
 @end
 
 @interface Client_sign_flow (CoreDataGeneratedAccessors)
@@ -38,5 +38,10 @@
  判断一个sign是否是当前要执行的sign
  */
 - (bool)isActiveSign:(Client_sign*)sign;
+
+/*!
+ 添加一个用户到签名流程
+ */
+- (Client_sign *)addUserToSignFlow:(NSString *)userName address:(NSString *)address;
 
 @end

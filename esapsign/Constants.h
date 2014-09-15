@@ -124,41 +124,22 @@ typedef NS_ENUM(NSInteger, TargetType) {
 /*!
  定义用户信息的标签类型
  */
-typedef enum {
-    /*!
-     用户名称
-     */
-    UserContentTypeName = 0,
-    
-    /*!
-     用户姓氏
-     */
-    UserContentTypePersonName = 1,
-    
-    /*!
-     用户名称
-     */
-    USerContentTypeFamilyName = 2,
-
-    /*!
-     用户电话
-     */
-    UserContentTypePhone = 3,
-    
+typedef enum
+{    
     /*!
      用户邮件
      */
-    UserContentTypeEmail = 4,
+    UserContentTypeEmail = 0,
     
+    /*!
+     用户电话
+     */
+    UserContentTypePhone = 1,
+
     /*!
      用户地址
      */
-    UserContentTypeAddress = 5,
-    
-    /*!
-     用户照片
-     */
-    UserContentTypePhoto = 6,
+    UserContentTypeAddress = 2
     
 } UserContentType;
 

@@ -9,20 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Client_user;
+@class Client_contact;
 
-@class ClientContentInEdit;
+@interface Client_contact_item : NSManagedObject
 
-@interface Client_content : NSManagedObject
-
-@property (nonatomic, retain) NSString * content_id;
+@property (nonatomic, retain) NSString * item_id;
 @property (nonatomic, retain) NSNumber * contentType;
 @property (nonatomic, retain) NSString * contentValue;
 @property (nonatomic, retain) NSNumber * major;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSString * user_id;
+@property (nonatomic, retain) NSString * contact_id;
 @property (nonatomic, retain) NSString * account_id;
-@property (nonatomic, retain) Client_user *clientUser;
+
+@property (nonatomic, retain) Client_contact *clientContact;
 
 /*!
  条目类型名称

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class Client_user;
+@class Client_contact;
 @class ContactSelectedViewController;
 @protocol ContactSelectedViewControllerDelegate<NSObject>
 
