@@ -104,6 +104,8 @@
     [self.nameLabel setFont:[UIFont fontWithName:@"Libian SC" size:32.0]];
     [self.signWithSomeOnelabel setFont:[UIFont fontWithName:@"Libian SC" size:22.0]];
     
+    self.itemsInEditing = [NSMutableArray arrayWithCapacity:2];
+    
     [[ActionManager defaultInstance] registerDelegate:self];
 }
 
@@ -302,7 +304,7 @@
     //1 本地数据更新
     self.nameLabel.text = [NSString stringWithFormat:@"%@%@", self.familyNameTextField.text, self.personNameTextField.text];
     
-    NSDictionary* contactDic = [manager createDefaultContactValue];
+    NSMutableDictionary* contactDic = [manager createDefaultContactValue];
     [contactDic setValue:self.currentContact.contact_id forKey:@"id"];
     [contactDic setValue:self.familyNameTextField.text forKey:@"familyName"];
     [contactDic setValue:self.personNameTextField.text forKey:@"personName"];
@@ -481,11 +483,10 @@
     if (tableView == self.userDetailInfoTable && !self.userDetailInfoTable.editing)
     {
         NSMutableArray* contents = bInEdit ? self.itemsInEditing : self.itemsInStore;
-        Client_contact_item *content = [contents objectAtIndex:indexPath.row];
-        if ([content.contentType intValue] == UserContentTypeEmail)
-        {
-            self.selectAddress.text = content.contentValue;
-        }
+        NSMutableDictionary *content = [contents objectAtIndex:indexPath.row];
+        
+        if ([[content objectForKey:@"type"] intValue] == UserContentTypeEmail)
+            self.selectAddress.text = [content objectForKey:@"content"];
     }
     else if (tableView == self.documentTableView)
     {
@@ -530,11 +531,10 @@
 - (void)UserContentCell:(UserContentCell *)cell DidFinishEditingSubTitleWithName:(NSString *)strName
 {
     NSIndexPath *indexPath = [self.userDetailInfoTable indexPathForCell:cell];
-    NSDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
+    NSMutableDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
     // 更新界面
     NSString* newName = strName.length == 0 ? @"" : strName;
     [item setValue:newName forKey:@"content"];
-    // [self.userTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 /*!
@@ -546,7 +546,7 @@
     {
         // [self vcResignFirstResponder];
         NSIndexPath *indexPath = [self.userDetailInfoTable indexPathForCell:cell];
-        NSDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
+        NSMutableDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
         UINavigationController *navController = nil;
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
         int contentType = [[item objectForKey:@"type"] intValue];
@@ -584,15 +584,14 @@
     if (self.curUserTableSelectedIndexPath.section == 0)
     {
         // 更新界面
-        NSDictionary *item = [self.itemsInEditing objectAtIndex:self.curUserTableSelectedIndexPath.row];
+        NSMutableDictionary *item = [self.itemsInEditing objectAtIndex:self.curUserTableSelectedIndexPath.row];
         [item setValue:strTitle forKey:@"title"];
         [self.userDetailInfoTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.curUserTableSelectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else
     {
         // 新增条目
-        // NSArray *arrTypeTitles = [NSArray arrayWithObjects:@"邮箱", @"电话", nil];
-        NSDictionary* newItem = [[DataManager defaultInstance] createDefaultContactItemValue];
+        NSMutableDictionary* newItem = [[DataManager defaultInstance] createDefaultContactItemValue];
         if ([strTitle isEqualToString:@"邮箱"])
         {
             [newItem setValue:[NSString stringWithFormat:@"%d", UserContentTypeEmail] forKey:@"type"];

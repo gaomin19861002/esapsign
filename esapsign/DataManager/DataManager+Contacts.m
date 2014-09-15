@@ -139,13 +139,13 @@
 #pragma mark - Contact operations
 
 // 创建一个联系人基本信息字典
-- (NSDictionary *)createDefaultContactValue
+- (NSMutableDictionary *)createDefaultContactValue
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *date = [[NSDate date] fullDateString];
     
-    NSDictionary* contactDic = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary* contactDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                 [Util generalUUID], @"id",
                                 [[NSNumber numberWithInt:0] stringValue], @"gender",
                                 @"", @"familyName",
@@ -155,9 +155,9 @@
 }
 
 // 创建一个默认的联系人条目信息
-- (NSDictionary*)createDefaultContactItemValue
+- (NSMutableDictionary*)createDefaultContactItemValue
 {
-    NSDictionary* itemDic = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary* itemDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              [Util generalUUID], @"id",
                              [NSString stringWithFormat:@"%d", UserContentTypeEmail], @"type",
                              @"邮件", @"title",
@@ -167,9 +167,9 @@
 }
 
 // 将一个Client_contact_item对象打包回字典
-- (NSDictionary*)createContactItemValueByItem:(Client_contact_item*) item
+- (NSMutableDictionary*)createContactItemValueByItem:(Client_contact_item*) item
 {
-    NSDictionary* itemDic = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary* itemDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              item.item_id, @"id",
                              [item.contentType stringValue], @"type",
                              item.title, @"title",

@@ -226,7 +226,7 @@
     else
     {
         // 新增条目
-        NSDictionary *item = [[DataManager defaultInstance] createDefaultContactItemValue];
+        NSMutableDictionary *item = [[DataManager defaultInstance] createDefaultContactItemValue];
         if ([strTitle isEqualToString:@"邮箱"])
         {
             [item setValue:[NSString stringWithFormat:@"%d", UserContentTypeEmail] forKey:@"type"];

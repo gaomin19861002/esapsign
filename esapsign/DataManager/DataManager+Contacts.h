@@ -29,13 +29,13 @@
 - (NSArray *)lastestConstacts;
 
 // 创建一个联系人基本信息字典
-- (NSDictionary* )createDefaultContactValue;
+- (NSMutableDictionary* )createDefaultContactValue;
 
 // 创建一个默认的联系人条目信息
-- (NSDictionary*)createDefaultContactItemValue;
+- (NSMutableDictionary*)createDefaultContactItemValue;
 
 // 将一个Client_contact_item对象打包回字典
-- (NSDictionary*)createContactItemValueByItem:(Client_contact_item*) item;
+- (NSMutableDictionary*)createContactItemValueByItem:(Client_contact_item*) item;
 
 // 通过添加姓名开始创建一个通讯录用户
 - (Client_contact *)addContactByPersonName:(NSString *)personName familyName:(NSString *)familyName;
