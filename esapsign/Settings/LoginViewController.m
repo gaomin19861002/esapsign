@@ -20,11 +20,13 @@
 #import "NSObject+Json.h"
 
 @interface LoginViewController ()<RequestManagerDelegate>
+{
+    NSString* tempAccountID;
+}
 
 @property (nonatomic, retain) IBOutlet UITextField *nameTextField;
 @property (nonatomic, retain) IBOutlet UITextField *pwdTextField;
 @property (retain, nonatomic) IBOutlet UIView *loginPartView;
-
 
 @property (nonatomic, retain) IBOutlet UILabel *tipsLabel;
 @property (nonatomic, retain) IBOutlet UITextField *verifyTextField;
@@ -69,6 +71,7 @@
         User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
         self.nameTextField.text = user.name;
         self.pwdTextField.text = user.password;
+        tempAccountID = user.accountId;
     }
 }
 
@@ -118,6 +121,7 @@
         User *user = [[User alloc] init];
         user.name = self.nameTextField.text;
         user.password = self.pwdTextField.text;
+        user.accountId = tempAccountID;
         NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:user];
         [Util setValue:userData forKey:LoginUser];
         

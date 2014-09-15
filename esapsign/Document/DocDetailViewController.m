@@ -15,6 +15,7 @@
 #import "CompleteManager.h"
 #import "ContactSelectedViewController.h"
 #import "ResizableSignatureClipView.h"
+#import "CAAppDelegate.h"
 
 #import "Util.h"
 #import "HTBKVObservation.h"
