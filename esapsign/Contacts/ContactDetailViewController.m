@@ -143,17 +143,17 @@
         self.personNameTextField.hidden = NO;
         self.line1.hidden = NO;
         self.line2.hidden = NO;
+        
+        self.deleteContactButton.hidden = NO;
     }
     else
     {
         self.navigationItem.rightBarButtonItems = self.rightDefaultStatusItems;
         self.navigationItem.leftBarButtonItems = nil;
-        
 
         self.familyNameTextField.hidden = YES;
         self.familyNameLabel.hidden = YES;
         self.line1.hidden = YES;
-
         self.personNameLabel.hidden = YES;
         self.personNameTextField.hidden = YES;
         self.line2.hidden = YES;
@@ -163,6 +163,8 @@
         self.selectAddress.hidden = NO;
         self.signWithSomeOnelabel.hidden = NO;
         self.documentTableView.hidden = NO;
+
+        self.deleteContactButton.hidden = YES;
     }
 }
 
@@ -202,8 +204,7 @@
     {
         // 添加工具按钮 暂时隐藏编辑按钮
         UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editBtnClicked:)];
-        UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteContactBtnClicked:)];
-        _rightDefaultStatusItems = @[editItem, deleteItem];
+        _rightDefaultStatusItems = @[editItem];
     }
 
     return _rightDefaultStatusItems;
@@ -343,7 +344,7 @@
 
 #pragma mark - 删除联系人
 
-- (void)deleteContactBtnClicked:(UIButton *)sender
+- (IBAction)deleteContactBtnClicked:(id)sender
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"删除联系人" message:@"确认删除当前联系人吗?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     alert.tag = AlertContactDelTag;

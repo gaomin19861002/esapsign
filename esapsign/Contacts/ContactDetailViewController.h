@@ -24,6 +24,7 @@
 @property (nonatomic, strong) IBOutlet UIImageView *line1;
 @property (nonatomic, strong) IBOutlet UIImageView *line2;
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet UIButton *deleteContactButton;
 
 /**
  * @abstract 用户信息列表

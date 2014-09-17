@@ -216,7 +216,7 @@ DefaultInstanceForClass(SyncManager);
                         Client_contact* contact = [manager addContactByPersonName:[signDict objectForKey:@"signerName"] familyName:@""];
                         [manager addContactItem:contact
                                     itemAccount:aid
-                                      itemTitle:@""
+                                      itemTitle:@"签约"
                                        itemType:UserContentTypeEmail
                                       itemValue:[signDict objectForKey:@"signerAddress"]
                                         isMajor:[aid isEqualToString:@""]];

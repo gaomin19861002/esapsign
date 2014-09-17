@@ -167,7 +167,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="标题" id="f6i-jd-Yav"/>
-                    <value key="contentSizeForViewInPopover" type="size" width="320" height="480"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="280" height="240"/>
                 </tableViewController>
