@@ -160,7 +160,7 @@
     NSMutableDictionary* itemDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              [Util generalUUID], @"id",
                              [NSString stringWithFormat:@"%d", UserContentTypeEmail], @"type",
-                             @"邮件", @"title",
+                             @"邮箱", @"title",
                              @"", @"content",
                              @"0", @"major", nil];
     return itemDic;

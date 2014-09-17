@@ -301,13 +301,13 @@
     // 如果没有签名流程，隐藏所有状态标签并返回
     if ([signFlow.clientSigns count] == 0)
     {
-        [cell.signProgressView setHidden:YES];
-        [cell.signStatusView setHidden:YES];
+        [cell.signProgressTotal setHidden:YES];
+        [cell.signProgressCurrent setHidden:YES];
         return;
     }
     
-    [cell.signProgressView setHidden:NO];
-    [cell.signStatusView setHidden:NO];
+    [cell.signProgressTotal setHidden:NO];
+    [cell.signProgressCurrent setHidden:NO];
     
     // 当前用户id
     NSString* currentUserId = [Util currentLoginUserId];
@@ -328,22 +328,22 @@
         {
             if (sign.sign_date != nil)
             {
-                [cell.signStatusView setImage:[UIImage imageNamed:@"signAccept"]];
+                [cell.signProgressCurrent setImage:[UIImage imageNamed:@"signAccept"]];
             }
             else if (sign.refuse_date != nil)
             {
-                [cell.signStatusView setImage:[UIImage imageNamed:@"signReject"]];
+                [cell.signProgressCurrent setImage:[UIImage imageNamed:@"signReject"]];
                 signProgress = SignProgressFail;
                 break;
             }
             else if ([sign.sign_id isEqualToString:signFlow.current_sign_id]
                      || (needSequence && signFlow.current_sequence == sign.sequence)) // 轮到当前用户签名
             {
-                [cell.signStatusView setImage:[UIImage imageNamed:@"SignWaiting"]];
+                [cell.signProgressCurrent setImage:[UIImage imageNamed:@"SignWaiting"]];
                 signProgress = SignProgressInProgress;
             }
             else
-                [cell.signStatusView setHidden:YES];
+                [cell.signProgressCurrent setHidden:YES];
         }
         else // 其他签名包处理
         {
@@ -358,13 +358,13 @@
     switch (signProgress)
     {
         case SignProgressOK:
-            [cell.signProgressView setImage:[UIImage imageNamed:@"progressOK"]];
+            [cell.signProgressTotal setImage:[UIImage imageNamed:@"progressOK"]];
             break;
         case SignProgressFail:
-            [cell.signProgressView setImage:[UIImage imageNamed:@"progressFail"]];
+            [cell.signProgressTotal setImage:[UIImage imageNamed:@"progressFail"]];
             break;
         case SignProgressInProgress:
-            [cell.signProgressView setImage:[UIImage imageNamed:@"progress"]];
+            [cell.signProgressTotal setImage:[UIImage imageNamed:@"progress"]];
             break;
     }
 }
@@ -425,24 +425,24 @@
     cell.signLabel.text = nil;
     cell.createLabel.text = [fileTarget.create_time fullDateString];
     cell.updateLabel.text = [fileTarget.update_time fullDateString];
-    cell.status = [fileTarget.clientFile fileStatus];
+    cell.status = [fileTarget.clientFile fileDownloadStatus];
 #warning 现在不允许编辑签名流程
     cell.signManageAvaliable = NO;
     
     Client_file *file = fileTarget.clientFile;
-    if ([file.file_type intValue] == FileExtendTypePdf) {
-        cell.leftImageView.image = [UIImage imageNamed:@"FileTypePDF"];
-    } else if ([file.file_type intValue] == FileExtendTypeTxt) {
-        cell.leftImageView.image = [UIImage imageNamed:@"FileTypeText"];
-    } else {
-        cell.leftImageView.image = [UIImage imageNamed:@"FileTypeImage"];
-    }
-
-    cell.rightImageButton.hidden = [file.file_type intValue] != FileExtendTypePdf;
-    
     if ([file.file_type intValue] == FileExtendTypePdf)
+        cell.leftImageView.image = [UIImage imageNamed:@"FileTypePDF"];
+    else if ([file.file_type intValue] == FileExtendTypeTxt)
+        cell.leftImageView.image = [UIImage imageNamed:@"FileTypeText"];
+    else
+        cell.leftImageView.image = [UIImage imageNamed:@"FileTypeImage"];
+    
+    bool isPDFfile = ([file.file_type intValue] == FileExtendTypePdf);
+
+    [cell.rightImageButton setBackgroundImage:[UIImage imageNamed:@"FlowManage"] forState:UIControlStateNormal];
+    [cell.rightImageButton setHidden:!isPDFfile];
+    if (isPDFfile)
     {
-        [cell.rightImageButton setBackgroundImage:[UIImage imageNamed:@"FlowManage"] forState:UIControlStateNormal];
         if ([[self.foldStatus objectOrNilAtIndex:indexPath.row] boolValue])
             [cell updateSignFlow:file.currentSignflow];
     }

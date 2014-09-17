@@ -18,35 +18,20 @@
 
 @interface AddContactViewController () <UITableViewDataSource, UITableViewDelegate, UserContentCellDelegate, TypeSelectionTableViewControllerDelegate, UITextFieldDelegate>
 
+// 数据集合
 @property(nonatomic, retain) NSMutableArray *itemsInEditing;
 
-/*!
- 当前用户信息编辑状态下，context类型选择框
- */
+// 当前用户信息编辑状态下，context类型选择框
 @property(nonatomic, retain) UIPopoverController *typeSelectionPopoverController;
 
-/*!
- 用户当前编辑的条目
- */
+// 用户当前编辑的条目
 @property(nonatomic, retain) NSIndexPath *curUserTableSelectedIndexPath;
-
-- (IBAction)tapCancel:(id)sender;
-- (IBAction)tapDone:(id)sender;
 
 @end
 
 @implementation AddContactViewController
 
 @synthesize headImageView = _headImageView;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -60,12 +45,31 @@
     self.itemsInEditing = [NSMutableArray array];
 }
 
-- (void)didReceiveMemoryWarning
+- (IBAction)tapCancel:(id)sender
 {
-    [super didReceiveMemoryWarning];
+    [self.delegate AddContactViewControllerDidCancel:self];
 }
 
-#pragma mark - <UITableviewDatasource>
+- (IBAction)tapDone:(id)sender
+{
+    if ((self.familyNameField.text == nil || [self.familyNameField.text isEqualToString:@""])
+        && (self.personNameField.text == nil || [self.personNameField.text isEqualToString:@""]))
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"新建联系人" message:@"联系人名称不可为空！" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        alert.delegate = self;
+        [alert show];
+        return;
+    }
+    
+    NSDictionary *dict = [[DataManager defaultInstance] createDefaultContactValue];
+    
+    [dict setValue:self.familyNameField.text forKey:@"familyName"];
+    [dict setValue:self.personNameField.text forKey:@"personName"];
+    
+    [self.delegate AddContactViewControllerDidDone:self userBasicItems:dict contactItems:self.itemsInEditing];
+}
+
+#pragma mark - UITableView Related
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -80,13 +84,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
-    {
         return [self.itemsInEditing count];
-    }
     else
-    {
          return 1;
-    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -117,6 +117,10 @@
         cell.subTitleTextField.text = [item objectForKey:@"content"];
         cell.subTitleLabel.hidden = tableView.editing;
         cell.subTitleTextField.hidden = !tableView.editing;
+        
+        if (indexPath.row == (self.itemsInEditing.count - 1))
+            [cell.subTitleTextField becomeFirstResponder];
+        
         return cell;
     }
     else
@@ -129,18 +133,12 @@
     return nil;
 }
 
-#pragma mark - <UITableviewDelegate>
-
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0)
-    {
         return UITableViewCellEditingStyleDelete;
-    }
     else
-    {
         return UITableViewCellEditingStyleInsert;
-    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -157,26 +155,28 @@
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-#pragma mark - <UserContentCellDelegate>
+#pragma mark - UserContentCell Delegate
 
--(void)UserContentCellDidBeginEditing:(UserContentCell *)cell
+// 开始编辑
+- (void)UserContentCellDidBeginEditing:(UserContentCell *)cell
 {
     self.curUserTableSelectedIndexPath = [self.contactTableView indexPathForCell:cell];
 }
 
-/*!
- 类型编辑按钮点击事件
- */
--(void)UserContentCellModifyTypeTitleButtonClicked:(UserContentCell *)cell
+// 类型编辑按钮点击事件
+- (void)UserContentCellModifyTypeTitleButtonClicked:(UserContentCell *)cell
 {
     if (self.contactTableView.editing)
     {
         [self vcResignFirstResponder];
-        NSIndexPath *indexPath = [self.contactTableView indexPathForCell:cell];
-        NSDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
-        UINavigationController *navController = nil;
+        
+        self.curUserTableSelectedIndexPath = [self.contactTableView indexPathForCell:cell];
+        NSDictionary *item = [self.itemsInEditing objectAtIndex:self.curUserTableSelectedIndexPath.row];
+
+        // 绑定不同的类型选单
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
         int typeValue = [[item objectForKey:@"type"] intValue];
+        UINavigationController *navController = nil;
         if (typeValue == UserContentTypeEmail || typeValue == UserContentTypeAddress)
             navController = [story instantiateViewControllerWithIdentifier:@"NavEmailSelection"];
         else if (typeValue == UserContentTypePhone)
@@ -186,47 +186,45 @@
         {
             TypeSelectionTableViewController *typeSelectionController = (TypeSelectionTableViewController *)[navController topViewController];
             typeSelectionController.typeSelectionDelegate = self;
-            UIPopoverController *popController = [[UIPopoverController alloc] initWithContentViewController:navController];
-            self.typeSelectionPopoverController = popController;
-            CGRect rectInSelf = [self.view convertRect:cell.titleLabel.frame fromView:cell.titleLabel.superview];
-            [popController presentPopoverFromRect:rectInSelf inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
-            self.curUserTableSelectedIndexPath = indexPath;
+            self.typeSelectionPopoverController = [[UIPopoverController alloc] initWithContentViewController:navController];
+            [self.typeSelectionPopoverController presentPopoverFromRect:[self.view convertRect:cell.titleLabel.frame fromView:cell.titleLabel.superview]
+                                                                 inView:self.view
+                                               permittedArrowDirections:UIPopoverArrowDirectionLeft
+                                                               animated:YES];
         }
     }
 }
 
-/*!
- 编辑完成
- */
+// 编辑完成
 -(void)UserContentCell:(UserContentCell *)cell DidFinishEditingSubTitleWithName:(NSString *)strName
 {
     NSIndexPath *indexPath = [self.contactTableView indexPathForCell:cell];
-    NSDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
-    // 更新界面
-    NSString* content = strName.length == 0 ? @"" : strName;
+    NSMutableDictionary *item = [self.itemsInEditing objectAtIndex:indexPath.row];
+    NSString* content = strName == nil ? @"" : strName;
     [item setValue:content forKey:@"content"];
-    [self.contactTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-#pragma mark - <TypeSelectionTableViewControllerDelegate>
+#pragma mark - TypeSelectionTableViewControllerDelegate
 
-/*!
- 选择某个类型下的名称
- */
--(void)TypeSelectionTableViewController:(TypeSelectionTableViewController *)popoverController didSelectTypeTitle:(NSString *)strTitle
+// 选择某个类型下的名称
+- (void)TypeSelectionTableViewController:(TypeSelectionTableViewController *)popoverController didSelectTypeTitle:(NSString *)strTitle
 {
     [self.typeSelectionPopoverController dismissPopoverAnimated:YES];
+    
+    UserContentCell* cell = (UserContentCell*)[self.contactTableView cellForRowAtIndexPath:self.curUserTableSelectedIndexPath];
+    
     if (self.curUserTableSelectedIndexPath.section == 0)
     {
         // 更新界面
-        NSDictionary *item = [self.itemsInEditing objectAtIndex:self.curUserTableSelectedIndexPath.row];
+        NSMutableDictionary *item = [self.itemsInEditing objectAtIndex:self.curUserTableSelectedIndexPath.row];
         [item setValue:strTitle forKey:@"title"];
-        [self.contactTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.curUserTableSelectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        cell.titleLabel.text = strTitle;
     }
     else
     {
         // 新增条目
         NSMutableDictionary *item = [[DataManager defaultInstance] createDefaultContactItemValue];
+        [item setValue:strTitle forKey:@"title"];
         if ([strTitle isEqualToString:@"邮箱"])
         {
             [item setValue:[NSString stringWithFormat:@"%d", UserContentTypeEmail] forKey:@"type"];
@@ -255,57 +253,28 @@
     if (buttonIndex == 0)
     {
         if (![self.familyNameField isFirstResponder])
-        {
             [self.familyNameField becomeFirstResponder];
-        }
     }
 }
 
-#pragma mark - 点击事件
-
-- (IBAction)addContextBtnClicked:(id)sender
+- (void)addContextBtnClicked:(id)sender
 {
     // 弹出提示框，给用户选择
     [self vcResignFirstResponder];
-    
-    UINavigationController *navController = nil;
+
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
-    // 编辑电话类型
-    navController = [story instantiateViewControllerWithIdentifier:@"NavNewTypeSelection"];
+    UINavigationController *navController = navController = [story instantiateViewControllerWithIdentifier:@"NavNewTypeSelection"];
     TypeSelectionTableViewController *typeSelectionController = (TypeSelectionTableViewController *)[navController topViewController];
+    
     typeSelectionController.typeSelectionDelegate = self;
-    UIPopoverController *popController = [[UIPopoverController alloc] initWithContentViewController:navController];
-    self.typeSelectionPopoverController = popController;
-    UIButton *btn = (UIButton *)sender;
-    UITableViewCell *cellAdd = [self.contactTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
-    CGRect rectInSelf = [self.view convertRect:btn.frame fromView:cellAdd];
-    [popController presentPopoverFromRect:rectInSelf inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    self.typeSelectionPopoverController = [[UIPopoverController alloc] initWithContentViewController:navController];
+    CGRect rectInSelf = [self.view convertRect:((UIButton *)sender).frame
+                                      fromView:[self.contactTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]]];
+    [self.typeSelectionPopoverController presentPopoverFromRect:rectInSelf inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     self.curUserTableSelectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
 }
 
-- (IBAction)tapCancel:(id)sender
-{
-    [self.delegate AddContactViewControllerDidCancel:self];
-}
-
-- (IBAction)tapDone:(id)sender
-{
-    if ((self.familyNameField.text == nil || [self.familyNameField.text isEqualToString:@""])
-        && (self.personNameField.text == nil || [self.personNameField.text isEqualToString:@""]))
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"新建联系人" message:@"联系人名称不可为空！" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        alert.delegate = self;
-        [alert show];        
-        return;
-    }
-    
-    NSDictionary *dict = [[DataManager defaultInstance] createDefaultContactValue];
-
-    [dict setValue:self.familyNameField.text forKey:@"familyName"];
-    [dict setValue:self.personNameField.text forKey:@"personName"];
-
-    [self.delegate AddContactViewControllerDidDone:self userBasicItems:dict contactItems:self.itemsInEditing];
-}
 
 #pragma mark - 私有方法
 

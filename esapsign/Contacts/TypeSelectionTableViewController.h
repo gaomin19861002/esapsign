@@ -10,7 +10,9 @@
 
 
 @class TypeSelectionTableViewController;
+
 @protocol TypeSelectionTableViewControllerDelegate <NSObject>
+
 /*!
  选择某个类型下的名称
  */
@@ -27,4 +29,5 @@
  更新某个类型下的名称
  */
 -(void)changeTypeTitleWithName:(NSString *)strName;
+
 @end

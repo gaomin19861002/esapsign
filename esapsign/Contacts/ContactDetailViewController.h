@@ -11,7 +11,6 @@
 
 @interface ContactDetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
-
 // 改直接从联系人列表赋值Client_user为userID以解决类之间直接赋值coredata数据程序有时暴死的情况 gaomin@20140808
 @property (nonatomic ,copy) NSString *currentUserID;
 
@@ -43,6 +42,6 @@
  *
  *  @param sender
  */
-- (IBAction)addContextBtnClicked:(id)sender;
+- (void)addContextBtnClicked:(id)sender;
 
 @end

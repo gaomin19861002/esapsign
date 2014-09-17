@@ -21,6 +21,7 @@
 		D02630CF19C6D9A40065A3A9 /* DataManager+Targets.m in Sources */ = {isa = PBXBuildFile; fileRef = D02630CE19C6D9A40065A3A9 /* DataManager+Targets.m */; };
 		D02630D219C6DA990065A3A9 /* DataManager+SignPic.m in Sources */ = {isa = PBXBuildFile; fileRef = D02630D119C6DA990065A3A9 /* DataManager+SignPic.m */; };
 		D02630D519C6DAA80065A3A9 /* DataManager+Contacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D02630D419C6DAA80065A3A9 /* DataManager+Contacts.m */; };
+		D02630E219C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D02630E119C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m */; };
 		D03F6F4419B0995800B2FB60 /* SetSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D03F6F3219B0995800B2FB60 /* SetSwitchTableViewCell.xib */; };
 		D03F6F4519B0995800B2FB60 /* SetLowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F6F3419B0995800B2FB60 /* SetLowViewController.m */; };
 		D03F6F4619B0995800B2FB60 /* SetLogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F6F3619B0995800B2FB60 /* SetLogoutViewController.m */; };
@@ -225,6 +226,8 @@
 		D02630D119C6DA990065A3A9 /* DataManager+SignPic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DataManager+SignPic.m"; sourceTree = "<group>"; };
 		D02630D319C6DAA80065A3A9 /* DataManager+Contacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DataManager+Contacts.h"; sourceTree = "<group>"; };
 		D02630D419C6DAA80065A3A9 /* DataManager+Contacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DataManager+Contacts.m"; sourceTree = "<group>"; };
+		D02630E019C7C04F0065A3A9 /* DocSignedWithSomeOneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocSignedWithSomeOneCell.h; sourceTree = "<group>"; };
+		D02630E119C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocSignedWithSomeOneCell.m; sourceTree = "<group>"; };
 		D03F6F3219B0995800B2FB60 /* SetSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetSwitchTableViewCell.xib; sourceTree = "<group>"; };
 		D03F6F3319B0995800B2FB60 /* SetBlueToothViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetBlueToothViewController.h; sourceTree = "<group>"; };
 		D03F6F3419B0995800B2FB60 /* SetLowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetLowViewController.m; sourceTree = "<group>"; };
@@ -974,6 +977,8 @@
 			children = (
 				D0ECDEE219A48EAA0008062E /* AddContentCell.h */,
 				D0ECDEE319A48EAA0008062E /* AddContentCell.m */,
+				D0ECDEF619A48EAA0008062E /* UserContentCell.h */,
+				D0ECDEF719A48EAA0008062E /* UserContentCell.m */,
 				D0ECDEE019A48EAA0008062E /* AddContactViewController.h */,
 				D0ECDEE119A48EAA0008062E /* AddContactViewController.m */,
 				D0ECDEEA19A48EAA0008062E /* ContactHeader.h */,
@@ -1032,8 +1037,6 @@
 				D0ECDEF119A48EAA0008062E /* ContactSelectedCell.m */,
 				D0ECDEF219A48EAA0008062E /* ContactSelectedViewController.h */,
 				D0ECDEF319A48EAA0008062E /* ContactSelectedViewController.m */,
-				D0ECDEF619A48EAA0008062E /* UserContentCell.h */,
-				D0ECDEF719A48EAA0008062E /* UserContentCell.m */,
 			);
 			name = Edit;
 			sourceTree = "<group>";
@@ -1124,6 +1127,8 @@
 				D0E8398E19AF4B5100ED539D /* Contact Cell */,
 				D0ECDEE819A48EAA0008062E /* ContactDetailViewController.h */,
 				D0ECDEE919A48EAA0008062E /* ContactDetailViewController.m */,
+				D02630E019C7C04F0065A3A9 /* DocSignedWithSomeOneCell.h */,
+				D02630E119C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m */,
 				D0E8399219AF4D3900ED539D /* Edit */,
 				D0ECDEEE19A48EAA0008062E /* ContactManager.h */,
 				D0ECDEEF19A48EAA0008062E /* ContactManager.m */,
@@ -1696,6 +1701,7 @@
 				D0ECE08E19A4A1670008062E /* SettingsDetailViewController.m in Sources */,
 				D0ECDE7C19A485B90008062E /* Client_file.m in Sources */,
 				D0ECDF4019A496240008062E /* TypeSelectionTableViewController.m in Sources */,
+				D02630E219C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m in Sources */,
 				D0ECDE7E19A485B90008062E /* Client_sign_flow.m in Sources */,
 				D0E8398119AF47F800ED539D /* LeftTabViewController.m in Sources */,
 				D0ECDEBE19A489800008062E /* UIViewController+Additions.m in Sources */,

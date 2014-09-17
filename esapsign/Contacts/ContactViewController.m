@@ -56,8 +56,6 @@
 // 提交新建联系人时采用ActionManager方式
 @property (nonatomic, retain) ASIFormDataRequest *contactNewRequest;
 
-- (void)importSucceedNotification:(NSNotification *)noti;
-
 @end
 
 @implementation ContactViewController
@@ -114,28 +112,7 @@
             firstUpdateGroupUserData = NO;
             [self updateAndGroupUsers];
         }
-        
-        // 是否是不再提醒
-        // NSData *userData = [Util valueForKey:LoginUser];
-        // User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
-        // // 判定是否曾经导入过通讯录
-        // //annotated by weikaikai 移除导入本地通信录功能
-        // if (![[Util valueForKey:user.name] intValue]) {
-        // // 是否是不在提醒
-        // BOOL disabledAsk = [[Util valueForKey:ContactImportDisabledAskedKey] boolValue];
-        // if (!disabledAsk)
-        // {
-        //      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-        //                              message:@"是否从系统通讯录中导入联系人？"
-        //                              delegate:self
-        //                              cancelButtonTitle:nil
-        //                              otherButtonTitles:@"导入", @"不导入", @"不再询问", nil];
-        //                              alert.tag = AlertViewTagImportContact;
-        //      [alert show];
-        //      [alert release];
-        //  }
-        //  }
-        
+
         if (self.detailViewController.currentUserID == nil && self.arrAllSections.count > 0)
         {
             self.detailViewController.currentUserID =  [[[self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section] objectAtIndex:self.curSelectedIndexPath.row] contact_id];
@@ -207,23 +184,6 @@
     [self.AddContactPopover presentPopoverFromBarButtonItem:addItem permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
-///**
-// * @abstract Remove Data for add Contact Fail
-// */
-//- (void)removeLastData
-//{
-//    [self.navigationController.parentViewController.parentViewController hideProgress];
-//    
-//    // 删除数据
-//    Client_user *user = [[DataManager defaultInstance] findUserWithId:self.detailViewController.currentUserID];
-//    [self.arrAllUsers removeObject:user];
-//    self.curSelectedIndexPath = [[NSIndexPath alloc] init];
-//    self.detailViewController.currentUserID = [[[self.arrAllSections objectAtIndex:0] objectAtIndex:0] user_id];
-//    
-//    //重新排序
-//    [self updateAndGroupUsers];
-//}
-
 /**
  * @abstract 获取对应的详情视图的控制器
  */
@@ -256,8 +216,6 @@
 {
     // 更新界面
     [self updateAndGroupUsers];
-    NSLog(@"updateNotification %d", self.arrAllUsers.count);
-    [self.tableView reloadData];
     
     if (self.arrAllSections.count > 0)
     {
@@ -273,65 +231,67 @@
 // 删除通知
 - (void)delNotification:(NSNotification *)noti
 {
-    NSArray *arrSection = [self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section];
-    Client_contact *user = [arrSection objectAtIndex:self.curSelectedIndexPath.row];
+    if (self.curSelectedIndexPath == nil)
+    {
+        [self.tableView reloadData];
+        return;
+    }
+    
     // 注意self.arrAllUsers与DataManager里的并不是同一对象，需要额外删除。
     // 诚然，调用updateAndGroupUsers方法可以取得同步，但小量的改动，尽量不去频繁调用它
+    
+    // 获取当前选择的联系人并直接删除
+    NSMutableArray *arrSection = [self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section];
+    Client_contact *user = [arrSection objectAtIndex:self.curSelectedIndexPath.row];
     [self.arrAllUsers removeObject:user];
-    
-    int newSection = 0;
-    int newRow = 0;
-    
-    // 查找下一个对应的user信息
-    if (self.curSelectedIndexPath != nil)
-    {
-        if (self.curSelectedIndexPath.row == arrSection.count - 1)
-        {
-            if (arrSection.count <= 1)
-            {
-                // 当前section将被删空，取下一个或者上一个section
-                if (self.curSelectedIndexPath.section == self.arrAllSections.count - 1)
-                {
-                    if (self.arrAllSections.count > 1)
-                    {
-                        arrSection = [self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section - 1];
-                        user = [arrSection lastObject];
-                        newSection = self.curSelectedIndexPath.section - 1;
-                        newRow = arrSection.count - 1;
-                    }
-                }
-                else
-                {
-                    // 取下一个section
-                    arrSection = [self.arrAllSections objectAtIndex:self.curSelectedIndexPath.section + 1];
-                    user = [arrSection firstObject];
-                    newSection = self.curSelectedIndexPath.section + 1;
-                    newRow = 0;
-                }
+    [arrSection removeObject:user];
+    ContactHeaderFooterView *headerView = (ContactHeaderFooterView *)self.tableView.tableHeaderView;
+    headerView.subTitleLabel.text = [NSString stringWithFormat:@"%d", [self.arrAllUsers count]];
 
-                // 清除当前的section
-                [self.arrAllSections removeObjectAtIndex:self.curSelectedIndexPath.section];
-            }
-            else
-            {
-                user = [arrSection objectAtIndex:self.curSelectedIndexPath.row - 1];
-                newSection = self.curSelectedIndexPath.section;
-                newRow = self.curSelectedIndexPath.row - 1;
-            }
-        }
-        else
-        {
-            user = [arrSection objectAtIndex:self.curSelectedIndexPath.row + 1];
-            newSection = self.curSelectedIndexPath.section;
-            newRow = self.curSelectedIndexPath.row + 1;
-        }
+    // 所有联系人都删空
+    if (self.arrAllUsers.count <= 0)
+    {
+        self.curSelectedIndexPath = nil;
+        [self.arrAllSections removeObject:arrSection];
+        self.detailViewController.currentUserID = nil;
+        [self.tableView reloadData];
+        return;
     }
 
+    bool isPrevSection = NO;
+    int newSection = self.curSelectedIndexPath.section;
+    int newRow = self.curSelectedIndexPath.row;
+    
+    if (arrSection.count <= 0)
+    {
+        [self.arrAllSections removeObject:arrSection];
+
+        // 如果删除section后当前section的索引越界，则减少
+        if (self.curSelectedIndexPath.section >= self.arrAllSections.count)
+        {
+            isPrevSection = YES;
+            newSection = self.arrAllSections.count - 1;
+        }
+        
+        arrSection = [self.arrAllSections objectAtIndex:newSection];
+        
+        if (isPrevSection)
+            newRow = arrSection.count - 1;
+        else
+            newRow = 0;
+    }
+    else
+    {
+        if (self.curSelectedIndexPath.row >= arrSection.count)
+            newRow = arrSection.count - 1;
+    }
+    
     self.curSelectedIndexPath = [NSIndexPath indexPathForRow:newRow inSection:newSection];
+    user = [arrSection objectAtIndex:self.curSelectedIndexPath.row];
+    self.detailViewController.currentUserID = user.contact_id;
     
     [self.tableView reloadData];
-    
-    self.detailViewController.currentUserID =  user.contact_id;
+
     UITableViewCell *firstCell = [self.tableView cellForRowAtIndexPath:self.curSelectedIndexPath];
     if (firstCell != nil) firstCell.selected = YES;
 }

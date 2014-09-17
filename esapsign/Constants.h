@@ -18,50 +18,50 @@
  */
 #define MaxSignMembers  6
 
-/*!
- 文档管理页面的更新通知
- */
-#define DocViewUpdateNotification   @"DocViewUpdateNotification"
+/*!文档管理页面的更新通知 */
+#define DocViewUpdateNotification           @"DocViewUpdateNotification"
 
 /**  通讯录成员删除通知 */
-#define ContactUpdateNotification   @"ContactUpdateNotification"
+#define ContactUpdateNotification           @"ContactUpdateNotification"
 
 /**  通讯录成员删除通知 */
-#define ContactDeleteNotification   @"ContactDeleteNotification"
-/*!
- 通信录导入成功通知
- */
-#define ContactImportSucceedNotification @"ContactImportSucceedNotification"
+#define ContactDeleteNotification           @"ContactDeleteNotification"
 
-/*!
- 需要创建手写签名的通知
- */
-#define NeedCreateHandSignNotification @"NeedCreateHandSignNotification"
+/*! 通信录导入成功通知 */
+#define ContactImportSucceedNotification    @"ContactImportSucceedNotification"
 
-/*!
- 定义同步更新完成通知
- */
-#define SyncUpdateFinishedNotification  @"UpdateFinishedNotificatioin"
 
-/*!
- 定义动作提交成功通知
- */
-#define ActionSubmitSucceedNotification @"ActionSubmitSucceedNotification"
+/*! 定义同步更新完成通知 */
+#define SyncUpdateFinishedNotification      @"UpdateFinishedNotificatioin"
 
-/**
- *  清空缓存后完成的通知。
- */
-#define ClearCacheFinished @"ClearCacheFinished"
+/*! 定义动作提交成功通知 */
+#define ActionSubmitSucceedNotification     @"ActionSubmitSucceedNotification"
 
-/*!
-定义拿到文件签名锁的超时时间
- */
+/* 清空缓存后完成的通知 */
+#define ClearCacheFinishedNotification      @"ClearCacheFinishedNotification"
+
+/*! 定义下载进度通知 */
+#define DownloadProgressUpdateNotification  @"DownloadProgressUpdate"
+
+/*! 下载完成通知 */
+#define DownloadStatusChangedNotification   @"DownloadStatusChanged"
+
+/*! 下载完签名文件，发出更新通知 */
+#define DownloadSignFileUpdateNotification  @"DownloadSignFileUpdate"
+
+/*! 下载完签名文件，发出更新通知 */
+#define DownloadAllSignFinishedNotitication @"DownloadAllSignFinished"
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------/
+
+/*!定义拿到文件签名锁的超时时间 */
 #define SignLockTimeOut 5*1000*60*6
-/*!
- 用户注册的网址
- */
+
+/*! 用户注册的网址 */
 #define REGISTERWEBURL @"http://www.e-contract.cn/user/register.html"
 
+/*! 需要创建手写签名的通知 */
+#define NeedCreateHandSignNotification @"NeedCreateHandSignNotification"
 
 /*!
  定义签名流程签署状态标签
@@ -86,7 +86,7 @@ typedef NS_ENUM(NSInteger, FileExtendType) {
 /*!
  定义文件状态
  */
-typedef NS_ENUM(NSInteger, FileStatus) {
+typedef NS_ENUM(NSInteger, FileDownloadStatus) {
     FileStatusFinished = 0,
     FileStatusNotStarted = 1,
     FileStatusWaitingDownload = 2,
@@ -107,9 +107,14 @@ typedef NS_ENUM(NSInteger, TargetType) {
 };
 
 /*!
- 定义导航栏按钮大小
+ 定义用户信息的标签类型
  */
-#define NavigationButtonSize CGSizeMake(30, 30)
+typedef enum
+{
+    UserContentTypeEmail = 0,
+    UserContentTypePhone = 1,
+    UserContentTypeAddress = 2
+} UserContentType;
 
 /*
  使用颜色的宏
@@ -119,61 +124,23 @@ typedef NS_ENUM(NSInteger, TargetType) {
 /*!
  定义用户按字母排序
  */
-#define ALPHA				@"常_abcdefghijklmnopqrstuvwxyz"
-
-/*!
- 定义用户信息的标签类型
- */
-typedef enum
-{    
-    /*!
-     用户邮件
-     */
-    UserContentTypeEmail = 0,
-    
-    /*!
-     用户电话
-     */
-    UserContentTypePhone = 1,
-
-    /*!
-     用户地址
-     */
-    UserContentTypeAddress = 2
-    
-} UserContentType;
+#define ALPHA @"常_abcdefghijklmnopqrstuvwxyz"
 
 /*!
  定义通讯录导入提醒的key
  */
-#define ContactImportDisabledAskedKey   @"ContactImportDisabledAsked"
+#define ContactImportDisabledAskedKey @"ContactImportDisabledAsked"
 
 /*!
  定义登录用户的key
  */
-#define LoginUser   @"LoginUser"
-
-/*!
- 定义下载进度通知
- */
-#define DownloadProgressUpdateNotification  @"DownloadProgressUpdate"
-
-/*!
- 下载完成通知
- */
-#define DownloadStatusChangedNotification    @"DownloadStatusChanged"
+#define LoginUser @"LoginUser"
 
 /*!
  下载信息key
  */
 #define DownloadInfoKey @"downloadInfo"
 
-/*!
- 下载完签名文件，发出更新通知
- */
-#define DownloadSignFileUpdateNotification @"DownloadSignFileUpdate"
-
-#define DownloadAllSignFinishedNotitication @"DownloadAllSignFinished"
 
 #define SignFailMessage @"由于网络原因，签名失败！"
 

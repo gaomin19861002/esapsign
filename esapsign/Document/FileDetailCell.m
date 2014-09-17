@@ -154,19 +154,28 @@
     //}
 }
 
-- (void)setStatus:(FileStatus)status
+- (void)setStatus:(FileDownloadStatus)status
 {
     _status = status;
     self.progressView.hidden = _status == FileStatusFinished;
-    self.statusButton.hidden =  _status == FileStatusFinished;
-    self.statusLabel.hidden =  _status == FileStatusFinished;
-    CGFloat alpha = _status == FileStatusFinished ? 1.0f : 0.5f;
+    self.statusButton.hidden = _status == FileStatusFinished;
+    self.statusLabel.hidden = _status == FileStatusFinished;
+    CGFloat alpha = _status == FileStatusFinished ? 1.0f : 0.3f;
+    
     self.leftImageView.alpha = alpha;
     self.titleLabel.alpha = alpha;
-    if (_status != FileStatusDownloading) {
+    self.createLabel.alpha = alpha;
+    self.createLabelHeader.alpha = alpha;    
+    self.updateLabel.alpha = alpha;
+    self.updateLabelHeader.alpha = alpha;
+    self.signProgressCurrent.alpha = alpha;
+    self.signProgressTotal.alpha = alpha;
+    
+    if (_status != FileStatusDownloading)
         self.progressView.progress = .0f;
-    }
-    switch (_status) {
+    
+    switch (_status)
+    {
         case FileStatusFinished:
             self.statusLabel.text = @"完成";
             [self.statusButton setBackgroundImage:[UIImage imageNamed:@"CloudFinish"] forState:UIControlStateNormal];

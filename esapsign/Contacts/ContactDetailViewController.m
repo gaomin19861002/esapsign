@@ -10,6 +10,7 @@
 #import "DocSelectedViewController.h"
 #import "UINavigationController+Additions.h"
 #import "DocDetailViewController.h"
+#import "DocSignedWithSomeOneCell.h"
 
 #import "DataManager.h"
 #import "DataManager+Contacts.h"
@@ -63,11 +64,9 @@
  * @abstract 与某某某共同签署过的tableview
  */
 @property (retain, nonatomic) IBOutlet UITableView *documentTableView;
-/*!
- 用户当前编辑的条目
- */
-@property(nonatomic, retain) NSIndexPath *curUserTableSelectedIndexPath;
 
+
+@property(nonatomic, retain) NSIndexPath *curUserTableSelectedIndexPath;
 
 @property(nonatomic, retain) NSArray *rightDefaultStatusItems;
 @property(nonatomic, retain) NSArray *rightEditingStatusItems;
@@ -75,7 +74,6 @@
 
 @property(nonatomic, retain) NSMutableArray *itemsInStore;
 @property(nonatomic, retain) NSMutableArray *itemsInEditing;
-
 
 /*!
  当前用户信息编辑状态下，context类型选择框
@@ -93,20 +91,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"%s %@", __FUNCTION__, self);
-
+    
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"RightBackground"]]];
+    
     // 设置一下名片区的尺寸
     bInEdit = NO;
     [self recalHeightConstrantInPortrait:UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation])];
     
     [self.bottomBarView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomRight"]]];
-    [self.backgroundView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"RightBackground"]]];
+    [self.backgroundView setBackgroundColor:[UIColor clearColor]];
     [self.nameLabel setFont:[UIFont fontWithName:@"Libian SC" size:32.0]];
     [self.signWithSomeOnelabel setFont:[UIFont fontWithName:@"Libian SC" size:22.0]];
     
     self.itemsInEditing = [NSMutableArray arrayWithCapacity:2];
     
     [[ActionManager defaultInstance] registerDelegate:self];
+    
+    // 当前选中的联系人如果为空，则隐藏掉
+    if (self.currentUserID == nil || [self.currentUserID isEqualToString:@""])
+        [self.backgroundView setHidden:YES];
+    else
+        [self.backgroundView setHidden:NO];
 }
 
 - (void)dealloc
@@ -367,9 +372,7 @@
     }
 }
 
-#pragma mark -
-
-- (IBAction)addContextBtnClicked:(id)sender
+- (void)addContextBtnClicked:(id)sender
 {
     // 弹出提示框，给用户选择
     
@@ -475,7 +478,20 @@
         }
     }
     
-    return nil;
+    Client_target *fileTarget = [self.currentSignDocuments objectAtIndex:indexPath.row];
+    DocSignedWithSomeOneCell* cell = [tableView dequeueReusableCellWithIdentifier:@"DocSignedWithSomeOneCell" forIndexPath:indexPath];
+    cell.docNameLabel.text = fileTarget.display_name;
+    Client_file *file = fileTarget.clientFile;
+    if ([file.file_type intValue] == FileExtendTypePdf)
+        cell.docFaceImageView.image = [UIImage imageNamed:@"FileTypePDF"];
+    else if ([file.file_type intValue] == FileExtendTypeTxt)
+        cell.docFaceImageView.image = [UIImage imageNamed:@"FileTypeText"];
+    else
+        cell.docFaceImageView.image = [UIImage imageNamed:@"FileTypeImage"];
+    cell.dateLabel.text = [fileTarget.last_time_stamp fullDateString];
+    cell.docNameLabel.font = [UIFont fontWithName:@"Libian SC" size:18.0];
+    [cell setBackgroundColor:[UIColor clearColor]];
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -490,12 +506,13 @@
     }
     else if (tableView == self.documentTableView)
     {
-        Client_target *fileTarget = [self.currentSignDocuments objectAtIndex:indexPath.row];
-        UINavigationController *navDetail = [self.storyboard instantiateViewControllerWithIdentifier:@"NavDocDetail"];
-        DocDetailViewController *viewDetail = (DocDetailViewController *)[navDetail topViewController];
-        viewDetail->clientTarget = fileTarget;
-        navDetail.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:navDetail animated:YES completion:nil];
+#warning 暂时先不导航，否则必须处理文件下载功能
+        // Client_target *fileTarget = [self.currentSignDocuments objectAtIndex:indexPath.row];
+        // UINavigationController *navDetail = [self.storyboard instantiateViewControllerWithIdentifier:@"NavDocDetail"];
+        // DocDetailViewController *viewDetail = (DocDetailViewController *)[navDetail topViewController];
+        // viewDetail->clientTarget = fileTarget;
+        // navDetail.modalPresentationStyle = UIModalPresentationFullScreen;
+        // [self presentViewController:navDetail animated:YES completion:nil];
     }
 }
 
@@ -518,16 +535,14 @@
     [self.userDetailInfoTable reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-#pragma mark UserContentCellDelegate <NSObject>
+#pragma mark - UserContentCellDelegate <NSObject>
 
 - (void)UserContentCellDidBeginEditing:(UserContentCell *)cell
 {
     self.curUserTableSelectedIndexPath = [self.userDetailInfoTable indexPathForCell:cell];
 }
 
-/*!
- 编辑完成
- */
+// 编辑完成
 - (void)UserContentCell:(UserContentCell *)cell DidFinishEditingSubTitleWithName:(NSString *)strName
 {
     NSIndexPath *indexPath = [self.userDetailInfoTable indexPathForCell:cell];
@@ -537,9 +552,7 @@
     [item setValue:newName forKey:@"content"];
 }
 
-/*!
- 类型编辑按钮点击事件
- */
+// 类型编辑按钮点击事件
 - (void)UserContentCellModifyTypeTitleButtonClicked:(UserContentCell *)cell
 {
     if (self.userDetailInfoTable.editing)
@@ -573,11 +586,9 @@
     }
 }
 
-#pragma mark TypeSelectionTableViewControllerDelegate <NSObject>
+#pragma mark - TypeSelectionTableViewControllerDelegate <NSObject>
 
-/*!
- 选择某个类型下的名称
- */
+// 选择某个类型下的名称
 - (void)TypeSelectionTableViewController:(TypeSelectionTableViewController *)popoverController didSelectTypeTitle:(NSString *)strTitle
 {
     [self.typeSelectionPopoverController dismissPopoverAnimated:YES];
@@ -613,100 +624,103 @@
     }
 }
 
-
 #pragma mark - Private Methods
 
 - (void)setCurrentContact:(Client_contact *)newUser
 {
-    if (![_currentContact isEqual:newUser])
+    if ([_currentContact isEqual:newUser])
+        return;
+
+    // 注意保存导航控制器的标题
+    NSString* backupTitle = self.navigationController.title;
+    self.navigationItem.title = [NSString stringWithFormat:@"%@", @"名片详情"];
+    self.navigationController.title = backupTitle;
+
+    if (newUser == nil)
     {
-        // 点击其他联系人时和编辑状态点击取消按钮时执行同样操作 gaomin@20140805
-        self.navigationItem.rightBarButtonItems = self.rightDefaultStatusItems;
+        [self.backgroundView setHidden:YES];
+        self.navigationItem.rightBarButtonItems = nil;
         self.navigationItem.leftBarButtonItems = nil;
-        [self vcResignFirstResponder];
-        
-        [self.userDetailInfoTable setEditing:NO animated:YES];
-        [self.itemsInEditing removeAllObjects];
-        [self.userDetailInfoTable reloadData];
-        
-        self.signWithSomeOnelabel.hidden = YES;
-        self.nameCardView.hidden = YES;
-
-        // 尚未处理newUser为空，也即列表中没有联系人的情况
-        if (newUser == nil) {
-            DebugLog(@"此处未处理");
-        }
-
-        _currentContact = newUser;
-        self.nameCardView.hidden = NO;
-        
-        NSString *name;
-        
-        // 从服务器获取到的联系人family_name字段为空
-        if (newUser.family_name == nil || [newUser.family_name isEqualToString:@""] || [newUser.family_name isEqualToString:@"(null)"])
-        {
-            name = newUser.person_name;
-        }
-        
-        // 从服务器获取到的联系人person_name字段为("null")
-        if ([newUser.person_name isEqualToString:@"(null)"] || newUser.person_name == nil || [newUser.person_name isEqualToString:@""])
-        {
-            name = newUser.family_name;
-        }
-        
-        // 从本地通讯录导入的联系人familyName和personName都不为空
-        if ((newUser.family_name != nil && ![newUser.family_name isEqualToString:@""] && ![newUser.family_name isEqualToString:@"(null)"]) &&
-            (![newUser.person_name isEqualToString:@"(null)"] && newUser.person_name != nil && ![newUser.person_name isEqualToString:@""]))
-        {
-            name = [NSString stringWithFormat:@"%@ %@", newUser.family_name, newUser.person_name];
-        }
-
-        self.nameLabel.text = name;
-        
-        // 暂时不启用，尚未完全做好
-        //self->startSignBtn.hidden = NO;
-        self.signWithSomeOnelabel.hidden = NO;
-        self.signWithSomeOnelabel.text = [NSString stringWithFormat:@"我与%@共同签署过的文件", name];
-        
-        // 注意保存导航控制器的标题
-        NSString* backupTitle = self.navigationController.title;
-        self.navigationItem.title = [NSString stringWithFormat:@"%@", name];
-        self.navigationController.title = backupTitle;
-        [_headImageView setImage:[UIImage imageNamed:[self.currentContact headIconUseLarge:YES]]];
-        // 签约用地址
-        self.selectAddress.text = @"未选择";
-        for (Client_contact_item *content in _currentContact.clientItems)
-        {
-            if ([content.contentType intValue] == UserContentTypeEmail) {
-                if (content.major || content.account_id != nil)
-                {
-                    self.selectAddress.text = content.contentValue;
-                    break;
-                }
-            }
-        }
-
-        self.navigationItem.rightBarButtonItems = self.rightDefaultStatusItems;
-        [self.userDetailInfoTable setEditing:NO animated:YES];
-        NSMutableArray *arrContents = [NSMutableArray arrayWithArray:_currentContact.showContents];
-        self.itemsInStore = arrContents == nil ? [NSMutableArray array] : arrContents;
-        self.curUserTableSelectedIndexPath = nil;
-        [self.userDetailInfoTable reloadData];
-        
-        NSIndexPath* firstSelectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        if ([self.userDetailInfoTable cellForRowAtIndexPath:firstSelectedIndexPath] != nil)
-        {
-            [self.userDetailInfoTable selectRowAtIndexPath:firstSelectedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-        }
-        
-        // 刷新共同签署文件列表
-        // dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            self.currentSignDocuments = [[DataManager defaultInstance] allTargetsWithClientUser:newUser];
-        // dispatch_async(dispatch_get_main_queue(), ^{
-                [self.documentTableView reloadData];
-        // });
-        // });
+        return;
     }
+    
+    [self.backgroundView setHidden:NO];
+    self.navigationItem.rightBarButtonItems = self.rightDefaultStatusItems;
+    self.navigationItem.leftBarButtonItems = nil;
+    
+    // 点击其他联系人时和编辑状态点击取消按钮时执行同样操作 gaomin@20140805
+    self.navigationItem.rightBarButtonItems = self.rightDefaultStatusItems;
+    self.navigationItem.leftBarButtonItems = nil;
+    [self vcResignFirstResponder];
+    
+    [self.userDetailInfoTable setEditing:NO animated:YES];
+    [self.itemsInEditing removeAllObjects];
+    [self.userDetailInfoTable reloadData];
+    
+    self.signWithSomeOnelabel.hidden = YES;
+    self.nameCardView.hidden = YES;
+
+    _currentContact = newUser;
+    self.nameCardView.hidden = NO;
+    
+    NSString *name = @"名片详情";
+    // 从服务器获取到的联系人family_name字段为空
+    if (newUser.family_name == nil || [newUser.family_name isEqualToString:@""] || [newUser.family_name isEqualToString:@"(null)"])
+        name = newUser.person_name;
+    // 从服务器获取到的联系人person_name字段为("null")
+    if ([newUser.person_name isEqualToString:@"(null)"] || newUser.person_name == nil || [newUser.person_name isEqualToString:@""])
+        name = newUser.family_name;
+    // 从本地通讯录导入的联系人familyName和personName都不为空
+    if ((newUser.family_name != nil && ![newUser.family_name isEqualToString:@""] && ![newUser.family_name isEqualToString:@"(null)"]) &&
+        (![newUser.person_name isEqualToString:@"(null)"] && newUser.person_name != nil && ![newUser.person_name isEqualToString:@""]))
+        name = [NSString stringWithFormat:@"%@ %@", newUser.family_name, newUser.person_name];
+    self.nameLabel.text = name;
+    
+    backupTitle = self.navigationController.title;
+    self.navigationItem.title = [NSString stringWithFormat:@"%@", name];
+    self.navigationController.title = backupTitle;
+    [_headImageView setImage:[UIImage imageNamed:[self.currentContact headIconUseLarge:YES]]];
+    
+    // 暂时不启用，尚未完全做好
+    //self->startSignBtn.hidden = NO;
+
+    User *user = [Util currentLoginUser];
+    bool contactIsCurrentLoginUser = NO;
+    // 签约用地址
+    self.selectAddress.text = @"未选择";
+    for (Client_contact_item *content in _currentContact.clientItems)
+    {
+        if (content.account_id != nil && [user.accountId isEqualToString:content.account_id])
+            contactIsCurrentLoginUser = YES;
+        if ([content.contentType intValue] == UserContentTypeEmail && (content.major || content.account_id != nil))
+        {
+            self.selectAddress.text = content.contentValue;
+            break;
+        }
+    }
+
+    self.signWithSomeOnelabel.hidden = NO;
+    if (contactIsCurrentLoginUser)
+        self.signWithSomeOnelabel.text = @"我参与签署的文件";
+    else
+        self.signWithSomeOnelabel.text = [NSString stringWithFormat:@"我与%@共同签署过的文件", name];
+
+    // 初始化一些通讯录条目的数据
+    self.navigationItem.rightBarButtonItems = self.rightDefaultStatusItems;
+    [self.userDetailInfoTable setEditing:NO animated:YES];
+    NSMutableArray *arrContents = [NSMutableArray arrayWithArray:_currentContact.showContents];
+    self.itemsInStore = arrContents == nil ? [NSMutableArray array] : arrContents;
+    self.curUserTableSelectedIndexPath = nil;
+    [self.userDetailInfoTable reloadData];
+
+    // 自动滚动到选中的地址位置
+    NSIndexPath* firstSelectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    if ([self.userDetailInfoTable cellForRowAtIndexPath:firstSelectedIndexPath] != nil)
+        [self.userDetailInfoTable selectRowAtIndexPath:firstSelectedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+
+    // 刷新共同签署文件列表
+    self.currentSignDocuments = [[DataManager defaultInstance] allTargetsWithClientUser:newUser];
+    [self.documentTableView reloadData];
 }
 
 - (void)setCurrentUserID:(NSString *)UserID
@@ -794,9 +808,8 @@
     }
     else if (request == self.contactDelRequest)
     {
-        NSLog(@"Contact Del Action Request Finished!");
-
         __unused NSDictionary *resDelDict = [[request responseString] jsonValue];
+        NSLog(@"Contact Del Action Request Finished! JSON:%@", [request responseString]);
         
         [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
         self.contactDelRequest = nil;

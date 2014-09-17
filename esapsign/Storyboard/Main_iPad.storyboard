@@ -1110,17 +1110,19 @@
                                         <connections>
                                             <outlet property="addSignButton" destination="CVL-ii-YTQ" id="9Vd-PJ-4uM"/>
                                             <outlet property="createLabel" destination="2ic-0S-9QL" id="ziV-eM-8ew"/>
+                                            <outlet property="createLabelHeader" destination="tjN-cc-uho" id="Xcc-sY-7tj"/>
                                             <outlet property="leftImageView" destination="N7W-cI-mbW" id="rI9-8T-Hm5"/>
                                             <outlet property="progressView" destination="Tvs-xJ-R1A" id="hYC-e7-8Vv"/>
                                             <outlet property="rightImageButton" destination="tdw-es-eu1" id="E9E-yW-wCf"/>
                                             <outlet property="signLabel" destination="X2C-RR-zOh" id="We3-bY-8V7"/>
-                                            <outlet property="signProgressView" destination="16L-74-oOP" id="erL-lt-L17"/>
-                                            <outlet property="signStatusView" destination="JDe-m5-AK0" id="9Zd-Y3-6J3"/>
+                                            <outlet property="signProgressCurrent" destination="JDe-m5-AK0" id="tJy-qF-fca"/>
+                                            <outlet property="signProgressTotal" destination="16L-74-oOP" id="pM1-uN-es0"/>
                                             <outlet property="statusButton" destination="PvA-GZ-NMy" id="VAM-Yf-dvm"/>
                                             <outlet property="statusLabel" destination="8rp-C0-vs1" id="ZjJ-7Y-P9W"/>
                                             <outlet property="submitSignFlowButton" destination="fhb-m0-c66" id="YW7-Rf-BOb"/>
                                             <outlet property="titleLabel" destination="hQ9-12-AHb" id="xoM-rc-D0E"/>
                                             <outlet property="updateLabel" destination="0YO-Md-gbM" id="F1Y-y8-MFk"/>
+                                            <outlet property="updateLabelHeader" destination="ApO-ML-LfZ" id="wnY-6B-LTB"/>
                                             <segue destination="Nql-HP-FvL" kind="modal" identifier="openFile" id="JQT-wd-DiR"/>
                                         </connections>
                                     </tableViewCell>
@@ -1792,7 +1794,7 @@
                                             <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKR-Ae-8UO" userLabel="ContentView">
                                                 <rect key="frame" x="9" y="13" width="669" height="309"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Head" translatesAutoresizingMaskIntoConstraints="NO" id="KOx-Bq-0Wa">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconHeadBig" translatesAutoresizingMaskIntoConstraints="NO" id="KOx-Bq-0Wa">
                                                         <rect key="frame" x="5" y="0.0" width="140" height="170"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="140" id="D8a-co-nie"/>
@@ -1814,7 +1816,7 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="509" height="43"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
-                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TR0-i3-SEI">
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TR0-i3-SEI" userLabel="TypeIcon">
                                                                             <rect key="frame" x="30" y="12" width="22" height="22"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="22" id="02c-uw-pgO"/>
@@ -1831,7 +1833,7 @@
                                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCc-6x-avu" userLabel="SubTitle">
+                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCc-6x-avu" userLabel="Value">
                                                                             <rect key="frame" x="150" y="12" width="315" height="21"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="21" id="RIR-K5-aG7"/>
@@ -1839,7 +1841,7 @@
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="aa" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="b3z-XZ-saP" userLabel="SubTitle Field">
+                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="aa" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="b3z-XZ-saP" userLabel="ValueEdit">
                                                                             <rect key="frame" x="150" y="12" width="315" height="22"/>
                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                             <constraints>
@@ -1851,7 +1853,7 @@
                                                                                 <outlet property="delegate" destination="eY4-tF-hjx" id="gCb-Cu-FCZ"/>
                                                                             </connections>
                                                                         </textField>
-                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MAl-Ae-0Uk" userLabel="Star Image View">
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MAl-Ae-0Uk" userLabel="MajorStar">
                                                                             <rect key="frame" x="469" y="12" width="22" height="22"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                             <constraints>
@@ -2085,12 +2087,13 @@
                                     <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9lo-m3-0pT" userLabel="HistoryTabel">
                                         <rect key="frame" x="0.0" y="390" width="703" height="314"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <inset key="separatorInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" restorationIdentifier="MiniFileDetailCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocSignedWithSomeOneCell" rowHeight="50" id="tfs-0Q-GNc" customClass="DocSignedWithSomeOneCell">
+                                            <tableViewCell opaque="NO" contentMode="scaleToFill" restorationIdentifier="MiniFileDetailCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocSignedWithSomeOneCell" rowHeight="50" id="tfs-0Q-GNc" customClass="DocSignedWithSomeOneCell">
                                                 <rect key="frame" x="0.0" y="22" width="703" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tfs-0Q-GNc" id="EJV-sD-EuW">
@@ -2136,6 +2139,7 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <outlet property="dateLabel" destination="nUo-3n-R0t" id="MOn-p6-4pl"/>
                                                     <outlet property="docFaceImageView" destination="DOg-ox-cJW" id="96j-UW-BWL"/>
@@ -2185,7 +2189,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Item2" id="STZ-VJ-eCl"/>
-                    <navigationItem key="navigationItem" id="Yl9-0c-ARx"/>
+                    <navigationItem key="navigationItem" title="名片详情" id="Yl9-0c-ARx"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="backgroundView" destination="ZTa-HB-57z" id="57X-Z0-8Y0"/>
@@ -2330,10 +2334,10 @@
         <image name="FlowManage" width="50" height="76"/>
         <image name="FlowManageAdd" width="50" height="45"/>
         <image name="FlowManageSubmit" width="50" height="56"/>
-        <image name="Head" width="232" height="239"/>
         <image name="IconContact" width="32" height="32"/>
         <image name="IconDoc" width="32" height="32"/>
         <image name="IconHead" width="32" height="32"/>
+        <image name="IconHeadBig" width="232" height="239"/>
         <image name="IconSet" width="32" height="32"/>
         <image name="IconSync" width="32" height="32"/>
         <image name="SignWaiting" width="160" height="54"/>

@@ -59,11 +59,13 @@
  创建时间
  */
 @property(nonatomic, retain) IBOutlet UILabel *createLabel;
+@property (strong, nonatomic) IBOutlet UILabel *createLabelHeader;
 
 /*!
  更新时间
  */
 @property(nonatomic, retain) IBOutlet UILabel *updateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *updateLabelHeader;
 
 /*!
  下载状态文字
@@ -86,14 +88,14 @@
 @property (retain, nonatomic) IBOutlet UIProgressView *progressView;
 
 /*!
- 当前用户签名进度标签
- */
-@property (retain, nonatomic) IBOutlet UIImageView *signProgressView;
-
-/*!
  整体签名进度标签
  */
-@property (retain, nonatomic) IBOutlet UIImageView *signStatusView;
+@property (retain, nonatomic) IBOutlet UIImageView *signProgressTotal;
+
+/*!
+ 当前用户签名进度标签
+ */
+@property (retain, nonatomic) IBOutlet UIImageView *signProgressCurrent;
 
 /*!
  添加签名人按钮
@@ -108,7 +110,7 @@
 /*!
  文件下载状态值
  */
-@property(nonatomic, assign) FileStatus status;
+@property(nonatomic, assign) FileDownloadStatus status;
 
 /*!
  是否是文件的所有者

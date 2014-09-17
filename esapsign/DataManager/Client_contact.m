@@ -52,7 +52,7 @@
     
     for (Client_contact_item *item in self.clientItems)
     {
-        NSDictionary* itemDic = [[DataManager defaultInstance] createContactItemValueByItem:item];
+        NSMutableDictionary* itemDic = [[DataManager defaultInstance] createContactItemValueByItem:item];
         [items addObject:itemDic];
     }
 

@@ -11,7 +11,8 @@
 
 @implementation DownloadInfo
 
-- (void)setStatus:(DownloadStatus)status {
+- (void)setStatus:(DownloadStatus)status
+{
     _status = status;
     if (![NSThread isMainThread]) {
         DebugLog(@"current thread is no main thread");

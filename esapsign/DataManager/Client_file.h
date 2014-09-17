@@ -39,7 +39,7 @@
 
 - (BOOL)removeClientSign:(Client_sign *)sign;
 
-- (FileStatus)fileStatus;
+- (FileDownloadStatus)fileDownloadStatus;
 
 @end
 

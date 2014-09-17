@@ -39,36 +39,9 @@
 
 @property(nonatomic, assign) BOOL lastSectionStatus;
 
-/*!
- 定义导航栏左侧按钮
- */
 @property(nonatomic, retain) UIBarButtonItem *leftBarItem;
 
-/*!
- 定义导航栏右侧按钮
- */
 @property(nonatomic, retain) UIBarButtonItem *rightBarItem;
-
-/*!
- 返回按钮响应方法
- */
-- (void)backButtonClicked:(id)sender;
-
-/*!
- 更新通知监听方法
- */
-- (void)updateNotification:(NSNotification *)notification;
-
-/*!
- 添加目录按钮响应方法
- */
-- (void)addFolderButtonClicked:(id)sender;
-
-/*!
- 同步更新完成通知监听方法
- @param notification 通知对象
- */
-- (void)handleSyncUpdateNotification:(NSNotification *)notification;
 
 @end
 

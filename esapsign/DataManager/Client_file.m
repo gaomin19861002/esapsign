@@ -52,27 +52,28 @@
                                             fromClientFile:self];
 }
 
-- (FileStatus)fileStatus
+- (FileDownloadStatus)fileDownloadStatus
 {
-    FileStatus status = FileStatusFinished;
+    FileDownloadStatus status = FileStatusFinished;
     int serverVersion = [self.server_version intValue];
     int localVersion = [self.local_version intValue];
-    if (serverVersion == localVersion) {
+    if (serverVersion == localVersion)
+    {
         status = FileStatusFinished;
-    } else if (serverVersion > localVersion) {
+    }
+    else if (serverVersion > localVersion)
+    {
         DownloadStatus dstatus =[[DownloadManager defaultInstance] downloadingWithFile:self.file_id];
-        
-        if (dstatus == DownloadStatusDownloading) {
+        if (dstatus == DownloadStatusDownloading)
             status = FileStatusDownloading;
-        } else if (dstatus == DownloadStatusNoStarted){
+        else if (dstatus == DownloadStatusNoStarted)
             status = FileStatusNotStarted;
-        } else if (dstatus == DownLoadStatusWaitingDownload) {
+        else if (dstatus == DownLoadStatusWaitingDownload)
             status = FileStatusWaitingDownload;
-        } else if (dstatus == DownloadStatusPaused) {
+        else if (dstatus == DownloadStatusPaused)
             status = FileStatusPauseDownload;
-        } else if (dstatus == DownloadStatusFailed) {
+        else if (dstatus == DownloadStatusFailed)
             status = FileStatusWaitingDownload;
-        }
     }
     else if (serverVersion < localVersion)
     {
@@ -83,12 +84,10 @@
 }
 
 #pragma mark - Private Methods
-/*!
- 返回指定id的签名流对象
- */
-- (Client_sign_flow *)signFlowWithID:(NSString *)flowID {
-    
-    
+
+// 返回指定id的签名流对象
+- (Client_sign_flow *)signFlowWithID:(NSString *)flowID
+{
     return nil;
 }
 

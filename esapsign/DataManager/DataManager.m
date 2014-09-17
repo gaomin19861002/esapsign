@@ -59,34 +59,33 @@ DefaultInstanceForClass(DataManager);
     {
         // NO default NOW!
         //[self addDefalutData];
-        // 监听程序进入前后台
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterbackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         
+        // 监听程序进入前后台
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterbackground:)
+                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                   object:nil];
         [NSTimer scheduledTimerWithTimeInterval:2 * 60 target:self selector:@selector(syncDataToFile) userInfo:nil repeats:YES];
     }
     return self;
 }
 
-#pragma mark - Contact Operation
-
-/**
- *  获取与联系人所有相关签名文档(By Yi Minwen)
- *
- *  @param user 相关联系人
- */
+// 获取与联系人所有相关签名文档(By Yi Minwen)
 - (NSMutableArray *)allTargetsWithClientUser:(Client_contact *)user
 {
-    // NSData *userData = [Util valueForKey:LoginUser];
-    // User *curUser = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
-    NSMutableArray *arrResult = [[NSMutableArray alloc] initWithCapacity:1];
+    NSMutableArray *collectedTargets = [[NSMutableArray alloc] initWithCapacity:1];
+    NSMutableArray *collectedFiles = [[NSMutableArray alloc] initWithCapacity:1];
+    
+#warning 对target进行排序，以最新签署时间（最后修改时间）优先
     // 枚举所有target
     for (Client_target *targetItem in self.allTargets)
     {
-        if (targetItem.type.intValue != 2)
-        {
+        if (targetItem.type.intValue != TargetTypeFile)
             continue;
-        }
+        
         Client_file *file = targetItem.clientFile;
+        if ([collectedFiles containsObject:file])
+            continue;
+        
         // 获取当前文件下签名流
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"clientFile.file_id==%@", file.file_id];
         NSArray *arrSignFlows = [self arrayFromCoreData:EntityClientSignFlow
@@ -94,8 +93,7 @@ DefaultInstanceForClass(DataManager);
                                                   limit:NSUIntegerMax
                                                  offset:0
                                                 orderBy:nil];
-        DebugLog(@"%s, arrSignFlows:%d", __FUNCTION__, arrSignFlows.count);
-        if ([arrSignFlows count])
+        if (arrSignFlows.count > 0)
         {
             for (Client_sign_flow *signFlowItem in arrSignFlows)
             {
@@ -104,11 +102,11 @@ DefaultInstanceForClass(DataManager);
                 for (Client_sign *sign in signFlowItem.clientSigns)
                 {
                     // 判定是否存在未签署的签名，存在则认为此targetItem不是想要的，则跳出此次检查
-                    if (sign.sign_date == nil || sign.refuse_date == nil)
-                    {
-                        bFind = NO;
-                        break;
-                    }
+                    //if (sign.sign_date == nil || sign.refuse_date == nil)
+                    //{
+                    //    bFind = NO;
+                    //    break;
+                    //}
                     // 再枚举签名流中是否有对应用户
                     [user.clientItems enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
                         Client_contact_item *item = (Client_contact_item *)obj;
@@ -120,16 +118,17 @@ DefaultInstanceForClass(DataManager);
                 }
                 if (bFind)
                 {
-                    [arrResult addObject:targetItem];
+                    [collectedFiles addObject:file];
+                    [collectedTargets addObject:targetItem];
+                    
+#warning 设置文件数量上限
                     break;
                 }
             }
         }
     }
-    return arrResult;
+    return collectedTargets;
 }
-
-
 
 #pragma mark - Client_account Methods
 

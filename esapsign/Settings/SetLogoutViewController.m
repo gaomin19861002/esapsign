@@ -149,7 +149,7 @@
     
     [[DataManager defaultInstance] clearnCaches];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:ClearCacheFinished object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ClearCacheFinishedNotification object:nil];
     
     [self performBlock:^{
         [controller hideProgress];
