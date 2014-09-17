@@ -41,6 +41,9 @@
 @end
 
 @implementation SignatureClipListView
+{
+    BOOL isQrCode;//二维码标识位
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -86,6 +89,8 @@
 
         [self.btnAdd addTarget:self action:@selector(addBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.btnAdd];
+        
+        isQrCode = NO;
     }
     return self;
 }
@@ -164,6 +169,35 @@
         // 在本地添加数据
         [[DataManager defaultInstance] addSignWithPath:desFile withID:self.currentImageID];
         self.arrDefaultSigns = [DataManager defaultInstance].allSignPics;
+    }
+}
+
+/**
+ * 新增签名，二维码
+ *
+ *  @param signImage 新签名
+ */
+- (void)addNewSign:(UIImage *)signImage
+{
+    isQrCode = YES;
+    
+    self.currentImageID = [Util generalUUID];
+    
+    NSData *dataImage = UIImagePNGRepresentation(signImage);
+    NSString *signCachedFolder = [FileManagement signsImageCachedFolder];
+    NSString *desFile = [signCachedFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", self.currentImageID]];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:desFile isDirectory:NO]) {
+        [manager removeItemAtPath:desFile error:nil];
+    }
+    self.currentImagePath = desFile;
+    
+    BOOL bResult = [dataImage writeToFile:desFile atomically:YES];
+    if (bResult)
+    {
+        // 上传签名图的请求
+        NSDictionary* action = [[ActionManager defaultInstance] signpenNewAction:self.currentImageID];
+        self.upSignRequest = [[ActionManager defaultInstance] addToQueue:action sendAtOnce:YES];
     }
 }
 
@@ -246,9 +280,16 @@
 
         // 发送完成动作
         // NSDictionary* complete = [[CompleteManager defaultInstance] uploadCompleteCommand:self.currentImageID completeType:@"1"];
-        NSDictionary *complete = [[CompleteManager defaultInstance] uploadCompleteCommand:1 completeId:self.currentImageID completeURL: completeUrl];
-        self.uploadCompleteRequest = [[RequestManager defaultInstance] asyncPostData:UploadCompleteRequestPath
-                                                                           Parameter:complete];
+        
+        
+        NSDictionary *complete;
+        if (isQrCode) {
+            complete = [[CompleteManager defaultInstance] uploadCompleteCommand:2 completeId:self.currentImageID completeURL: completeUrl];
+            isQrCode = NO;
+        }else {
+            complete = [[CompleteManager defaultInstance] uploadCompleteCommand:1 completeId:self.currentImageID completeURL: completeUrl];
+        }
+        self.uploadCompleteRequest = [[RequestManager defaultInstance] asyncPostData:UploadCompleteRequestPath Parameter:complete];
     }
     if (request == self.uploadCompleteRequest)
     {
@@ -345,6 +386,31 @@
     if (self.allowDragSign)
     {
         Assert(self.panTargetView, @"SignatureClipListView's pan shouldn't be nil");
+        //        cell.clipsToBounds = NO;
+        //        cell.contentView.clipsToBounds = NO;
+        //        defaultSignView.clipsToBounds = NO;
+        //        self.clipsToBounds = NO;
+        //        collectionView.clipsToBounds = NO;
+        //
+        //        CGSize size = defaultSignView.imgView.image.size;
+        //
+        //        float width = size.width;
+        //
+        //        BOOL isHighterThanWidth = size.width < size.height;
+        //
+        //        if (isHighterThanWidth) {
+        //            float widthScale = width / (SignViewItemWidth-4);
+        //            float height = isHighterThanWidth ? size.height / widthScale : SignViewItemHeight-10 ;
+        //            float oriageY = isHighterThanWidth ? SignViewItemHeight - height  : 3;
+        //
+        //            CGRect rect = defaultSignView.frame;
+        //            rect.origin.y = oriageY;
+        //            rect.size.height = height;
+        //            NSLog(@"%@", NSStringFromCGRect(rect));
+        //            rect.size.width -= 4;
+        //            defaultSignView.imgView.frame = rect;
+        //        }
+
         [defaultSignView allowPanWithRootView:self.panTargetView];
         [defaultSignView.panGesture requireGestureRecognizerToFail:[collectionView panGestureRecognizer]];
     }

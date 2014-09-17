@@ -335,7 +335,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e9z-nf-ZIb" userLabel="Undo">
-                                <rect key="frame" x="832" y="697" width="86" height="62"/>
+                                <rect key="frame" x="738" y="697" width="86" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="86" id="9FP-zH-m0V"/>
@@ -349,7 +349,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EDh-bJ-a9Z" userLabel="Clean">
-                                <rect key="frame" x="738" y="697" width="86" height="62"/>
+                                <rect key="frame" x="644" y="697" width="86" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="62" id="GBg-NU-Uz6"/>
@@ -417,6 +417,20 @@
                                     <constraint firstAttribute="height" constant="150" id="fq8-no-azx"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dee-A4-cqk">
+                                <rect key="frame" x="832" y="701" width="86" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="3Jp-s7-lnB"/>
+                                    <constraint firstAttribute="width" constant="86" id="7P9-XX-rrl"/>
+                                </constraints>
+                                <state key="normal" title="二维码">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="qrcodeSearch:" destination="hDB-mh-68U" eventType="touchUpInside" id="BJp-Fc-S4c"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="63i-TX-dso" secondAttribute="trailing" id="B40-7K-KKf"/>
@@ -436,11 +450,13 @@
                             <constraint firstItem="Wxz-ZK-24H" firstAttribute="top" secondItem="D9D-50-rDp" secondAttribute="bottom" constant="9" id="eAe-E9-pEb"/>
                             <constraint firstItem="63i-TX-dso" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" id="jok-rn-N4h"/>
                             <constraint firstAttribute="centerY" secondItem="ucl-jn-2xK" secondAttribute="centerY" constant="154.5" id="mjX-9d-WR4"/>
+                            <constraint firstAttribute="trailing" secondItem="dee-A4-cqk" secondAttribute="trailing" constant="106" id="qu8-t5-eFn"/>
                             <constraint firstItem="ywY-Z4-aHb" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" constant="12" id="rQF-3o-L5P"/>
-                            <constraint firstAttribute="trailing" secondItem="e9z-nf-ZIb" secondAttribute="trailing" constant="106" id="sIt-LV-aUE"/>
+                            <constraint firstAttribute="trailing" secondItem="e9z-nf-ZIb" secondAttribute="trailing" constant="200" id="sIt-LV-aUE"/>
                             <constraint firstItem="Wxz-ZK-24H" firstAttribute="top" secondItem="d6a-ZY-je8" secondAttribute="bottom" constant="75" id="sSg-iw-Nq6"/>
+                            <constraint firstItem="Wxz-ZK-24H" firstAttribute="top" secondItem="dee-A4-cqk" secondAttribute="bottom" constant="11" id="tUt-N0-Rc9"/>
                             <constraint firstAttribute="trailing" secondItem="wlh-5n-IHW" secondAttribute="trailing" constant="12" id="uEv-F7-ZBh"/>
-                            <constraint firstAttribute="trailing" secondItem="EDh-bJ-a9Z" secondAttribute="trailing" constant="200" id="uNf-kG-Qwm"/>
+                            <constraint firstAttribute="trailing" secondItem="EDh-bJ-a9Z" secondAttribute="trailing" constant="294" id="uNf-kG-Qwm"/>
                             <constraint firstAttribute="trailing" secondItem="d6a-ZY-je8" secondAttribute="trailing" constant="12" id="uhW-gb-JHp"/>
                             <constraint firstItem="DPI-Pi-3PQ" firstAttribute="leading" secondItem="gEC-4w-lPe" secondAttribute="leading" constant="20" id="vNm-M0-SXL"/>
                             <constraint firstAttribute="centerY" secondItem="DPI-Pi-3PQ" secondAttribute="centerY" constant="-25.5" id="xWy-uz-dMd"/>

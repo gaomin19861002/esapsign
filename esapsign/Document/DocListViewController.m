@@ -615,6 +615,12 @@
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)HandSignViewController:(HandSignViewController *)controller qrFinishSignWithImage:(UIImage *)image
+{
+    [self.signListView addNewSign:image];
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)handleSignPicUpdateComplete:(NSNotification *)notification
 {
     DataManager* manager = [DataManager defaultInstance];

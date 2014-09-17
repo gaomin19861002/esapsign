@@ -8,7 +8,7 @@
 
 #import "ResizableSignatureClipView.h"
 
-#define MaxWidth 300.0f
+#define MaxWidth 500.0f
 #define MinWidth 80.0f
 #define ResizeDragViewWidth 20.0f
 
@@ -50,34 +50,39 @@
 - (void)handlePan:(UIPanGestureRecognizer *)gest
 {
     CGPoint point = [gest translationInView:self];
-    NSLog(@"%f,%f",point.x,point.y);
     
-    if (self.frame.size.width > self.maxWidth || self.frame.size.width < self.minWidth)
+    if (self.frame.size.width < self.minWidth)
     {
+        NSLog(@"\n%f, \n", self.frame.size.width);
         [gest setTranslation:CGPointMake(0, 0) inView:self];
         return;
     }
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y,
-                            self.frame.size.width + point.x,
-                            self.frame.size.height + self.frame.size.height / self.frame.size.width * point.x);
-    if (self.frame.size.width > self.maxWidth)
-    {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y,
-                                self.maxWidth,
-                                self.maxWidth * self.frame.size.height / self.frame.size.width);
+    if (self.frame.size.height + self.frame.size.height / self.frame.size.width * point.x < 50) {
+        NSLog(@"%f_%f", self.frame.size.height + self.frame.size.height / self.frame.size.width * point.x, self.minWidth);
+        [gest setTranslation:CGPointMake(0, 0) inView:self];
+        return;
     }
-    if (self.frame.size.width < self.minWidth)
+    
+    CGRect drag  = CGRectMake(self.frame.origin.x, self.frame.origin.y,
+                              self.frame.size.width + point.x,
+                              self.frame.size.height + self.frame.size.height / self.frame.size.width * point.x);
+    if (drag.size.width < self.minWidth)
     {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y,
-                                self.minWidth,
-                                self.minWidth * self.frame.size.height / self.frame.size.width);
+        drag = CGRectMake(drag.origin.x, drag.origin.y,
+                          self.minWidth,
+                          self.minWidth * drag.size.height / drag.size.width);
     }
-    self.imgView.frame = CGRectMake(0.0f,0.0f, self.frame.size.width, self.frame.size.height);
-    resizeDragView.frame = CGRectMake(self.frame.size.width - ResizeDragViewWidth,
-                                      self.frame.size.height - ResizeDragViewWidth,
+    if (CGRectContainsRect(self.backgroundView.frame, drag)) {
+        self.frame = drag;
+        self.imgView.frame = CGRectMake(0.0f,0.0f, self.frame.size.width, self.frame.size.height);
+        resizeDragView.frame = CGRectMake(self.frame.size.width - ResizeDragViewWidth,
+                                          self.frame.size.height - ResizeDragViewWidth,
+                                          ResizeDragViewWidth, ResizeDragViewWidth);
+        btnConfirm.frame = CGRectMake(self.frame.size.width - ResizeDragViewWidth, 0,
                                       ResizeDragViewWidth, ResizeDragViewWidth);
-    btnConfirm.frame = CGRectMake(self.frame.size.width - ResizeDragViewWidth, 0,
-                                       ResizeDragViewWidth, ResizeDragViewWidth);
+    }
+    
+    [gest setTranslation:CGPointMake(0, 0) inView:self.backgroundView];
     [gest setTranslation:CGPointMake(0, 0) inView:self];
 }
 

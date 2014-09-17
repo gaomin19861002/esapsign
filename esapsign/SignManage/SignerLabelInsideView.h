@@ -36,4 +36,6 @@ typedef void (^DeleteBtnClickedBlock)(SignerLabelInsideView *clienSignView);
 
 - (IBAction)deleteButtonClicked:(id)sender;
 
+- (void) setColor:(UIColor *) color;
+
 @end

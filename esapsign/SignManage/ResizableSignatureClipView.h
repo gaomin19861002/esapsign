@@ -13,4 +13,6 @@
 @property (nonatomic, assign) float maxWidth;
 @property (nonatomic, assign) float minWidth;
 
+@property (nonatomic, weak) UIView *backgroundView;
+
 @end

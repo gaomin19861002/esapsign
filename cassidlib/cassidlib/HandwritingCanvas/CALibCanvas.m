@@ -72,6 +72,13 @@
     // CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
     // CGContextSetAllowsAntialiasing(context, YES);
     // CGContextSetShouldSmoothFonts(context, YES);
+
+    //如果有图，则开始画图
+    if (self.signImage) {
+        [self.signImage drawInRect:self.signImageRect];
+        return ;
+    }
+
     self.signFrame = CGRectZero;
     for (CALibPath *pathItem in self.paths)
     {

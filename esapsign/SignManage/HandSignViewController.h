@@ -16,6 +16,8 @@
 
 - (void)HandSignViewController:(HandSignViewController *)controller DidFinishSignWithImage:(UIImage *)image;
 
+- (void)HandSignViewController:(HandSignViewController *)controller qrFinishSignWithImage:(UIImage *)image;
+
 @end
 
 /**
@@ -46,5 +48,10 @@
 
 - (IBAction)CameraBtnClicked:(id)sender;
 - (IBAction)PhotoLibBtnClicked:(id)sender;
+
+/**
+ *  @abstract 二维码扫描按钮点击处理事件，发生在手写签名后，应用于上传签名图到网络端
+ */
+- (IBAction) qrcodeSearch:(id)sender;
 
 @end

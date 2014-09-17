@@ -10,11 +10,15 @@
 #import "UIImage+Rotate.h"
 #import "UIAlertView+Additions.h"
 #import "cassidlib.h"
+#import "QRCodeViewController.h"
+#import "CAAppDelegate.h"
+#import "ASIFormDataRequest.h"
+#import "AllNaviViewController.h"
 
 #define HandSignCameraTag 3001
 #define HandSignPhotoLibTag 3002
 
-@interface HandSignViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate>
+@interface HandSignViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, QRCodeViewControllerDelegate>
 
 /**
  * @abstract 使用开发库中的CASDKDraw类来实现手写功能模块
@@ -59,6 +63,9 @@
 @end
 
 @implementation HandSignViewController
+{
+    BOOL isQrCode;
+}
 
 - (UIBarButtonItem *)leftBarItem
 {
@@ -94,6 +101,8 @@
     [self.writePen setSelected:YES];
     [self.writeSlim setSelected:NO];
     [self.writeBrush setSelected:NO];
+
+    isQrCode = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -218,7 +227,12 @@
 - (void)CASDKDraw:(CASDKDraw *)controller getDrawImage:(UIImage *)image
 {
     self.imageRect = self.drawSDK.imageRect;
-    [self.delegate HandSignViewController:self DidFinishSignWithImage: image];
+    
+    if (isQrCode) {
+        [self.delegate HandSignViewController:self qrFinishSignWithImage:image];
+    }else {
+        [self.delegate HandSignViewController:self DidFinishSignWithImage: image];
+    }
 }
 
 /**
@@ -226,7 +240,7 @@
  */
 - (void)CASDKDrawComplete:(CASDKDraw *)controller
 {
-    [self.view removeFromSuperview];
+    // [self.view removeFromSuperview];
 }
 
 /**
@@ -283,6 +297,43 @@
     }
 }
 
+/**
+ *  @abstract 二维码扫描按钮点击处理事件，发生在手写签名后，应用于上传签名图到网络端
+ */
+- (IBAction) qrcodeSearch:(id)sender
+{
+    //检查是否存在笔画
+    //isEmptyTool方法
+    if ([self.drawSDK isEmptyCanvas]) {
+        
+        [UIAlertView showAlertMessage:@"请先签名!"];
+        
+        return ;
+    }
+    
+    //判断是否有摄像头
+    if(![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        [UIAlertView showAlertMessage:@"No avaliable camera found!"];
+        return ;
+    }
+    
+    CAAppDelegate *appDelegate = [CAAppDelegate sharedDelegate];
+    UIPopoverController *pop = appDelegate.detailViewManager.navigationPopoverController;
+    if (pop) {
+        [pop dismissPopoverAnimated:YES];
+    }
+    
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Toolkits_iPad" bundle:nil];
+    QRCodeViewController *qrcoder = (QRCodeViewController *) [storyBoard instantiateViewControllerWithIdentifier:@"QRCodeSearchController"];
+    UINavigationController *nav = [[AllNaviViewController alloc] initWithRootViewController:qrcoder];
+    qrcoder.delegate = self;
+    
+    [self presentViewController:nav animated:YES completion:nil];
+    //    [appDelegate.window.rootViewController presentViewController:nav animated:YES completion:nil];
+    
+}
+
 /*!
  *  @abstract 打开摄像头
  */
@@ -290,11 +341,12 @@
 {
     //添加到window上
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.delegate = self;
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    [keyWindow addSubview:picker.view];
+
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 /*!
@@ -352,7 +404,7 @@
     }
     else
     {
-        [picker.view removeFromSuperview];
+        [picker dismissViewControllerAnimated:YES completion:nil];
     }
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -366,10 +418,9 @@
     }
     else
     {
-        [picker.view removeFromSuperview];
+        [picker dismissViewControllerAnimated:YES completion:nil];
     }
-    
-    [picker.view removeFromSuperview];
+    // [picker.view removeFromSuperview];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -388,10 +439,28 @@
     }
 }
 
+#pragma mark - UIViewController Orientation
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self.drawCanvas setNeedsDisplay];
     [self.drawCanvas setNeedsLayout];
+}
+
+#pragma makr - QRCodeViewControllerDelegate Methods
+- (void) qrCodeVideControllerCanceledSearch:(QRCodeViewController *) qrCodeViewController
+{
+    //什么都不做即可
+    [UIAlertView showAlertMessage:@"二维码扫描已取消..."];
+}
+
+- (void) qrCodeVideController:(QRCodeViewController *) qrCodeViewController didFinishedWithString:(NSString *) str
+{
+    //进行请求，这个是二维码的请求。
+    
+    [UIAlertView showAlertMessage:[NSString stringWithFormat:@"二维码扫描结果:%@", str]];
+    isQrCode = YES;
+    [self.drawSDK completeTool];
 }
 
 @end

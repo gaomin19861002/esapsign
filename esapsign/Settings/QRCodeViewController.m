@@ -42,7 +42,8 @@
 //        _blackPicker.layer.cornerRadius = 51.0;
     }
     
-    
+    //修改view的contentInset
+    self.view.contentMode = UIViewContentModeTop;
     
     num = 0;
     isDown = YES;
@@ -81,6 +82,11 @@
     //    _preview.frame = self.view.frame;
     CGRect rect = CGRectMake(0, 0, 1024, 1024);
     _preview.frame = rect;
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        _preview.frame = CGRectMake(0, 0, 768, 960);
+    }else {
+        _preview.frame = CGRectMake(0, 0, 1024, 768);
+    }
     [self.view.layer insertSublayer:self.preview atIndex:0];
     
     [self.session startRunning];
@@ -133,6 +139,7 @@
     }];
 }
 
+#pragma mark - Property Methods
 
 - (UIBarButtonItem *)leftBarItem {
     if (!_leftBarItem) {
@@ -152,20 +159,56 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
+//设置摄像头的orientation
+- (void) setOrigation:(UIInterfaceOrientation) orientation for:(AVCaptureConnection *) conn
+{
+    switch (orientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+        {
+            [conn setVideoOrientation:AVCaptureVideoOrientationLandscapeLeft];
+            break;
+        }
+        case UIInterfaceOrientationLandscapeRight:
+        {
+            [conn setVideoOrientation:AVCaptureVideoOrientationLandscapeRight];
+            break;
+        }
+        case UIInterfaceOrientationPortrait:
+        {
+            [conn setVideoOrientation:AVCaptureVideoOrientationPortrait];
+            break;
+        }
+        case UIInterfaceOrientationPortraitUpsideDown:
+        {
+            [conn setVideoOrientation:AVCaptureVideoOrientationPortraitUpsideDown];
+            break;
+        }
+        default:
+            break;
+    }
+}
 
 #pragma mark
 #pragma mark - UIInterfaceOrigation
 
 - (BOOL) shouldAutorotate{
-    return NO;
-}
-- (NSUInteger) supportedInterfaceOrientations{
-    return UIInterfaceOrientationPortrait;
-}
-- (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationPortrait;
+    return YES;
 }
 
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self setOrigation:toInterfaceOrientation for:_preview.connection];
+    //竖屏状态下
+    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+        _preview.frame = CGRectMake(0, 0, 768, 960);
+    }else {
+        _preview.frame = CGRectMake(0, 0, 1024, 768);
+    }
+}
+
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+}    
 
 - (void)didReceiveMemoryWarning
 {

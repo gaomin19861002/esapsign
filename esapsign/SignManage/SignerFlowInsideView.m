@@ -200,6 +200,23 @@
             || (needSequence && signFlow.current_sequence == clientSign.sequence)) {
             clientSignView.isCurrentSigner = YES;
         }
+        
+        //TODO:添加灰色，红色、黄色三种状态值
+        //红色：拒签；
+        //黄色：待签；
+        //绿色：已签；
+        if (clientSign.refuse_date != nil) {
+            //已经拒绝，设置为红色
+            [clientSignView setColor:[UIColor redColor]];
+            
+        }else if (clientSign.sign_date != nil) {
+            //已经签署
+            [clientSignView setColor:[UIColor greenColor]];
+            
+        }else {
+            //没有拒签也没有签署，可能是已经轮到的用户
+            [clientSignView setColor:[UIColor yellowColor]];
+        }
     }
 }
 

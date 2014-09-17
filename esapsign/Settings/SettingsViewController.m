@@ -73,22 +73,13 @@
             if (indexPath.row == 0) {
                 self.settingControllers.selectedIndex = 1;
             }
+            //处理蓝牙盾
+            if (indexPath.row == 1) {
+                self.settingControllers.selectedIndex = 2;
+            }
         }
             break;
         case 2:
-        {
-            //处理蓝牙盾
-            if (indexPath.row == 0) {
-                self.settingControllers.selectedIndex = 2;
-            }
-            
-            //处理扫一扫
-            if (indexPath.row == 1) {
-                [self openCamera];
-            }
-        }
-            break;
-        case 3:
         {
             //处理关于
             if (indexPath.row == 0) {
@@ -99,9 +90,11 @@
             if (indexPath.row == 1) {
                 self.settingControllers.selectedIndex = 4;
             }
+            
+            
         }
             break;
-        case 4:
+        case 3:
         {
             //处理退出
             if (indexPath.row == 0) {

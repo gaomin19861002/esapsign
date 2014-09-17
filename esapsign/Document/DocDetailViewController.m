@@ -55,6 +55,9 @@ static int signViewTag = SignViewTagBase;
     MBProgressHUD *hud;
     
     bool bDirtyFlag;
+    
+    //记录文档的偏移量
+    CGPoint documentContentOffset;
 }
 
 /**
@@ -206,6 +209,9 @@ static int signViewTag = SignViewTagBase;
     if (![m_pdfdoc openPDFDocument:[documentPath UTF8String]])
         return;
     [self arrPageHeight]; // 显式调用属性Get方法以完成页面高低初始化操作
+    
+    //偏移量为CGPointZero
+    documentContentOffset = CGPointZero;
 }
 
 /**
@@ -504,20 +510,31 @@ static int signViewTag = SignViewTagBase;
  */
 - (void)addSignViewToDoc:(SignatureClipView*)signatureView withMaxWidth:(float)maxWidth andMinWidth:(float)minWidth
 {
-    ResizableSignatureClipView *signView = [[ResizableSignatureClipView alloc] initWithFrame:signatureView.frame];
-    signView.maxWidth = maxWidth;
-    signView.minWidth = minWidth;
+    BOOL isWidthThanHeight = signatureView.imgView.image.size.width > signatureView.imgView.image.size.height;
+    float scale = isWidthThanHeight ? signatureView.frame.size.width / signatureView.imgView.image.size.width
+    : signatureView.frame.size.height / signatureView.imgView.image.size.height;
+    CGRect frame = signatureView.frame;
+    frame.size = signatureView.imgView.image.size;
+    frame.size.width *= scale;
+    frame.size.height *= scale;
+    
+    if (frame.size.height < 80) {
+        frame.size.height = 80;
+    }
+    if (frame.size.width < 80) {
+        frame.size.width = 80;
+    }
+    NSLog(@"%@", NSStringFromCGRect(frame));
+    
+    ResizableSignatureClipView *signView = [[ResizableSignatureClipView alloc] initWithFrame:frame];
+
     signView.del = self;
     signView.bInEdit = YES;
+    signView.backgroundView = self.documentDisplayView;
     signView.tag = signViewTag++;
     signView.imgView.image = signatureView.imgView.image;
     signView.imgView.backgroundColor = [UIColor clearColor];
     signView.backgroundColor = [UIColor clearColor];
-    
-    CGRect frame = signView.frame;
-    // frame.size.width *= 1.8;
-    // frame.size.height *= 1.8;
-    signView.frame = frame;
     
     [self.view addSubview:signView];
     [self.arrSigns addObject:signView];
@@ -861,6 +878,9 @@ static int signViewTag = SignViewTagBase;
  */
 - (void)SignatureClipViewDidConfirm:(SignatureClipView *)signView
 {
+   //保存当前的webview偏移量
+    documentContentOffset = self.documentDisplayView.scrollView.contentOffset;
+
     ResizableSignatureClipView *sign = (ResizableSignatureClipView *)[self.arrSigns lastObject];
     CGRect signImageFrame = [self.documentDisplayView convertRect:sign.imgView.frame fromView:sign];
     
@@ -930,6 +950,9 @@ static int signViewTag = SignViewTagBase;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3f];
     [self.documentDisplayView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:self.fileTempPath]]];
+
+    //设置偏移量
+    self.documentDisplayView.scrollView.contentOffset = documentContentOffset;
     [sign removeFromSuperview];
     [UIView commitAnimations];
     

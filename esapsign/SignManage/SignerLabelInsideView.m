@@ -75,4 +75,10 @@
     }
 }
 
+- (void) setColor:(UIColor *) color
+{
+    self.outstandingMode.backgroundColor = color;
+    self.normalMode.backgroundColor = color;
+}
+
 @end

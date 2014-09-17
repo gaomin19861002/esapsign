@@ -67,4 +67,11 @@
  */
 - (void)insertNewSign:(UIImage *)signImage;
 
+/**
+ * 新增签名，二维码
+ *
+ *  @param signImage 新签名
+ */
+- (void)addNewSign:(UIImage *)signImage;
+
 @end

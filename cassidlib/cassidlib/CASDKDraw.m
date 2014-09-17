@@ -94,7 +94,7 @@
 - (void)completeTool
 {
     self.imageRect = [self.boundleView convertRect:_paletteView.signFrame fromView:_paletteView];
-    if (self.imageRect.size.width >= 64 || self.imageRect.size.height >= 64)
+    if (self.imageRect.size.width >= 80 || self.imageRect.size.height >= 80 || [_paletteView hasImage])
     {
         UIImage *imageSaved = [_paletteView saveWithoutCompress];
         [self.delegate CASDKDraw:self getDrawImage:imageSaved];

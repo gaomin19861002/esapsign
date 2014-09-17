@@ -51,6 +51,9 @@ typedef NS_ENUM(NSInteger, SignatureViewStyle)
         UIImage *signImage = [UIImage imageNamed:@"SignNew"];
         [self.imgView setImage:signImage];
         self.imgView.contentMode = UIViewContentModeScaleAspectFit;
+        //        self.imgView.contentMode = UIViewContentModeScaleToFill;
+        //        self.imgView.contentMode = UIViewContentModeScaleAspectFill;
+        //        self.imgView.contentMode = UIViewContentModeBottom;
         self.imgView.layer.masksToBounds = YES;
         self.imgView.layer.cornerRadius = 2.0f;
         
