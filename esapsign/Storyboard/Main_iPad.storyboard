@@ -842,7 +842,7 @@
                                                         <constraint firstAttribute="height" constant="54" id="tWU-Am-1m7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xN3-UO-CTd" userLabel="File Name">
+                                                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xN3-UO-CTd" userLabel="File Name">
                                                     <rect key="frame" x="78" y="3" width="416" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="2bS-ka-cdZ"/>

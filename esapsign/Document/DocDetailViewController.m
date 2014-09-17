@@ -28,6 +28,7 @@
 #import "UIImage+Additions.h"
 #import "UIAlertView+Additions.h"
 #import "UIViewController+Additions.h"
+#import "NSDate+Additions.h"
 
 // 该Tag值。。。。
 #define SignViewTagBase     1100
@@ -132,7 +133,7 @@ static int signViewTag = SignViewTagBase;
     // 设置签名列表视图
     signsListView = [[SignatureClipListView alloc] initWithFrame:CGRectMake(0, 0, 1024, 56)];
     [self.operationBgView addSubview:signsListView];
-    signsListView.arrDefaultSigns = [[DataManager defaultInstance] allDefaultSignPics];
+    signsListView.arrDefaultSigns = [[DataManager defaultInstance] allSignPics];
     signsListView.signsListDelegate = self;
     signsListView.allowDragSign = YES;
     signsListView.panTargetView = self.backgroundView;
@@ -456,7 +457,7 @@ static int signViewTag = SignViewTagBase;
     if (clientTarget.clientFile.currentSignflow != nil)
     {
         // 进行sign请求
-        currentSign.sign_date = [NSDate date];
+        currentSign.sign_date = [NSDate convertDateToLocalTime:[NSDate date]];
         Client_sign_flow *currentSignFlow = clientTarget.clientFile.currentSignflow;
         [[DataManager defaultInstance] finishSignFlow:currentSignFlow withSign:currentSign];
 

@@ -56,7 +56,7 @@
     if ([[contactDic objectForKey:@"lastTimeStamp"] isEqualToString:@""])
     {
         NSLog(@"Warning: It should not to be an empty value in contact last timestamp!");
-        date = [NSDate date];
+        date = [NSDate convertDateToLocalTime:[NSDate date]];
     }
     else
     {
@@ -91,7 +91,6 @@
         [self.objectContext insertObject:contactItem];
     }
     
-    contactItem.item_id = [contactItemDic objectForKey:@"id"];
     contactItem.account_id = [contactItemDic objectForKey:@"accountId"];
     contactItem.title = [contactItemDic objectForKey:@"title"];
     contactItem.contentType = [NSNumber numberWithInt:[[contactItemDic objectForKey:@"type"] intValue]];
@@ -143,7 +142,7 @@
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *date = [[NSDate date] fullDateString];
+    NSString *date = [[NSDate convertDateToLocalTime:[NSDate date]] fullDateString];
     
     NSMutableDictionary* contactDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                 [Util generalUUID], @"id",
@@ -265,7 +264,7 @@
 {
     for (Client_contact_item *content in contact.clientItems)
     {
-        [self.objectContext refreshObject:content mergeChanges:YES];
+        //[self.objectContext refreshObject:content mergeChanges:YES];
         [self.objectContext deleteObject:content];
     }
 }

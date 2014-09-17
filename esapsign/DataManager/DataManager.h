@@ -45,12 +45,12 @@ DefaultInstanceForClassHeader(DataManager);
 @property(nonatomic, retain) NSManagedObjectModel *objectModel;
 @property(nonatomic, retain) NSPersistentStoreCoordinator *storeCoordinator;
 
-// 四大类基础类型对象
-@property(nonatomic, retain) NSMutableArray *allTargets;
-@property(nonatomic, retain) NSMutableArray *allFiles;
-@property(nonatomic, retain) NSMutableArray *allContacts;
-@property(nonatomic, retain) NSMutableArray *allSignPics;
-@property(nonatomic, retain) NSMutableArray *allSignFlows;
+// 四大类基础类型对象。注意使用时，添加、修改对象都必须走objectContext，这里只能只读调用
+@property(nonatomic, retain, readonly) NSMutableArray *allTargets;
+@property(nonatomic, retain, readonly) NSMutableArray *allFiles;
+@property(nonatomic, retain, readonly) NSMutableArray *allContacts;
+@property(nonatomic, retain, readonly) NSMutableArray *allSignPics;
+@property(nonatomic, retain, readonly) NSMutableArray *allSignFlows;
 
 /*!
  用户目录路径

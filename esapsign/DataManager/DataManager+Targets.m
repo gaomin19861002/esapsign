@@ -8,6 +8,7 @@
 
 #import "DataManager+Targets.h"
 #import "DownloadManager.h"
+#import "NSDate+Additions.h"
 
 @implementation DataManager (Targets)
 
@@ -16,7 +17,7 @@
 {
     for (Client_target *target in self.allTargets)
     {
-        [self.objectContext refreshObject:target mergeChanges:YES];
+        //[self.objectContext refreshObject:target mergeChanges:YES];
         [self.objectContext deleteObject:target];
     }
 }
@@ -26,7 +27,7 @@
 {
     for (Client_sign_flow *flow in self.allSignFlows)
     {
-        [self.objectContext refreshObject:flow mergeChanges:YES];
+        //[self.objectContext refreshObject:flow mergeChanges:YES];
         [self.objectContext deleteObject:flow];
     }
 }
@@ -65,8 +66,8 @@
     orgTarget.type = @([[dictTargetValue objectForKey:@"type"] integerValue]);
     orgTarget.record_status =  @([[dictTargetValue objectForKey:@"type"] integerValue]);
 #warning 苏智注意！
-    orgTarget.create_time = [NSDate date]; // 注意：这里的时间，当type＝2是文件的时候，要从对应的物理文件读取，该操作可能发生在文件下载完成后补充。
-    orgTarget.update_time = [NSDate date];
+    orgTarget.create_time = [NSDate convertDateToLocalTime:[NSDate date]]; // 注意：这里的时间，当type＝2是文件的时候，要从对应的物理文件读取，该操作可能发生在文件下载完成后补充。
+    orgTarget.update_time = [NSDate convertDateToLocalTime:[NSDate date]];
     
     return orgTarget;
 }
@@ -132,8 +133,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     sign.sign_date = [formatter dateFromString:[dicSign objectForKey:@"signDate"]];
-#warning 应该获取拒签信息，但目前服务端填写该数据是错误的，暂时屏蔽
-    //sign.refuse_date = [formatter dateFromString:[signDict objectForKey:@"refuseDate"]];
+    sign.refuse_date = [formatter dateFromString:[dicSign objectForKey:@"refuseDate"]];
     sign.sign_account_id = [dicSign objectForKey:@"signerAccountID"];
     sign.sign_displayname = [dicSign objectForKey:@"signerName"];
     sign.sign_address = [dicSign objectForKey:@"signerAddress"];
@@ -155,7 +155,6 @@
         [[NSFileManager defaultManager] removeItemAtPath:file.phsical_filename error:nil];
         [self.objectContext deleteObject:file];
     }
-    self.allFiles = nil;
 }
 
 // 清除本地所有下载文件
@@ -233,8 +232,8 @@
     folder.display_name = name;
     folder.type = @(TargetTypeUserFolder);
     folder.record_status = @(1);
-    folder.create_time = [NSDate date];
-    folder.update_time = [NSDate date];
+    folder.create_time = [NSDate convertDateToLocalTime:[NSDate date]];
+    folder.update_time = [NSDate convertDateToLocalTime:[NSDate date]];
     
     [self.objectContext insertObject:folder];
 }
@@ -249,8 +248,8 @@
     fileTarget.display_name = displayName;
     fileTarget.type = @(TargetTypeFile);
     fileTarget.record_status = @(1);
-    fileTarget.create_time = [NSDate date];
-    fileTarget.update_time = [NSDate date];
+    fileTarget.create_time = [NSDate convertDateToLocalTime:[NSDate date]];
+    fileTarget.update_time = [NSDate convertDateToLocalTime:[NSDate date]];
     
     // 生成文件关联对象
     Client_file *file = (Client_file *)[NSEntityDescription insertNewObjectForEntityForName:EntityClientFile inManagedObjectContext:self.objectContext];

@@ -101,7 +101,14 @@
 - (void)setArrDefaultSigns:(NSMutableArray *)arrNewDefaultSigns
 {
     _arrDefaultSigns = arrNewDefaultSigns;
+
     [self.signCollectionView reloadData];
+
+//    int scnt = [self.signCollectionView numberOfSections];
+//    if (scnt > 0 && [self.signCollectionView numberOfItemsInSection:0] > 0)
+//        [self.signCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]
+//                                        atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
+
 }
 
 #pragma mark - Override Method
@@ -174,7 +181,7 @@
     // 从本地清除数据
     [self.arrDefaultSigns removeObject:signfile];
     [self.signCollectionView reloadData];
-    [[DataManager defaultInstance] deleteSignFile:signView.defaultSign];
+    [[DataManager defaultInstance] deleteSignPic:signView.defaultSign];
 }
 
 /**

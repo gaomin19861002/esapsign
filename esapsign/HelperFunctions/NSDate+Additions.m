@@ -10,6 +10,14 @@
 
 @implementation NSDate(Additions)
 
++ (NSDate *)convertDateToLocalTime: (NSDate *)forDate
+{
+    NSTimeZone *nowTimeZone = [NSTimeZone localTimeZone];
+    int timeOffset = [nowTimeZone secondsFromGMTForDate:forDate];
+    NSDate *newDate = [forDate dateByAddingTimeInterval:timeOffset];
+    return newDate;
+}
+
 /*!
  生成yyyy/m/d格式的字符串
  @return 生成的字符串

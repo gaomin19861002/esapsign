@@ -30,7 +30,6 @@
 /*! 通信录导入成功通知 */
 #define ContactImportSucceedNotification    @"ContactImportSucceedNotification"
 
-
 /*! 定义同步更新完成通知 */
 #define SyncUpdateFinishedNotification      @"UpdateFinishedNotificatioin"
 
@@ -47,10 +46,7 @@
 #define DownloadStatusChangedNotification   @"DownloadStatusChanged"
 
 /*! 下载完签名文件，发出更新通知 */
-#define DownloadSignFileUpdateNotification  @"DownloadSignFileUpdate"
-
-/*! 下载完签名文件，发出更新通知 */
-#define DownloadAllSignFinishedNotitication @"DownloadAllSignFinished"
+#define SignPicUpdateCompleteNotification   @"SignPicUpdateCompleteNotification"
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------/
 

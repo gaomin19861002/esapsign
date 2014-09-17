@@ -76,8 +76,6 @@
  */
 - (void)addFileButtonClicked:(id)sender;
 
-- (void)handleSignFileDownloadUpdate:(NSNotification *)notification;
-
 @end
 
 @implementation DocListViewController
@@ -115,9 +113,9 @@
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allDefaultSignPics];
+    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allSignPics];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSignFileDownloadUpdate:) name:DownloadSignFileUpdateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSignPicUpdateComplete:) name:SignPicUpdateCompleteNotification object:nil];
     NSLog(@"%s", __FUNCTION__);
 }
 
@@ -617,10 +615,10 @@
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)handleSignFileDownloadUpdate:(NSNotification *)notification
+- (void)handleSignPicUpdateComplete:(NSNotification *)notification
 {
-    [DataManager defaultInstance].allSignPics = nil;
-    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allDefaultSignPics];
+    DataManager* manager = [DataManager defaultInstance];
+    [self.signListView setArrDefaultSigns:manager.allSignPics];
 }
 
 #pragma mark - RequestManager Delegate

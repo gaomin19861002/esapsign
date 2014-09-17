@@ -13,16 +13,13 @@
 // 从服务器同步添加一个签名文件信息
 - (Client_signpic *)syncSignPicWithDict:(NSDictionary *) dict;
 
-// 返回所有签名文件
-- (NSMutableArray *)allDefaultSignPics;
-
 // 添加一个签名图片
 - (Client_signpic *)addSignWithPath:(NSString *)signFilePath withID:(NSString*)givenID;
 
 // 删除签名(By Yi Minwen)
-- (void)deleteSignFile:(Client_signpic *)signToDel;
+- (void)deleteSignPic:(Client_signpic *)signToDel;
 
 // 清除本地签名文件
-- (void)clearLocalSignFile;
+- (void)clearLocalSignPic;
 
 @end

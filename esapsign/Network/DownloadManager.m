@@ -32,7 +32,6 @@
 - (void)removeQueueDownloadInfo:(DownloadInfo *)info;
 
 @property(nonatomic, assign) NSInteger allSignCount;
-@property(nonatomic, assign) NSInteger currentSignDownloadCount;
 
 @end
 
@@ -82,11 +81,10 @@ DefaultInstanceForClass(DownloadManager);
 {
     self.downloadFiles = nil;
     self.allSignCount = 0;
-    self.currentSignDownloadCount = 0;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     // 查找所有未下载的签名图片
-    NSArray *signFiles = [[DataManager defaultInstance] allDefaultSignPics];
+    NSArray *signFiles = [[DataManager defaultInstance] allSignPics];
     for (Client_signpic *signFile in signFiles)
     {
         if ([signFile.signpic_serverpath length])
@@ -141,8 +139,8 @@ DefaultInstanceForClass(DownloadManager);
     if (![self.downloadFiles count] || [CAAppDelegate sharedDelegate].offlineMode)
     {
         DebugLog(@"no files need to download");
-        [[NSNotificationCenter defaultCenter] postNotificationName:DownloadSignFileUpdateNotification object:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:DownloadAllSignFinishedNotitication object:nil];
+        // [[NSNotificationCenter defaultCenter] postNotificationName:DownloadSignFileUpdateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:SignPicUpdateCompleteNotification object:nil];
         return;
     }
     
@@ -170,7 +168,7 @@ DefaultInstanceForClass(DownloadManager);
     }
     else
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:DownloadAllSignFinishedNotitication object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:SignPicUpdateCompleteNotification object:nil];
     }
     
     if (self.workQueue.requestsCount < self.downloadCount && [self firstWaitingFile])
@@ -332,10 +330,7 @@ DefaultInstanceForClass(DownloadManager);
         if (info.fileType == 0)
         {
             // 全部签名下载完成
-            [self performBlock:^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:DownloadAllSignFinishedNotitication object:nil];
-                
-            } afterDelay:.0f];
+            [self performBlock:^{ [[NSNotificationCenter defaultCenter] postNotificationName:SignPicUpdateCompleteNotification object:nil]; } afterDelay:.0f];
         }
         
         if (![NSThread isMainThread])
@@ -359,18 +354,6 @@ DefaultInstanceForClass(DownloadManager);
         if (![NSThread isMainThread])
         {
             DebugLog(@"current thread is no main thread");
-        }
-        // 如果是签名文件，发出更新签名通知
-        if (info.fileType == 0)
-        {
-            [self performBlock:^{ [[NSNotificationCenter defaultCenter] postNotificationName:DownloadSignFileUpdateNotification object:nil]; } afterDelay:.0f];
-            self.currentSignDownloadCount++;
-            NSLog(@"curent sign %d all = %d", self.currentSignDownloadCount, self.allSignCount);
-            if (self.currentSignDownloadCount == self.allSignCount)
-            {
-                // 全部签名下载完成
-                [self performBlock:^{ [[NSNotificationCenter defaultCenter] postNotificationName:DownloadAllSignFinishedNotitication object:nil]; } afterDelay:.0f];
-            }
         }
         
         info.status = DownloadStatusFinished;

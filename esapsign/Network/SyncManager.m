@@ -44,7 +44,7 @@ DefaultInstanceForClass(SyncManager);
     {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleAllSignDownloadFinished)
-                                                     name:DownloadAllSignFinishedNotitication
+                                                     name:SignPicUpdateCompleteNotification
                                                    object:nil];
     }
     
@@ -301,7 +301,7 @@ DefaultInstanceForClass(SyncManager);
 - (void)processSignPicData:(NSDictionary*)responseDic
 {
     DataManager* manager = [DataManager defaultInstance];
-    [manager clearLocalSignFile];
+    [manager clearLocalSignPic];
     
     NSDictionary *penDict = [responseDic objectForKey:@"pen"];
     NSArray *penList = [penDict objectForKey:@"pens"];

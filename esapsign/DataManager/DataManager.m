@@ -267,10 +267,6 @@ DefaultInstanceForClass(DataManager);
     return [target.parent_id isEqualToString:inboxId];
 }
 
-#pragma mark - Sign Picture Operations
-
-
-
 #pragma mark - Clear Cache
 
 /**
@@ -278,12 +274,13 @@ DefaultInstanceForClass(DataManager);
  */
 - (void) clearnCaches
 {
-    //修改文件转台，并清除所有本地文件
-    NSArray *allClientFiles = [self arrayFromCoreData:EntityClientFile predicate:nil limit:NSUIntegerMax offset:0 orderBy:nil];
-    
-    for (Client_file *file in allClientFiles) {
+#warning 目前的清空缓存都是在文件有相应的逻辑对象引用时方可清理，一旦对应的逻辑对象删除了，文件就成为孤立文件，如何清理？
+    for (Client_file *file in self.allFiles)
         [[NSFileManager defaultManager] removeItemAtPath:file.phsical_filename error:nil];
-    }
+
+    //for (Client_signpic *pic in self.allSignPics)
+    //    [[NSFileManager defaultManager] removeItemAtPath:pic.signpic_path error:nil];
+
     //通知下载管理器重置列表
     [[DownloadManager defaultInstance] resetDownloadFileList];
 }
@@ -367,22 +364,23 @@ DefaultInstanceForClass(DataManager);
 // 全部的目录对象（文件夹和文件的头部）
 - (NSMutableArray *)allTargets
 {
-     NSArray *fetchObjects = [self arrayFromCoreData:EntityClientTarget
-                                           predicate:nil
-                                               limit:NSUIntegerMax
-                                              offset:0
-                                             orderBy:nil];
+    NSMutableArray* targets = nil;
+    NSArray *fetchObjects = [self arrayFromCoreData:EntityClientTarget
+                                          predicate:nil
+                                              limit:NSUIntegerMax
+                                             offset:0
+                                            orderBy:nil];
     if (fetchObjects != nil)
-        _allTargets = [[NSMutableArray alloc] initWithArray:fetchObjects];
+        targets = [[NSMutableArray alloc] initWithArray:fetchObjects];
     else
-        _allTargets = [[NSMutableArray alloc] init];
-    
-    return _allTargets;
+        targets = [[NSMutableArray alloc] init];
+    return targets;
 }
 
 // 全部的文件对象（文件体）
 - (NSMutableArray *)allFiles
 {
+    NSMutableArray* files = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type==%d", TargetTypeFile];
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"display_name" ascending:NO];
     NSArray *fetchObjects = [self arrayFromCoreData:EntityClientTarget
@@ -390,19 +388,20 @@ DefaultInstanceForClass(DataManager);
                                               limit:NSUIntegerMax
                                              offset:0
                                             orderBy:sort];
-    _allFiles = [[NSMutableArray alloc] init];
+    files = [[NSMutableArray alloc] init];
     
     for (Client_target *target in fetchObjects)
     {
-        if (![_allFiles containsObject:target.clientFile])
-                [_allFiles addObject:target.clientFile];
+        if (![files containsObject:target.clientFile])
+                [files addObject:target.clientFile];
     }
-    return _allFiles;
+    return files;
 }
 
 // 全部的通讯录联系人
 - (NSMutableArray *)allContacts
 {
+    NSMutableArray* contacts = nil;
     // 解决新添加联系人仔联系人列表不显示问题 gaomin@20140814
     NSArray *fetchObjects = [self arrayFromCoreData:EntityClientContact
                                           predicate:nil
@@ -410,33 +409,35 @@ DefaultInstanceForClass(DataManager);
                                              offset:0
                                             orderBy:nil];
     if (fetchObjects)
-        _allContacts = [[NSMutableArray alloc] initWithArray:fetchObjects];
+        contacts = [[NSMutableArray alloc] initWithArray:fetchObjects];
     else
-        _allContacts = [[NSMutableArray alloc] init];
+        contacts = [[NSMutableArray alloc] init];
     
-    return _allContacts;
+    return contacts;
 }
 
 // 全部的有签名信息的文档
 - (NSMutableArray *)allSignPics
 {
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"signpic_updatedate" ascending:YES];
+    NSMutableArray* pics = nil;
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"signpic_updatedate" ascending:NO];
     NSArray *fetchObjects = [self arrayFromCoreData:EntityClientSignPic
                                           predicate:nil
                                               limit:NSUIntegerMax
                                              offset:0
                                             orderBy:sort];
     if (fetchObjects)
-        _allSignPics = [[NSMutableArray alloc] initWithArray:fetchObjects];
+        pics = [[NSMutableArray alloc] initWithArray:fetchObjects];
     else
-        _allSignPics = [[NSMutableArray alloc] init];
+        pics = [[NSMutableArray alloc] init];
     
-    return _allSignPics;
+    return pics;
 }
 
 // 全部的签名流程
 - (NSMutableArray *)allSignFlows
 {
+    NSMutableArray* flows = nil;
     // 解决新添加联系人仔联系人列表不显示问题 gaomin@20140814
     NSArray *fetchObjects = [self arrayFromCoreData:EntityClientSignFlow
                                           predicate:nil
@@ -444,11 +445,10 @@ DefaultInstanceForClass(DataManager);
                                              offset:0
                                             orderBy:nil];
     if (fetchObjects)
-        _allSignFlows = [[NSMutableArray alloc] initWithArray:fetchObjects];
+        flows = [[NSMutableArray alloc] initWithArray:fetchObjects];
     else
-        _allSignFlows = [[NSMutableArray alloc] init];
-    
-    return _allSignFlows;
+        flows = [[NSMutableArray alloc] init];
+    return flows;
 }
 
 // Method for create path
