@@ -600,7 +600,8 @@
     
     if (signCount >= limitCount && needVerifyCount)
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"已达签名上限" message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        NSString* info = [NSString stringWithFormat:@"已达到预设签名图数量上限(%d)", limitCount];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:info message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alertView show];
         return;
     }

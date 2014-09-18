@@ -460,6 +460,14 @@ static int signViewTag = SignViewTagBase;
  */
 - (IBAction)submitButtonClicked:(id)sender
 {
+    bool offline = [CAAppDelegate sharedDelegate].offlineMode;
+    
+    if (offline)
+    {
+        [UIAlertView showAlertMessage:@"脱机模式下无法提交签署..."];
+        return;
+    }
+    
     if (clientTarget.clientFile.currentSignflow != nil)
     {
         // 进行sign请求

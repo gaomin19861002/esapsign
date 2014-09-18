@@ -11,7 +11,7 @@
 @implementation UIAlertView(Additions)
 
 + (void)showAlertMessage:(NSString *)message {
-    [self showAlertTitle:nil message:message];
+    [self showAlertTitle:message message:nil];
 }
 
 + (void)showAlertTitle:(NSString *)title message:(NSString *)message {

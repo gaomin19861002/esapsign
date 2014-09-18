@@ -113,8 +113,9 @@
                 slideCell.slider.value = [downloadCount integerValue];
                 slideCell.numLabel.text = [NSString stringWithFormat:@"%d",[downloadCount integerValue]];
             }else {
-                slideCell.slider.value = [downloadCount integerValue];
-                slideCell.numLabel.text = [NSString stringWithFormat:@"%d",[downloadCount integerValue]];
+                slideCell.slider.value = 1;
+                slideCell.numLabel.text = [NSString stringWithFormat:@"%d", 1];
+                [nd setObject:[NSNumber numberWithInt:1] forKey:DownloadCountKey];
             }
         }
         
