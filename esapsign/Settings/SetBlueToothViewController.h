@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CASetBaseViewController.h"
 
-@interface SetBlueToothViewController : CASetBaseViewController <UITableViewDataSource, UITableViewDelegate>
-
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@interface SetBlueToothViewController : UITableViewController
 
 @end

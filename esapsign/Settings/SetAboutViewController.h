@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CASetBaseViewController.h"
 
-@interface SetAboutViewController : CASetBaseViewController
+@interface SetAboutViewController : UIViewController
 
 @end

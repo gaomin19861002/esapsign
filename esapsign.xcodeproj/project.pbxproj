@@ -23,7 +23,7 @@
 		D02630D519C6DAA80065A3A9 /* DataManager+Contacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D02630D419C6DAA80065A3A9 /* DataManager+Contacts.m */; };
 		D02630E219C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D02630E119C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m */; };
 		D03F6F4419B0995800B2FB60 /* SetSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D03F6F3219B0995800B2FB60 /* SetSwitchTableViewCell.xib */; };
-		D03F6F4519B0995800B2FB60 /* SetLowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F6F3419B0995800B2FB60 /* SetLowViewController.m */; };
+		D03F6F4519B0995800B2FB60 /* SetLawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F6F3419B0995800B2FB60 /* SetLawViewController.m */; };
 		D03F6F4619B0995800B2FB60 /* SetLogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F6F3619B0995800B2FB60 /* SetLogoutViewController.m */; };
 		D03F6F4719B0995800B2FB60 /* SetGeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F6F3919B0995800B2FB60 /* SetGeneralViewController.m */; };
 		D03F6F4819B0995800B2FB60 /* SetAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F6F3A19B0995800B2FB60 /* SetAboutViewController.m */; };
@@ -47,7 +47,7 @@
 		D0E8398119AF47F800ED539D /* LeftTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E8397A19AF47F800ED539D /* LeftTabViewController.m */; };
 		D0E8398219AF47F800ED539D /* NoRotateNaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E8397C19AF47F800ED539D /* NoRotateNaviViewController.m */; };
 		D0E8398319AF47F800ED539D /* RightNaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E8397E19AF47F800ED539D /* RightNaviViewController.m */; };
-		D0E9D40E19C1386E00361B8A /* CASetBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E9D40D19C1386E00361B8A /* CASetBaseViewController.m */; };
+		D0E9D40E19C1386E00361B8A /* SettingsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E9D40D19C1386E00361B8A /* SettingsDetailViewController.m */; };
 		D0ECDE5919A483F70008062E /* Document.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0ECDE5119A483F70008062E /* Document.xcassets */; };
 		D0ECDE5A19A483F70008062E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0ECDE5219A483F70008062E /* Images.xcassets */; };
 		D0ECDE5D19A483F70008062E /* Toolkits_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0ECDE5619A483F70008062E /* Toolkits_iPad.storyboard */; };
@@ -140,7 +140,7 @@
 		D0ECDFFB19A49B450008062E /* libfsdk_ios_arm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0ECDFF219A49B450008062E /* libfsdk_ios_arm.a */; };
 		D0ECDFFC19A49B450008062E /* libfsdk_ios_emu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0ECDFF319A49B450008062E /* libfsdk_ios_emu.a */; };
 		D0ECE06519A49F000008062E /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE00019A49F000008062E /* GTMBase64.m */; };
-		D0ECE08E19A4A1670008062E /* SettingsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE08B19A4A1670008062E /* SettingsDetailViewController.m */; };
+		D0ECE08E19A4A1670008062E /* SettingsDetailViewControllerFake.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE08B19A4A1670008062E /* SettingsDetailViewControllerFake.m */; };
 		D0ECE08F19A4A1670008062E /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE08D19A4A1670008062E /* SettingsViewController.m */; };
 		D0ECE09519A4A7730008062E /* HTBKVObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE09319A4A7730008062E /* HTBKVObservation.m */; };
 		D0ECE09C19A4A7A50008062E /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECE09819A4A7A50008062E /* EXTRuntimeExtensions.m */; };
@@ -230,8 +230,8 @@
 		D02630E119C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocSignedWithSomeOneCell.m; sourceTree = "<group>"; };
 		D03F6F3219B0995800B2FB60 /* SetSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetSwitchTableViewCell.xib; sourceTree = "<group>"; };
 		D03F6F3319B0995800B2FB60 /* SetBlueToothViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetBlueToothViewController.h; sourceTree = "<group>"; };
-		D03F6F3419B0995800B2FB60 /* SetLowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetLowViewController.m; sourceTree = "<group>"; };
-		D03F6F3519B0995800B2FB60 /* SetLowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetLowViewController.h; sourceTree = "<group>"; };
+		D03F6F3419B0995800B2FB60 /* SetLawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetLawViewController.m; sourceTree = "<group>"; };
+		D03F6F3519B0995800B2FB60 /* SetLawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetLawViewController.h; sourceTree = "<group>"; };
 		D03F6F3619B0995800B2FB60 /* SetLogoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetLogoutViewController.m; sourceTree = "<group>"; };
 		D03F6F3719B0995800B2FB60 /* SetGeneralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetGeneralViewController.h; sourceTree = "<group>"; };
 		D03F6F3819B0995800B2FB60 /* SetSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetSwitchTableViewCell.h; sourceTree = "<group>"; };
@@ -275,8 +275,8 @@
 		D0E8397C19AF47F800ED539D /* NoRotateNaviViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoRotateNaviViewController.m; sourceTree = "<group>"; };
 		D0E8397D19AF47F800ED539D /* RightNaviViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightNaviViewController.h; sourceTree = "<group>"; };
 		D0E8397E19AF47F800ED539D /* RightNaviViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightNaviViewController.m; sourceTree = "<group>"; };
-		D0E9D40C19C1386E00361B8A /* CASetBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASetBaseViewController.h; sourceTree = "<group>"; };
-		D0E9D40D19C1386E00361B8A /* CASetBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CASetBaseViewController.m; sourceTree = "<group>"; };
+		D0E9D40C19C1386E00361B8A /* SettingsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsDetailViewController.h; sourceTree = "<group>"; };
+		D0E9D40D19C1386E00361B8A /* SettingsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsDetailViewController.m; sourceTree = "<group>"; };
 		D0ECDE5119A483F70008062E /* Document.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Document.xcassets; sourceTree = "<group>"; };
 		D0ECDE5219A483F70008062E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D0ECDE5619A483F70008062E /* Toolkits_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Toolkits_iPad.storyboard; path = Storyboard/Toolkits_iPad.storyboard; sourceTree = "<group>"; };
@@ -592,8 +592,8 @@
 		D0ECE06219A49F000008062E /* RSADataEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataEncryption.h; sourceTree = "<group>"; };
 		D0ECE06319A49F000008062E /* RSADataSigning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataSigning.h; sourceTree = "<group>"; };
 		D0ECE06419A49F000008062E /* SMFileCertOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMFileCertOperations.h; sourceTree = "<group>"; };
-		D0ECE08A19A4A1670008062E /* SettingsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsDetailViewController.h; sourceTree = "<group>"; };
-		D0ECE08B19A4A1670008062E /* SettingsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsDetailViewController.m; sourceTree = "<group>"; };
+		D0ECE08A19A4A1670008062E /* SettingsDetailViewControllerFake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsDetailViewControllerFake.h; sourceTree = "<group>"; };
+		D0ECE08B19A4A1670008062E /* SettingsDetailViewControllerFake.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsDetailViewControllerFake.m; sourceTree = "<group>"; };
 		D0ECE08C19A4A1670008062E /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		D0ECE08D19A4A1670008062E /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		D0ECE09319A4A7730008062E /* HTBKVObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTBKVObservation.m; sourceTree = "<group>"; };
@@ -803,20 +803,18 @@
 			isa = PBXGroup;
 			children = (
 				F8A77C0E19B447D100679F3B /* Setting Cell */,
-				D0E9D40C19C1386E00361B8A /* CASetBaseViewController.h */,
-				D0E9D40D19C1386E00361B8A /* CASetBaseViewController.m */,
-				D03F6F3319B0995800B2FB60 /* SetBlueToothViewController.h */,
-				D03F6F3B19B0995800B2FB60 /* SetBlueToothViewController.m */,
-				D03F6F3519B0995800B2FB60 /* SetLowViewController.h */,
-				D03F6F3419B0995800B2FB60 /* SetLowViewController.m */,
-				D03F6F4119B0995800B2FB60 /* SetLogoutViewController.h */,
-				D03F6F3619B0995800B2FB60 /* SetLogoutViewController.m */,
 				D03F6F3719B0995800B2FB60 /* SetGeneralViewController.h */,
 				D03F6F3919B0995800B2FB60 /* SetGeneralViewController.m */,
-				D03F6F3F19B0995800B2FB60 /* SetAboutViewController.h */,
-				D03F6F3A19B0995800B2FB60 /* SetAboutViewController.m */,
 				D03F6F4319B0995800B2FB60 /* SetContractViewController.h */,
 				D03F6F3C19B0995800B2FB60 /* SetContractViewController.m */,
+				D03F6F3319B0995800B2FB60 /* SetBlueToothViewController.h */,
+				D03F6F3B19B0995800B2FB60 /* SetBlueToothViewController.m */,
+				D03F6F3F19B0995800B2FB60 /* SetAboutViewController.h */,
+				D03F6F3A19B0995800B2FB60 /* SetAboutViewController.m */,
+				D03F6F3519B0995800B2FB60 /* SetLawViewController.h */,
+				D03F6F3419B0995800B2FB60 /* SetLawViewController.m */,
+				D03F6F4119B0995800B2FB60 /* SetLogoutViewController.h */,
+				D03F6F3619B0995800B2FB60 /* SetLogoutViewController.m */,
 			);
 			name = "Setting Items";
 			sourceTree = "<group>";
@@ -1456,8 +1454,10 @@
 				D03F6F5E19B09F3C00B2FB60 /* Setting Items */,
 				D0ECE08C19A4A1670008062E /* SettingsViewController.h */,
 				D0ECE08D19A4A1670008062E /* SettingsViewController.m */,
-				D0ECE08A19A4A1670008062E /* SettingsDetailViewController.h */,
-				D0ECE08B19A4A1670008062E /* SettingsDetailViewController.m */,
+				D0E9D40C19C1386E00361B8A /* SettingsDetailViewController.h */,
+				D0E9D40D19C1386E00361B8A /* SettingsDetailViewController.m */,
+				D0ECE08A19A4A1670008062E /* SettingsDetailViewControllerFake.h */,
+				D0ECE08B19A4A1670008062E /* SettingsDetailViewControllerFake.m */,
 				D0E8396E19AF47BC00ED539D /* LoginViewController.h */,
 				D0E8396F19AF47BC00ED539D /* LoginViewController.m */,
 				D0E8397019AF47BC00ED539D /* QRCodeViewController.h */,
@@ -1698,7 +1698,7 @@
 				D0E8398319AF47F800ED539D /* RightNaviViewController.m in Sources */,
 				D0ECDF8919A498020008062E /* DocListViewController.m in Sources */,
 				D0ECDE8019A485B90008062E /* Client_target.m in Sources */,
-				D0ECE08E19A4A1670008062E /* SettingsDetailViewController.m in Sources */,
+				D0ECE08E19A4A1670008062E /* SettingsDetailViewControllerFake.m in Sources */,
 				D0ECDE7C19A485B90008062E /* Client_file.m in Sources */,
 				D0ECDF4019A496240008062E /* TypeSelectionTableViewController.m in Sources */,
 				D02630E219C7C04F0065A3A9 /* DocSignedWithSomeOneCell.m in Sources */,
@@ -1716,7 +1716,7 @@
 				D0ECDF5A19A496810008062E /* SignatureClipCollectionCell.m in Sources */,
 				D0ECDEB319A489800008062E /* NSDate+Additions.m in Sources */,
 				D0ECDF5719A496810008062E /* SignatureClipView.m in Sources */,
-				D03F6F4519B0995800B2FB60 /* SetLowViewController.m in Sources */,
+				D03F6F4519B0995800B2FB60 /* SetLawViewController.m in Sources */,
 				D03F6F4719B0995800B2FB60 /* SetGeneralViewController.m in Sources */,
 				F8A77C1919B44C4C00679F3B /* SetContactTableViewCell.m in Sources */,
 				D0ECE09C19A4A7A50008062E /* EXTRuntimeExtensions.m in Sources */,
@@ -1748,7 +1748,7 @@
 				D0ECDF3519A48F910008062E /* RequestManager.m in Sources */,
 				D0ECDF5919A496810008062E /* ResizableSignatureClipView.m in Sources */,
 				D0ECDF8619A498020008062E /* ContextHeaderView.m in Sources */,
-				D0E9D40E19C1386E00361B8A /* CASetBaseViewController.m in Sources */,
+				D0E9D40E19C1386E00361B8A /* SettingsDetailViewController.m in Sources */,
 				D0E8396D19AF454400ED539D /* SignerFlowOutsideView.m in Sources */,
 				D0ECDEB219A489800008062E /* NSArray+Additions.m in Sources */,
 				D0ECE06519A49F000008062E /* GTMBase64.m in Sources */,

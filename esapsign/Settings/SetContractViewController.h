@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CASetBaseViewController.h"
 
-@interface SetContractViewController : CASetBaseViewController <UITableViewDataSource, UITableViewDelegate>
-
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@interface SetContractViewController : UITableViewController
 
 @end

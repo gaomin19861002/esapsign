@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CASetBaseViewController.h"
 
-@interface SetGeneralViewController : CASetBaseViewController <UITableViewDataSource, UITableViewDelegate>
-
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@interface SetGeneralViewController : UITableViewController
 
 @end

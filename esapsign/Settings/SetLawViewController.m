@@ -1,18 +1,18 @@
 //
-//  CASetBaseViewController.m
+//  SetLowViewController.m
 //  esapsign
 //
-//  Created by 苏智 on 14-9-11.
+//  Created by Caland on 14-8-29.
 //  Copyright (c) 2014年 Caland. All rights reserved.
 //
 
-#import "CASetBaseViewController.h"
+#import "SetLawViewController.h"
 
-@interface CASetBaseViewController ()
+@interface SetLawViewController ()
 
 @end
 
-@implementation CASetBaseViewController
+@implementation SetLawViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,13 +26,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [[self bottomBar] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomRight"]]];
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 /*

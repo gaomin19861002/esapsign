@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CASetBaseViewController.h"
 
-@interface SetLogoutViewController : CASetBaseViewController <UITableViewDataSource, UITableViewDelegate>
-
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@interface SetLogoutViewController : UITableViewController
 
 @end

@@ -1,15 +1,16 @@
 //
-//  SettingsDetailViewController.h
-//  PdfEditor
+//  CASetBaseViewController.h
+//  esapsign
 //
-//  Created by Liuxiaowei on 14-6-24.
-//  Copyright (c) 2014年 MinwenYi. All rights reserved.
+//  Created by 苏智 on 14-9-11.
+//  Copyright (c) 2014年 Caland. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsDetailViewController : UITableViewController
+@interface SettingsDetailViewController : UIViewController
 
-@property (retain, nonatomic) IBOutlet UIView *bottomBarView;
+@property (strong, nonatomic) IBOutlet UIView *bottomBar;
+@property (strong, nonatomic) UITabBarController *settingsTabBar;
 
 @end

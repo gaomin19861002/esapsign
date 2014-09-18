@@ -26,8 +26,6 @@
 #define NoRepeatSignMessageOn @"已经开启不允许签名流程中出现重复联系人"
 #define NoRepeatSignMessageOff @"已经开启允许签名流程中出现重复联系人"
 
-
-
 @interface SetGeneralViewController () <SetSwitchTableViewCellDelegate, SetSlideTableViewCellDelegate>
 
 @property (nonatomic, retain) NSArray *sectionNames;
@@ -84,6 +82,7 @@
     }
     return 0;
 }
+
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell ;
@@ -98,7 +97,9 @@
         switchCell.delegate = self;
         
         cell = switchCell;
-    }else {
+    }
+    else
+    {
         SetSlideTableViewCell *slideCell  = [tableView dequeueReusableCellWithIdentifier:SetGeneralSlideCellIdentifier forIndexPath:indexPath];
         if (indexPath.section == 1) {
             slideCell.type = [self.sectionNames objectAtIndex:indexPath.section];
@@ -119,17 +120,18 @@
             }
         }
         
-        if (indexPath.section == 2) {
+        if (indexPath.section == 2)
+        {
             slideCell.type = [self.sectionNames objectAtIndex:indexPath.section];
             slideCell.slider.minimumValue = 50;
             slideCell.slider.maximumValue = 150;
             slideCell.slider.value = 50;//需要设置
             slideCell.numLabel.text = @"50";
             slideCell.nameLabel.text = @"与联系人签署记录条目数量";
-            
         }
         
-        if (indexPath.section == 3) {
+        if (indexPath.section == 3)
+        {
             slideCell.type = [self.sectionNames objectAtIndex:indexPath.section];
             slideCell.slider.minimumValue = 4;
             slideCell.slider.maximumValue = 20;
