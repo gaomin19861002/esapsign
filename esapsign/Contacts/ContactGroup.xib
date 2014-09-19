@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Libian.ttc">
+            <string>STLibian-SC-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="iN0-l3-epB" customClass="ContactGroupView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="25"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sIP-ri-XS2">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="25"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kbV-Gx-Kzn">
+                            <rect key="frame" x="7" y="2" width="107" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="3nz-C6-gf8"/>
+                                <constraint firstAttribute="width" constant="107" id="Eop-OF-tDr"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="STLibian-SC-Regular" family="Libian SC" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IZI-0L-Lch">
+                            <rect key="frame" x="215" y="2" width="80" height="21"/>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="hWH-zT-bcE"/>
+                                <constraint firstAttribute="height" constant="21" id="nw9-xM-dwt"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="105" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jus-IB-Cvl">
+                            <rect key="frame" x="225" y="2" width="60" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="U5t-wA-K91"/>
+                                <constraint firstAttribute="width" constant="60" id="gVJ-bJ-Bep"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.078431375319999996" green="0.031372550870000002" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Jus-IB-Cvl" secondAttribute="trailing" constant="35" id="3Va-rc-U0w"/>
+                        <constraint firstItem="kbV-Gx-Kzn" firstAttribute="top" secondItem="sIP-ri-XS2" secondAttribute="top" constant="2" id="HhV-jj-RO9"/>
+                        <constraint firstAttribute="trailing" secondItem="IZI-0L-Lch" secondAttribute="trailing" constant="25" id="Pku-tA-YfC"/>
+                        <constraint firstAttribute="height" constant="25" id="X3z-DM-9UY"/>
+                        <constraint firstItem="IZI-0L-Lch" firstAttribute="top" secondItem="sIP-ri-XS2" secondAttribute="top" constant="2" id="hHS-0F-bui"/>
+                        <constraint firstItem="Jus-IB-Cvl" firstAttribute="top" secondItem="sIP-ri-XS2" secondAttribute="top" constant="2" id="qeq-fR-q1c"/>
+                        <constraint firstItem="kbV-Gx-Kzn" firstAttribute="leading" secondItem="sIP-ri-XS2" secondAttribute="leading" constant="7" id="rh7-Uz-3sh"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="sIP-ri-XS2" secondAttribute="trailing" id="1zK-Sv-6T5"/>
+                <constraint firstItem="sIP-ri-XS2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="e2P-co-PK3"/>
+                <constraint firstItem="sIP-ri-XS2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="guD-2V-J4i"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="background" destination="sIP-ri-XS2" id="TNw-qC-Npd"/>
+                <outlet property="rightSmallView" destination="IZI-0L-Lch" id="yzx-WG-4mk"/>
+                <outlet property="subTitleLabel" destination="Jus-IB-Cvl" id="FlK-rf-zak"/>
+                <outlet property="titleLabel" destination="kbV-Gx-Kzn" id="gfS-1U-vSV"/>
+            </connections>
+        </view>
+    </objects>
+</document>

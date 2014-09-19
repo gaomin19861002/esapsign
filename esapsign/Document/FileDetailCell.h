@@ -11,6 +11,7 @@
 #import "Client_file.h"
 
 @class FileDetailCell;
+
 @protocol FileDetailCellDelegate<NSObject>
 
 - (void)statusButtonClicked:(FileDetailCell *)cell;
@@ -32,9 +33,6 @@
 @end
 
 @interface FileDetailCell : UITableViewCell
-{
-
-}
 
 @property(nonatomic, retain) Client_target* targetInfo;
 
@@ -59,13 +57,11 @@
  创建时间
  */
 @property(nonatomic, retain) IBOutlet UILabel *createLabel;
-@property (strong, nonatomic) IBOutlet UILabel *createLabelHeader;
 
 /*!
  更新时间
  */
 @property(nonatomic, retain) IBOutlet UILabel *updateLabel;
-@property (strong, nonatomic) IBOutlet UILabel *updateLabelHeader;
 
 /*!
  下载状态文字

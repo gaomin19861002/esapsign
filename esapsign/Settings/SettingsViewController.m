@@ -8,9 +8,9 @@
 
 #import "SettingsViewController.h"
 #import "CAAppDelegate.h"
+#import "CAViewController.h"
 #import "UIAlertView+Additions.h"
 #import "AllNaviViewController.h"
-#import "SettingsDetailViewController.h"
 
 @interface SettingsViewController ()
 
@@ -94,15 +94,17 @@
 {
     if (!_settingControllers)
     {
-        UITabBarController *tabbar = (UITabBarController *) [self.splitViewController.viewControllers lastObject];
+        CAViewController *containController = [self.splitViewController.viewControllers lastObject];
+        UITabBarController *tabbar = (UITabBarController *) containController.contantTabBar;
+        
         if (tabbar != nil)
         {
             UINavigationController *nav = (UINavigationController *) tabbar.selectedViewController;
             if ([nav.title isEqualToString:@"Settings Tab"])
             {
-                SettingsDetailViewController *viewController = (SettingsDetailViewController*)[nav topViewController];
-                if ([viewController isKindOfClass:[SettingsDetailViewController class]])
-                    _settingControllers = (UITabBarController *) viewController.settingsTabBar;
+                UIViewController *viewController = [nav topViewController];
+                if ([viewController isKindOfClass:[UITabBarController class]])
+                    _settingControllers = (UITabBarController *) viewController;
             }
         }
     }

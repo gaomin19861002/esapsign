@@ -8,23 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ContactHeaderFooterView : UIView
+@interface ContactGroupView : UIView
 
-+ (ContactHeaderFooterView *)headerFooterView:(UIStoryboard *)stroyboard;
++ (ContactGroupView *)headerFooterView;
 
-/*!
- 标题;
- */
 @property(nonatomic, retain) IBOutlet UILabel *titleLabel;
-
-/*!
- 副标题
- */
 @property(nonatomic, retain) IBOutlet UILabel *subTitleLabel;
-
-/*!
- 右侧小背景
- */
 @property(nonatomic, retain) IBOutlet UIView *rightSmallView;
+@property (strong, nonatomic) IBOutlet UIView *background;
 
 @end

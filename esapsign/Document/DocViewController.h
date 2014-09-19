@@ -13,7 +13,7 @@
 
 @class Client_target;
 
-@interface DocViewController : UITableViewController<ContextHeaderViewDelegate>
+@interface DocViewController : UITableViewController
 
 /*!
  定义一级目录的target

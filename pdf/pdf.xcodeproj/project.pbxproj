@@ -227,6 +227,10 @@
 		D0596A4019AEFD57000A7350 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				DSTROOT = /tmp/pdf.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pdf/pdf-Prefix.pch";
@@ -239,6 +243,10 @@
 		D0596A4119AEFD57000A7350 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				DSTROOT = /tmp/pdf.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pdf/pdf-Prefix.pch";

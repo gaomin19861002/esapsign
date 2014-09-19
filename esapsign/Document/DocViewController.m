@@ -19,13 +19,15 @@
 #import "UIColor+Additions.h"
 #import "UIImage+Additions.h"
 
+#import "CAViewController.h"
+
 /*!
  定义AlertView的Tag标记
  */
 #define TagAlertViewRootFolder      100
 #define TagAlertViewSectionFolder   101
 
-@interface DocViewController ()
+@interface DocViewController ()<ContextHeaderViewDelegate>
 
 /*!
  定义所有显示在一级的目录
@@ -47,20 +49,14 @@
 
 @implementation DocViewController
 
-@synthesize listViewController = _listViewController;
-
 - (void) resetViewData
 {
     self.lastSectionStatus = YES;
     self.lastSection = 0;
     if (_levelOneFolders)
-    {
         _levelOneFolders = nil;
-    }
     if (_foldStatus)
-    {
         _foldStatus = nil;
-    }
 }
 
 -(void)dealloc
@@ -68,28 +64,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     [self resetViewData];
-
-    self.tableView.sectionFooterHeight = 0.0f;
-    self.tableView.sectionHeaderHeight = 44.0f;
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.view.backgroundColor = [UIColor clearColor];
     
-    if (self.parent) {
+    if (self.parent)
+    {
         self.navigationItem.leftBarButtonItem = self.leftBarItem;
         [self.navigationItem setTitle:self.parent.display_name];
     }
@@ -99,21 +81,22 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNotification:) name:DocViewUpdateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSyncUpdateNotification:) name:SyncUpdateFinishedNotification object:nil];
-    NSLog(@"%s", __FUNCTION__);
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
     
-    if ([self.foldStatus containsObject:@(YES)]) {
+    if ([self.foldStatus containsObject:@(YES)])
+    {
         NSInteger index = [self.foldStatus indexOfObject:@(YES)];
         self.listViewController.parentTarget = self.levelOneFolders[index];
     }
-
     [self decideShowAddButton];
 }
 
-- (UIBarButtonItem *)leftBarItem {
+- (UIBarButtonItem *)leftBarItem
+{
     if (!_leftBarItem) {
         _leftBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply
                                                                      target:self
@@ -123,8 +106,10 @@
     return _leftBarItem;
 }
 
-- (UIBarButtonItem *)rightBarItem {
-    if (!_rightBarItem) {
+- (UIBarButtonItem *)rightBarItem
+{
+    if (!_rightBarItem)
+    {
         _rightBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                       target:self
                                                                       action:@selector(addFolderButtonClicked:)];
@@ -141,49 +126,40 @@
     return [self.levelOneFolders count];
 }
 
-/*
- @是否显示脚标：仅当文件夹选中展开并且有子文件夹时显示
- */
+// 是否显示脚标：仅当文件夹选中展开并且有子文件夹时显示
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     BOOL isFold = [self.foldStatus[section] boolValue];
     return isFold && section == self.lastSection ? 4 : 0;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 50;
-}
-
-/*
- @脚标的填充色受一级文件夹的类型影响
- */
+// 脚标的填充色受一级文件夹的类型影响
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     Client_target *target = [self.levelOneFolders objectAtIndex:section];
     
     BOOL isPortrait = UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation]);
-    CGFloat width = isPortrait ? 314.0f : 320.0f;
+    CGFloat width = isPortrait ? 308.0f : 320.0f;
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 6)];
-    
-    UIImageView *footerView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 6)];
+    UIImageView *footerView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, 6)];
     footerView.contentMode = UIViewContentModeScaleToFill;
     if ([target.type intValue] == TargetTypeSystemFolder)
-        [footerView setImage:self.sysBg];
+        [footerView setImage:[UIImage imageNamed:@"FolderSysTail"]];
     else
-        [footerView setImage:self.defBg];
+        [footerView setImage:[UIImage imageNamed:@"FolderDefTail"]];
     [view addSubview:footerView];
-    
     return view;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    ContextHeaderView *headerView = [ContextHeaderView headerView:self.storyboard];
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    ContextHeaderView *headerView = [ContextHeaderView headerView];
 
     Client_target *target = [self.levelOneFolders objectAtIndex:section];
     [headerView.titleButton setTitle:target.display_name forState:UIControlStateNormal];
     
-    headerView.countLabel.text = [NSString stringWithFormat:@"%d", [target.subFolders count] + [target.subFiles count]];
+    headerView.countLabel.text = [NSString stringWithFormat:@"%u", [target.subFolders count] + [target.subFiles count]];
     headerView.section = section;
     headerView.delegate = self;
     [headerView updateShowWithTargetType:[target.type intValue] selected:[self.foldStatus[section] boolValue]];
@@ -213,14 +189,16 @@
 
     Client_target *subTarget = target.subFolders[indexPath.row];
     [cell.nameButton setTitle:subTarget.display_name forState:UIControlStateNormal];
-    cell.countLabel.text = [NSString stringWithFormat:@"%d", [subTarget.subFolders count] + [subTarget.subFiles count]];
+    cell.countLabel.text = [NSString stringWithFormat:@"%u", [subTarget.subFolders count] + [subTarget.subFiles count]];
     [cell updateColorWithTargetType:[subTarget.type intValue] andParentType:[target.type intValue]];
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
         DocViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"DocViewContoller"];
         Client_target *target = self.levelOneFolders[indexPath.section];
         controller.parent = target;
@@ -229,7 +207,8 @@
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     Client_target *target = self.levelOneFolders[indexPath.section];
     Client_target *subTarget = target.subFolders[indexPath.row];
     if ([subTarget.type intValue] == TargetTypeSystemFolder) {
@@ -239,7 +218,8 @@
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     Client_target *target = self.levelOneFolders[indexPath.section];
     Client_target *subTarget = [target.subFolders objectAtIndex:indexPath.row];
     [[DataManager defaultInstance] deleteFolders:subTarget.target_id];
@@ -290,7 +270,8 @@
     _listViewController = nil;
     
     // 尝试访问右侧控制器
-    UITabBarController *controller = (UITabBarController*)[self.splitViewController.viewControllers lastObject];
+    CAViewController* containerView = (CAViewController*)[self.splitViewController.viewControllers lastObject];
+    UITabBarController *controller = (UITabBarController*)[containerView contantTabBar];
     if (controller != nil)
     {
         // 检查当前激活控制器是否是对应标签为“Document Tab”的导航控制器
@@ -399,11 +380,14 @@
 - (void)headerViewClicked:(ContextHeaderView *)headerView
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
-    if (headerView.section == self.lastSection) {
+    if (headerView.section == self.lastSection)
+    {
         BOOL isFold = [self.foldStatus[self.lastSection] boolValue];
         self.foldStatus[self.lastSection] = @(!isFold);
         [indexSet addIndex:self.lastSection];
-    } else {
+    }
+    else
+    {
         self.foldStatus[self.lastSection] = @(NO);
         self.foldStatus[headerView.section]= @(YES);
         [indexSet addIndex:self.lastSection];
@@ -413,8 +397,6 @@
     self.lastSectionStatus = [self.foldStatus[self.lastSection] boolValue];
     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
     self.listViewController.parentTarget = self.levelOneFolders[self.lastSection];
-    
-    NSLog(@"header");
     
     [self decideShowAddButton];
 }
@@ -428,7 +410,8 @@
     [[DataManager defaultInstance] deleteFolders:target.target_id];
     self.levelOneFolders = nil;
     self.foldStatus = nil;
-    if (headerView.section == self.lastSection) {
+    if (headerView.section == self.lastSection)
+    {
         self.lastSection = 0;
         self.lastSectionStatus = YES;
     }

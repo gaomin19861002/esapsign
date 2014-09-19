@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" userLabel="Context Header" customClass="ContextHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7N-7I-229">
+                    <rect key="frame" x="270" y="0.0" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="Mle-p6-jFE"/>
+                        <constraint firstAttribute="height" constant="50" id="byc-U5-h8J"/>
+                    </constraints>
+                    <state key="normal" title="Delete" image="delFolder">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="deleteButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="7Kg-Qg-PQf"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lob-zW-v8Q">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1LN-Pz-UXv">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                            <inset key="contentEdgeInsets" minX="55" minY="0.0" maxX="30" maxY="0.0"/>
+                            <size key="titleShadowOffset" width="0.5" height="0.5"/>
+                            <state key="normal" title="RootFolder Name">
+                                <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="backButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="QJB-RV-1Gf"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cnt" textAlignment="right" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PEq-s4-wtF">
+                            <rect key="frame" x="270" y="15" width="37" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="DsZ-8k-FWS"/>
+                                <constraint firstAttribute="width" constant="37" id="hhe-O3-ZZY"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="PEq-s4-wtF" secondAttribute="trailing" constant="13" id="KIg-DP-7vE"/>
+                        <constraint firstAttribute="trailing" secondItem="1LN-Pz-UXv" secondAttribute="trailing" id="LFl-jj-wrr"/>
+                        <constraint firstAttribute="bottom" secondItem="1LN-Pz-UXv" secondAttribute="bottom" id="Xj6-eE-sZF"/>
+                        <constraint firstItem="1LN-Pz-UXv" firstAttribute="leading" secondItem="lob-zW-v8Q" secondAttribute="leading" id="eP1-Cd-F0N"/>
+                        <constraint firstItem="1LN-Pz-UXv" firstAttribute="top" secondItem="lob-zW-v8Q" secondAttribute="top" id="grS-PD-8gd"/>
+                        <constraint firstAttribute="centerY" secondItem="PEq-s4-wtF" secondAttribute="centerY" constant="-0.5" id="s3p-46-EVK"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="T7N-7I-229" secondAttribute="trailing" id="0Ak-4p-8gG"/>
+                <constraint firstAttribute="trailing" secondItem="lob-zW-v8Q" secondAttribute="trailing" id="QFf-5e-1pS"/>
+                <constraint firstAttribute="bottom" secondItem="lob-zW-v8Q" secondAttribute="bottom" id="RDj-sr-UN0"/>
+                <constraint firstItem="lob-zW-v8Q" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Rd5-dC-mrw"/>
+                <constraint firstItem="lob-zW-v8Q" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="e6N-a1-we8"/>
+                <constraint firstAttribute="centerY" secondItem="T7N-7I-229" secondAttribute="centerY" id="guQ-cc-8Ga"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="backgroundView" destination="lob-zW-v8Q" id="gSq-Lv-pqk"/>
+                <outlet property="countLabel" destination="PEq-s4-wtF" id="Ofa-Px-wfh"/>
+                <outlet property="deleteButton" destination="T7N-7I-229" id="dai-Ei-Igd"/>
+                <outlet property="titleButton" destination="1LN-Pz-UXv" id="m15-84-yW6"/>
+            </connections>
+            <point key="canvasLocation" x="0.0" y="-120"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="delFolder" width="48" height="48"/>
+    </resources>
+</document>

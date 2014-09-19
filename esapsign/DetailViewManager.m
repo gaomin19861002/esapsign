@@ -48,8 +48,11 @@
  */
 
 #import "DetailViewManager.h"
+#import "CAViewController.h"
+
 #import "DocViewController.h"
 #import "SettingsViewController.h"
+
 #import "UIAlertView+Additions.h"
 #import "UIColor+Additions.h"
 #import "SyncManager.h"
@@ -60,46 +63,38 @@
 #import "RequestManager.h"
 
 @interface DetailViewManager () <UIPopoverControllerDelegate>
+
 // Holds a reference to the split view controller's bar button item
 // if the button should be shown (the device is in portrait).
 // Will be nil otherwise.
 @property (nonatomic, retain) UIBarButtonItem *navigationPaneButtonItem;
+
 // Holds a reference to the popover that will be displayed
 // when the navigation button is pressed.
 //@property (nonatomic, retain) UIPopoverController *navigationPopoverController;
+
 @end
 
 
 @implementation DetailViewManager
 
-// -------------------------------------------------------------------------------
-//	setDetailViewController:
-//  Custom implementation of the setter for the detailViewController property.
-// -------------------------------------------------------------------------------
-- (void)setNavDetailViewController:(UITabBarController *)detailViewController
+- (void)setDetailFrameController:(UIViewController *)detailFrameController
 {
-    // Clear any bar button item from the detail view controller that is about to
-    // no longer be displayed.
-    //self.navigationPaneButtonItem = nil;
-    if (_navDetailViewController != detailViewController) {
-        _navDetailViewController = detailViewController;
-
-        // Set the new detailViewController's navigationPaneBarButtonItem to the value of our
-        // navigationPaneButtonItem.  If navigationPaneButtonItem is not nil, then the button
-        // will be displayed.
-        if (detailViewController.navigationItem == nil)
-            [detailViewController.navigationItem setLeftBarButtonItem:self.navigationPaneButtonItem animated:YES];
+    if (_detailFrameController != detailFrameController)
+    {
+        _detailFrameController = detailFrameController;
         
-        // Update the split view controller's view controllers array.
-        // This causes the new detail view controller to be displayed.
+        if (detailFrameController.navigationItem == nil)
+            [detailFrameController.navigationItem setLeftBarButtonItem:self.navigationPaneButtonItem animated:YES];
 
         // viewControllers 中的0位置实际上是UITabBarController
         UITabBarController *tabBarController = [self.splitViewController.viewControllers objectAtIndex:0];
         tabBarController.delegate = self;
         
-        NSArray *viewControllers = [[NSArray alloc] initWithObjects:tabBarController, _navDetailViewController, nil];
+        NSArray *viewControllers = [[NSArray alloc] initWithObjects:tabBarController, _detailFrameController, nil];
         self.splitViewController.viewControllers = viewControllers;
     }
+    
     // Dismiss the navigation popover if one was present.  This will
     // only occur if the device is in portrait.
     if (self.navigationPopoverController)
@@ -109,11 +104,16 @@
 // 根据导航控制器的标题进行切换
 -(void)switchNavDetailByTitleText:(NSString*)titleText
 {
-    if (![_navDetailViewController.selectedViewController.title isEqualToString:titleText]) {
-        [(UINavigationController*)([[self navDetailViewController] selectedViewController]) popToRootViewControllerAnimated:YES];
-        for (UIViewController* detailController in _navDetailViewController.viewControllers) {
+    CAViewController* base = (CAViewController*)_detailFrameController;
+    if (![base isKindOfClass:[CAViewController class]])
+        return;
+    
+    if (![base.contantTabBar.selectedViewController.title isEqualToString:titleText])
+    {
+        [(UINavigationController*)([base.contantTabBar selectedViewController]) popToRootViewControllerAnimated:YES];
+        for (UIViewController* detailController in base.contantTabBar.viewControllers) {
             if ([detailController.title isEqualToString:titleText]) {
-                [_navDetailViewController setSelectedViewController:detailController];
+                [base.contantTabBar setSelectedViewController:detailController];
                 break;
             }
         }
@@ -123,11 +123,12 @@
 #pragma mark - UITabBarViewControllerDelegate
 
 // 左侧Tab切换开始前处理
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
     if ([viewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navController = (UINavigationController *)viewController;
         // 当是sync和setting时，不进行页面的切换;
-        if ([navController.title isEqualToString:@"Sync Tab"]/* || [navController.title isEqualToString:@"Settings Tab"]*/)
+        if ([navController.title isEqualToString:@"Sync Tab"])
         {
             // [UIAlertView showAlertMessage:@"未连接到网络"];
             
@@ -157,7 +158,8 @@
 
 
 // 左侧Tab切换完成处理
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
     if ([viewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navController = (UINavigationController *)viewController;
         // 当显示文档管理第一个界面时，传入一级目录的parent_id = "0";
@@ -191,9 +193,12 @@
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
     NSLog(@"%s", __FUNCTION__);
+    
+    CAViewController* base = (CAViewController*)_detailFrameController;
+    
     self.navigationPaneButtonItem = barButtonItem;
     barButtonItem.title = NSLocalizedString(@"菜单", @"Master");
-    for (UINavigationController *navDetailTabItem in _navDetailViewController.viewControllers) {
+    for (UINavigationController *navDetailTabItem in base.contantTabBar.viewControllers) {
         UIViewController *rootCtroller = navDetailTabItem.viewControllers[0];
         [rootCtroller.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
     }
@@ -216,8 +221,11 @@
 - (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
     NSLog(@"%s", __FUNCTION__);
+    
+    CAViewController* base = (CAViewController*)_detailFrameController;
+    
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
-    for (UINavigationController *navDetailTabItem in _navDetailViewController.viewControllers) {
+    for (UINavigationController *navDetailTabItem in base.contantTabBar.viewControllers) {
         UIViewController *rootCtroller = navDetailTabItem.viewControllers[0];
         [rootCtroller.navigationItem setLeftBarButtonItem:nil animated:YES];
     }

@@ -29,20 +29,20 @@
     }
     
     NSRange range = NSMakeRange(0, 2);
-    NSUInteger val = 0;
+    unsigned * pval = nil;
     NSString *component = [hexString substringWithRange:range];
-    [[NSScanner scannerWithString:component] scanHexInt:&val];
-    float rRetVal = val / 255.f;
+    [[NSScanner scannerWithString:component] scanHexInt:pval];
+    float rRetVal = (*pval) / 255.f;
     
     range.location += 2;
     component = [hexString substringWithRange:range];
-    [[NSScanner scannerWithString:component] scanHexInt:&val];
-    float gRetVal = val / 255.f;
+    [[NSScanner scannerWithString:component] scanHexInt:pval];
+    float gRetVal = (*pval) / 255.f;
     
     range.location += 2;
     component = [hexString substringWithRange:range];
-    [[NSScanner scannerWithString:component] scanHexInt:&val];
-    float bRetVal = val / 255.f;
+    [[NSScanner scannerWithString:component] scanHexInt:pval];
+    float bRetVal = (*pval) / 255.f;
     
     return [UIColor colorWithRed:rRetVal green:gRetVal blue:bRetVal alpha:1.0f];
 }

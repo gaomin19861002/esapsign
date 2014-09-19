@@ -7,16 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef enum {
+
+typedef enum
+{
     FolderType = 0,
     FileType,
-}ContextType;
+} ContextType;
 
 @interface Context : NSObject
-{
-}
-@property(nonatomic, copy)NSString *icon;
-@property(nonatomic, assign)ContextType type;
-@property(nonatomic, copy)NSString *name;
-@property(nonatomic, assign)NSInteger documentCount;
+
+@property (nonatomic, copy) NSString *icon;
+@property (nonatomic, assign) ContextType type;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, assign) NSInteger documentCount;
+
 @end

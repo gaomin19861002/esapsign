@@ -48,7 +48,7 @@
     // Do any additional setup after loading the view.
     [[self bottomBarView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomRight"]]];
     
-    self.downloadField.text = [NSString stringWithFormat:@"%d", [DownloadManager defaultInstance].downloadCount];
+    self.downloadField.text = [NSString stringWithFormat:@"%ld", (long)[DownloadManager defaultInstance].downloadCount];
 }
 
 - (void) viewWillAppear:(BOOL)animated

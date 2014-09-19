@@ -67,7 +67,7 @@
     NSArray *familyNames =[[NSArray alloc]initWithArray:[UIFont familyNames]];
     NSArray *fontNames;
     NSInteger indFamily, indFont;
-    NSLog(@"[familyNames count]===%d",[familyNames count]);
+    NSLog(@"[familyNames count]===%lu",(unsigned long)[familyNames count]);
     for (indFamily = 0; indFamily < [familyNames count]; ++indFamily)
     {
         NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
@@ -87,8 +87,9 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
-    
-    [[UITableView appearance] setSectionIndexBackgroundColor:[UIColor colorWithR:255 G:255 B:255 A:100]];
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [UIFont fontWithName:@"Libian SC" size:15.0], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    // [[UITableView appearance] setSectionIndexBackgroundColor:[UIColor colorWithR:255 G:255 B:255 A:100]];
     
     // 导航栏设置默认背景和系统UI颜色
     [[UINavigationBar appearanceWhenContainedIn:[AllNaviViewController class], nil] setBackgroundImage:[UIImage imageNamed:@"BarTopAll"] forBarMetrics:UIBarMetricsDefault];
@@ -108,28 +109,11 @@
                                                           NSShadowAttributeName,
                                                           [UIFont fontWithName:@"Libian SC" size:24.0], NSFontAttributeName, nil]];
 
-    // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        self.detailViewManager.splitViewController = splitViewController;
-        self.detailViewManager.navDetailViewController = [splitViewController.viewControllers lastObject];
-        splitViewController.delegate = self.detailViewManager;
-        if ([self.splitViewController respondsToSelector:@selector(setPresentsWithGesture:)])
-            [self.splitViewController setPresentsWithGesture:YES];
-        
-        [self performBlock:^{
-            self.loginSucceed = NO;
-            [self popLoginView];
-        } afterDelay:0.01];
-    }
+    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+    self.detailViewManager.splitViewController = splitViewController;
+    self.detailViewManager.detailFrameController = [splitViewController.viewControllers lastObject];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleCreateHandSign:)
-                                                 name:NeedCreateHandSignNotification
-                                               object:nil];
-    NSLog(@"%s", __FUNCTION__);
     return YES;
-
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -163,29 +147,5 @@
 {
     return (CAAppDelegate *)[UIApplication sharedApplication].delegate;
 }
-
-#pragma - UIAlertView Delegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        UITabBarController *tabController = (UITabBarController *)[splitViewController.viewControllers firstObject];
-        
-        // 取出docViewController;
-        UINavigationController *navController = nil;
-        for (UINavigationController *controller in tabController.viewControllers) {
-            if ([controller.title isEqualToString:@"Document Tab"]) {
-                navController = controller;
-            }
-        }
-        [tabController setSelectedIndex:[tabController.viewControllers indexOfObject:navController]];
-        
-        DocViewController *docController = (DocViewController *)[navController.viewControllers firstObject];
-        [self performBlock:^{
-            [docController.listViewController popHandSignController:NO];
-        } afterDelay:.3];
-    }
-}
-
 
 @end

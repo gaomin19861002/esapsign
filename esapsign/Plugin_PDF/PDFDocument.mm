@@ -208,7 +208,7 @@ FS_BOOL MyMapFont(FS_LPVOID param, FS_LPCSTR name, FS_INT32 charset,
     m_pfilepath = filepath;
     FSCRT_BSTR bstr;
     bstr.str = filepath;
-    bstr.len = strlen(filepath);
+    bstr.len = (int)strlen(filepath);
     
     FSCRT_FILE file;
     FS_RESULT ret = FSCRT_File_CreateFromFileName(&bstr, FSCRT_FILEMODE_READONLY, &file);
@@ -326,7 +326,7 @@ FS_BOOL MyMapFont(FS_LPVOID param, FS_LPCSTR name, FS_INT32 charset,
     
     __unused CGPoint pt = CGPointMake(100.0f, 100.0f);
 //    FSCRT_RECTF rect = {pt.x - 5, pt.y + 50, pt.x + 50, pt.y - 3};
-    FSCRT_RECTF rect = {leftTopPoint.x, leftTopPoint.y, rightBottomPoint.x, rightBottomPoint.y};
+    FSCRT_RECTF rect = {static_cast<FS_FLOAT>(leftTopPoint.x), static_cast<FS_FLOAT>(leftTopPoint.y), static_cast<FS_FLOAT>(rightBottomPoint.x), static_cast<FS_FLOAT>(rightBottomPoint.y)};
     FSCRT_BSTR bsAnnotType;
 	FSCRT_BStr_Init(&bsAnnotType);
 	FSCRT_BStr_Set(&bsAnnotType, FSPDF_ANNOTTYPE_STAMP, (FS_DWORD)strlen(FSPDF_ANNOTTYPE_STAMP));

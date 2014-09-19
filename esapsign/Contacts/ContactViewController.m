@@ -11,19 +11,20 @@
 #import "Util.h"
 #import "User.h"
 #import "CAAppDelegate.h"
+#import "CAViewController.h"
 
 #import "DataManager.h"
 #import "DataManager+Contacts.h"
 #import "Client_contact.h"
 #import "ContactManager.h"
-#import "ContactHeader.h"
+#import "ContactSectionView.h"
 #import "ContactTableViewCell.h"
 #import "pinyin.h"
 #import "ContactDetailViewController.h"
 #import "UIColor+Additions.h"
 #import "UIImage+Additions.h"
 #import "MBProgressHUD.h"
-#import "ContactHeaderFooterView.h"
+#import "ContactGroupView.h"
 
 #import "ActionManager.h"
 #import "ASIHTTPRequest.h"
@@ -74,7 +75,7 @@
     [super viewDidLoad];
 
     firstUpdateGroupUserData = YES;
-    self.view.backgroundColor = [UIColor clearColor];
+    // self.view.backgroundColor = [UIColor clearColor];
  
     // 添加工具按钮
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addContact:)];
@@ -89,10 +90,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(importSucceedNotification:) name:ContactImportSucceedNotification object:nil];
 
     // 定义表格大标题“所有联系人”
-    ContactHeaderFooterView *headerView = [ContactHeaderFooterView headerFooterView:self.storyboard];
-    headerView.backgroundColor = [UIColor colorWithR:56 G:183 B:288 A:255];
+    ContactGroupView *headerView = [ContactGroupView headerFooterView];
+    headerView.background.backgroundColor = [UIColor colorWithR:56 G:183 B:288 A:255];
     headerView.titleLabel.text = @"所有联系人";
-    headerView.subTitleLabel.text = [NSString stringWithFormat:@"%d", [self.arrAllUsers count]];
+    headerView.subTitleLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.arrAllUsers count]];
     headerView.rightSmallView.backgroundColor = [UIColor colorWithR:26 G:113 B:147 A:255];
     headerView.frame = CGRectMake(0, 0, 320, 25);
     self.tableView.tableHeaderView = headerView;
@@ -131,8 +132,8 @@
 {
     // 所有用户对象，获取时先排序一次
     self.arrAllUsers = [NSMutableArray arrayWithArray:[[[DataManager defaultInstance] allContacts] sortedArrayUsingSelector:@selector(compare:)]];
-    ContactHeaderFooterView *headerView = (ContactHeaderFooterView *)self.tableView.tableHeaderView;
-    headerView.subTitleLabel.text = [NSString stringWithFormat:@"%d", [self.arrAllUsers count]];
+    ContactGroupView *headerView = (ContactGroupView *)self.tableView.tableHeaderView;
+    headerView.subTitleLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.arrAllUsers count]];
 
     // 所有分组块
     self.arrAllSections = [NSMutableArray arrayWithCapacity:29];
@@ -156,7 +157,7 @@
 	}
 
     // 清除没有的section
-    for (int j = self.arrAllSections.count - 1; j >= 0; j--)
+    for (int j = (int)self.arrAllSections.count - 1; j >= 0; j--)
     {
         if ([[self.arrAllSections objectAtIndex:j] count] == 0)
             [self.arrAllSections removeObjectAtIndex:j];
@@ -192,7 +193,9 @@
     _detailViewController = nil;
     if ([self.splitViewController.viewControllers count])
     {
-        UIViewController *controller = [self.splitViewController.viewControllers lastObject];
+        CAViewController *containController = [self.splitViewController.viewControllers lastObject];
+        UIViewController *controller = containController.contantTabBar;
+        
         if ([controller isKindOfClass:[UITabBarController class]])
         {
             UINavigationController *navController = (UINavigationController*)[((UITabBarController *)controller) selectedViewController];
@@ -245,8 +248,8 @@
     Client_contact *user = [arrSection objectAtIndex:self.curSelectedIndexPath.row];
     [self.arrAllUsers removeObject:user];
     [arrSection removeObject:user];
-    ContactHeaderFooterView *headerView = (ContactHeaderFooterView *)self.tableView.tableHeaderView;
-    headerView.subTitleLabel.text = [NSString stringWithFormat:@"%d", [self.arrAllUsers count]];
+    ContactGroupView *headerView = (ContactGroupView *)self.tableView.tableHeaderView;
+    headerView.subTitleLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.arrAllUsers count]];
 
     // 所有联系人都删空
     if (self.arrAllUsers.count <= 0)
@@ -259,8 +262,8 @@
     }
 
     bool isPrevSection = NO;
-    int newSection = self.curSelectedIndexPath.section;
-    int newRow = self.curSelectedIndexPath.row;
+    int newSection = (int)self.curSelectedIndexPath.section;
+    int newRow = (int)self.curSelectedIndexPath.row;
     
     if (arrSection.count <= 0)
     {
@@ -270,20 +273,20 @@
         if (self.curSelectedIndexPath.section >= self.arrAllSections.count)
         {
             isPrevSection = YES;
-            newSection = self.arrAllSections.count - 1;
+            newSection = (int)self.arrAllSections.count - 1;
         }
         
         arrSection = [self.arrAllSections objectAtIndex:newSection];
         
         if (isPrevSection)
-            newRow = arrSection.count - 1;
+            newRow = (int)arrSection.count - 1;
         else
             newRow = 0;
     }
     else
     {
         if (self.curSelectedIndexPath.row >= arrSection.count)
-            newRow = arrSection.count - 1;
+            newRow = (int)arrSection.count - 1;
     }
     
     self.curSelectedIndexPath = [NSIndexPath indexPathForRow:newRow inSection:newSection];
@@ -317,14 +320,9 @@
     return [[self.arrAllSections objectAtIndex:section] count];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 20.0f;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    ContactHeader *header = [ContactHeader headSection:self.storyboard];
+    ContactSectionView *header = [ContactSectionView headSection];
     Client_contact *firstUser = [self.arrAllSections[section] firstObject];
     if (!firstUser)
     {
@@ -340,7 +338,7 @@
     }
 
     header.sectionName.text = [sectionName uppercaseString];
-    header.countLabel.text = [NSString stringWithFormat:@"%d", [self.arrAllSections[section] count]];
+    header.countLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.arrAllSections[section] count]];
     return header;
 }
 
@@ -367,6 +365,7 @@
     ContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell" forIndexPath:indexPath];
     Client_contact *user = [[self.arrAllSections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] ;
     [cell.nameButton setTitle:user.user_name forState:UIControlStateNormal];
+    [cell.nameButton.titleLabel setFont:[UIFont fontWithName:@"Libian SC" size:18.0]];
     [cell setBackgroundColor:[UIColor clearColor]];
     UIImage *headImage = [UIImage imageNamed:[user headIconUseLarge:NO]];
     cell.headImageView.image = headImage;
@@ -411,6 +410,16 @@
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
     return index;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 22;
 }
 
 #pragma mark - AddContactViewControllerDelegate

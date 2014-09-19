@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ContactHeader : UIView
+@interface ContactSectionView : UIView
 
-+ (ContactHeader *)headSection:(UIStoryboard *)storyboard;
++ (ContactSectionView *)headSection;
 
 @property (retain, nonatomic) IBOutlet UILabel *sectionName;
 

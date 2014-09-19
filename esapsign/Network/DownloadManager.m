@@ -45,7 +45,7 @@ DefaultInstanceForClass(DownloadManager);
     {
         NSUserDefaults *nd = [NSUserDefaults standardUserDefaults];
         if (![nd valueForKey:DownloadCountKey])
-            self.downloadCount = 5;
+            self.downloadCount = 1;
         else
             self.downloadCount = [[nd valueForKey:DownloadCountKey] integerValue];
         //[self resetDownloadFileList];
@@ -273,7 +273,7 @@ DefaultInstanceForClass(DownloadManager);
             }
             
         } else {
-            int index = [self.downloadFiles indexOfObject:noStartInfo];
+            int index = (int)[self.downloadFiles indexOfObject:noStartInfo];
             [self.downloadFiles insertObject:startInfo atIndex:index];
         }
         

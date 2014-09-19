@@ -29,12 +29,12 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
-    ContextHeaderView *headerView = [ContextHeaderView headerView:storyboard];
+    // UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
+    ContextHeaderView *headerView = [ContextHeaderView headerView];
     
     Client_target *target = [self.levelOneFolders objectAtIndex:section];
     [headerView.titleButton setTitle:target.display_name forState:UIControlStateNormal];
-    headerView.countLabel.text = [NSString stringWithFormat:@"%d", [target.subFolders count] + [target.subFiles count]];
+    headerView.countLabel.text = [NSString stringWithFormat:@"%u", [target.subFolders count] + [target.subFiles count]];
     headerView.section = section;
     headerView.delegate = self;
     [headerView updateShowWithTargetType:[target.type intValue] selected:[super.foldStatus[section] boolValue]];

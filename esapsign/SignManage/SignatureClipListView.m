@@ -154,7 +154,7 @@
     NSString *signCachedFolder = [FileManagement signsImageCachedFolder];
     NSString *desFile = [signCachedFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", self.currentImageID]];
     NSFileManager *manager = [NSFileManager defaultManager];
-    if ([manager fileExistsAtPath:desFile isDirectory:NO]) {
+    if ([manager fileExistsAtPath:desFile isDirectory:false]) {
         [manager removeItemAtPath:desFile error:nil];
     }
     self.currentImagePath = desFile;
@@ -187,7 +187,7 @@
     NSString *signCachedFolder = [FileManagement signsImageCachedFolder];
     NSString *desFile = [signCachedFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", self.currentImageID]];
     NSFileManager *manager = [NSFileManager defaultManager];
-    if ([manager fileExistsAtPath:desFile isDirectory:NO]) {
+    if ([manager fileExistsAtPath:desFile isDirectory:false]) {
         [manager removeItemAtPath:desFile error:nil];
     }
     self.currentImagePath = desFile;

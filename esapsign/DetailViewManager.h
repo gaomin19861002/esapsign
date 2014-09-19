@@ -54,7 +54,9 @@
  The protocol specifies aproperty for the bar button item controlling the navigation pane.
  */
 @protocol SubstitutableDetailViewController
+
 @property (nonatomic, retain) UIBarButtonItem *navigationPaneBarButtonItem;
+
 @end
 
 @interface DetailViewManager : NSObject <UISplitViewControllerDelegate, UITabBarControllerDelegate>
@@ -63,14 +65,12 @@
 // The split view this class will be managing.
 @property (nonatomic, retain) UISplitViewController *splitViewController;
 
-// The presently displayed detail view controller.  This is modified by the various 
-// view controllers in the navigation pane of the split view controller.
-@property (nonatomic, assign) UITabBarController *navDetailViewController;
+@property (nonatomic, assign) UIViewController* detailFrameController;
 
 // Holds a reference to the popover that will be displayed
 // when the navigation button is pressed.
 @property (nonatomic, retain) UIPopoverController *navigationPopoverController;
 
--(void)switchNavDetailByTitleText:(NSString*)titleText;
+- (void)switchNavDetailByTitleText:(NSString*)titleText;
 
 @end

@@ -148,7 +148,7 @@
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3f];
     [clientSignView removeFromSuperview];
-    for (int i = index; i < self.clientSignViews.count; i++) {
+    for (int i = (int)index; i < self.clientSignViews.count; i++) {
         SignerLabelInsideView *item = self.clientSignViews[i];
         if (item) {
             CGRect frame = item.frame;

@@ -41,45 +41,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark -UITableViewDataSource Delegate methods
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 3;
-}
-
-- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return [self.sectionNames objectAtIndex:section];
-}
-
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 3;
-}
-
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SetBlueToothCellIdentifier forIndexPath:indexPath];
-    
-    return cell;
-}
-
-#pragma mark -UITableViewDelegate methods
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    
-}
-
-#pragma mark - Private methods
-- (NSArray *) sectionNames
-{
-    if (!_sectionNames) {
-        _sectionNames = [NSArray arrayWithObjects:@"淦蓝", @"文鼎创", @"其他", nil];
-    }
-    return _sectionNames;
 }
 
 @end

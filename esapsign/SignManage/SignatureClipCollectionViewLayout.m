@@ -25,7 +25,7 @@
 - (void)prepareLayout
 {
     //得到数量
-    cellCount = [self.collectionView numberOfItemsInSection:0];
+    cellCount = (int)[self.collectionView numberOfItemsInSection:0];
 }
 
 /**

@@ -86,10 +86,6 @@
     NSLog(@"%s", __FUNCTION__);
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    [[self bottomBarView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomRight"]]];
-
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"RightBackground"]]];
 
     // 添加左侧搜索栏
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
@@ -200,7 +196,8 @@
         _signListView.clipsToBounds = NO;
         [_signListView.btnAdd setImage:[UIImage imageNamed:@"SignNew"] forState:UIControlStateNormal];
         _signListView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomRight"]];
-        [self.bottomBarView addSubview:_signListView];
+
+#warning [self.bottomBarView addSubview:_signListView];
     }
     
     return _signListView;
@@ -596,7 +593,7 @@
     Client_account *account = [[DataManager defaultInstance] queryAccountByAccountId:[NSString stringWithFormat:@"%@", user.accountId]];
     Assert(account, @"account shouldn't be null");
     int limitCount = [account.sign_count intValue];
-    int signCount = [DataManager defaultInstance].allSignPics.count;
+    int signCount = (int)[DataManager defaultInstance].allSignPics.count;
     
     if (signCount >= limitCount && needVerifyCount)
     {

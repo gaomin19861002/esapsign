@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class ContactViewController;
-
 /** 通讯录列表页 */
 @interface ContactViewController : UITableViewController
 

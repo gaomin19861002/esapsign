@@ -184,7 +184,7 @@ DefaultInstanceForClass(DataManager);
                                               limit:NSUIntegerMax
                                              offset:0
                                             orderBy:nil];
-    DebugLog(@"%s, arrSignFlows:%d", __FUNCTION__, arrSignFlows.count);
+    DebugLog(@"%s, arrSignFlows:%lu", __FUNCTION__, (unsigned long)arrSignFlows.count);
     if ([arrSignFlows count]) {
         return YES;
     }
@@ -235,7 +235,7 @@ DefaultInstanceForClass(DataManager);
                                               limit:NSUIntegerMax
                                              offset:0
                                             orderBy:nil];
-    DebugLog(@"%s, arrSignFlows:%d", __FUNCTION__, arrSignFlows.count);
+    DebugLog(@"%s, arrSignFlows:%lu", __FUNCTION__, (unsigned long)arrSignFlows.count);
     BOOL bFinished = YES;
     if ([arrSignFlows count])
     {

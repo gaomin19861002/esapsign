@@ -42,6 +42,9 @@
 @property(nonatomic, assign) CGPoint dragViewOriCenter;
 @property(nonatomic, retain) NSMutableArray *allCenters;
 
+@property (strong, nonatomic) IBOutlet UIView *standardRect;
+@property (strong, nonatomic) IBOutlet UIView *expandRect;
+
 /*!
  右侧状态按钮响应方法
  */
@@ -111,7 +114,7 @@
     if (signFlow != nil)
     {
         self.currentSignFlows = [signFlow sortedSignFlows];
-        currentFlowCount = [self.currentSignFlows count];
+        currentFlowCount = (int)[self.currentSignFlows count];
     }
     else
     {
@@ -162,14 +165,8 @@
     self.statusLabel.hidden = _status == FileStatusFinished;
     CGFloat alpha = _status == FileStatusFinished ? 1.0f : 0.3f;
     
-    self.leftImageView.alpha = alpha;
-    self.titleLabel.alpha = alpha;
-    self.createLabel.alpha = alpha;
-    self.createLabelHeader.alpha = alpha;    
-    self.updateLabel.alpha = alpha;
-    self.updateLabelHeader.alpha = alpha;
-    self.signProgressCurrent.alpha = alpha;
-    self.signProgressTotal.alpha = alpha;
+    self.standardRect.alpha = alpha;
+    self.expandRect.alpha = alpha;
     
     if (_status != FileStatusDownloading)
         self.progressView.progress = .0f;
@@ -289,7 +286,7 @@
 - (void)setSignEditing:(BOOL)signEditing
 {
     _signEditing = signEditing;
-    currentFlowCount = [self.currentSignFlows count];
+    currentFlowCount = (int)[self.currentSignFlows count];
     for (NSInteger i = 0; i < currentFlowCount; i++)
     {
         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
@@ -407,7 +404,7 @@
 {
     // 判断点击区域是否在签名图标内
     BOOL tapInSignHead = NO;
-    currentFlowCount = [self.currentSignFlows count];
+    currentFlowCount = (int)[self.currentSignFlows count];
 
     for (int i = 0; i < currentFlowCount; i++)
     {
@@ -439,7 +436,7 @@
     switch (pan.state) {
         case UIGestureRecognizerStateBegan: {
             // 判断点击区域是否在签名图标内
-            currentFlowCount = [self.currentSignFlows count];
+            currentFlowCount = (int)[self.currentSignFlows count];
             
             for (int i = 0; i < currentFlowCount; i++)
             {
@@ -497,10 +494,10 @@
             // 判断是否是最后边
             CGPoint lastPos = [[self.allCenters lastObject] CGPointValue];
             if (point.x >= lastPos.x) {
-                nIndex = [self.allCenters count] - 1;
+                nIndex = (int)[self.allCenters count] - 1;
             }
             
-            int oriIndex = self.dragImageView.tag - TagSignButtonStart;
+            int oriIndex = (int)self.dragImageView.tag - TagSignButtonStart;
             if (nIndex > -1) {
                 // 如果位置没有变化
                 if (oriIndex == nIndex) {

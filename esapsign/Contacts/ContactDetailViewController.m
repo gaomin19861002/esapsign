@@ -45,7 +45,6 @@
 @property (retain, nonatomic) UIPopoverController* selectDocPopoverController;
 
 @property (retain, nonatomic) IBOutlet UILabel *signWithSomeOnelabel;
-@property (retain, nonatomic) IBOutlet UIView *bottomBarView;
 @property (nonatomic, retain) IBOutlet UIView *backgroundView;
 @property (retain, nonatomic) IBOutlet UIView *nameCardView;
 @property (nonatomic, retain) IBOutlet UIImageView *cardBGImageView;
@@ -92,13 +91,10 @@
 {
     [super viewDidLoad];
     
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"RightBackground"]]];
-    
     // 设置一下名片区的尺寸
     bInEdit = NO;
     [self recalHeightConstrantInPortrait:UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation])];
-    
-    [self.bottomBarView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomRight"]]];
+
     [self.backgroundView setBackgroundColor:[UIColor clearColor]];
     [self.nameLabel setFont:[UIFont fontWithName:@"Libian SC" size:32.0]];
     [self.signWithSomeOnelabel setFont:[UIFont fontWithName:@"Libian SC" size:22.0]];

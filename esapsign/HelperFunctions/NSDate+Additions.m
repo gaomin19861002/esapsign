@@ -13,7 +13,7 @@
 + (NSDate *)convertDateToLocalTime: (NSDate *)forDate
 {
     NSTimeZone *nowTimeZone = [NSTimeZone localTimeZone];
-    int timeOffset = [nowTimeZone secondsFromGMTForDate:forDate];
+    int timeOffset = (int)[nowTimeZone secondsFromGMTForDate:forDate];
     NSDate *newDate = [forDate dateByAddingTimeInterval:timeOffset];
     return newDate;
 }

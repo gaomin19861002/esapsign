@@ -14,7 +14,7 @@
 #import "pinyin.h"
 #import "ContactSelectedCell.h"
 #import "NSDate+Additions.h"
-#import "ContactHeaderFooterView.h"
+#import "ContactGroupView.h"
 #import "UIColor+Additions.h"
 #import "UIImage+Additions.h"
 #import "ContactContextCell.h"
@@ -282,7 +282,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (tableView == self.contactList) {
         if (section == 0) {
-            ContactHeaderFooterView *headerView = [ContactHeaderFooterView headerFooterView:self.storyboard];
+            ContactGroupView *headerView = [ContactGroupView headerFooterView];
             headerView.backgroundColor = [UIColor colorWithR:133 G:197 B:85 A:255];
             headerView.titleLabel.text = @"常用联系人";
             headerView.subTitleLabel.text = [NSString stringWithFormat:@"%d", [self.allUserGroups[section] count]];
@@ -300,7 +300,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (tableView == self.contactList) {
         if (section == 0) {
-            ContactHeaderFooterView *footerView = [ContactHeaderFooterView headerFooterView:self.storyboard];
+            ContactGroupView *footerView = [ContactGroupView headerFooterView];
             footerView.backgroundColor = [UIColor colorWithR:56 G:183 B:288 A:255];
             footerView.titleLabel.text = @"所有联系人";
             footerView.subTitleLabel.text = [NSString stringWithFormat:@"%d", self.allUserCount];

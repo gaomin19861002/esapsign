@@ -35,7 +35,7 @@
     if ([self length] < 8) {
         return nil;
     }
-    int len = [self length];
+    int len = (int)[self length];
     return [self substringWithRange:NSMakeRange(4, len - 8)];
 }
 

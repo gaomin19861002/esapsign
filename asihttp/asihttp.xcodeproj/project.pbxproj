@@ -181,7 +181,7 @@
 		D092EBB619A597A400878377 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = Caland;
 			};
 			buildConfigurationList = D092EBB919A597A400878377 /* Build configuration list for PBXProject "asihttp" */;
@@ -225,6 +225,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -262,6 +266,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -292,10 +300,6 @@
 		D092EBE219A597A400878377 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7s,
-					armv7,
-				);
 				CLANG_ENABLE_OBJC_ARC = NO;
 				DSTROOT = /tmp/asihttp.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -311,10 +315,6 @@
 		D092EBE319A597A400878377 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7s,
-					armv7,
-				);
 				CLANG_ENABLE_OBJC_ARC = NO;
 				DSTROOT = /tmp/asihttp.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

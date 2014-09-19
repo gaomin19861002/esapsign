@@ -11,16 +11,9 @@
 
 @class Client_target;
 
-@interface DocListViewController : UIViewController <UISearchBarDelegate,UITableViewDelegate, UITableViewDataSource, ContactSelectedViewControllerDelegate>
+@interface DocListViewController : UITableViewController <UISearchBarDelegate, ContactSelectedViewControllerDelegate>
 
 @property (nonatomic, retain) UIPopoverController* addSignerPopoverController;
-
-@property (retain, nonatomic) IBOutlet UITableView *tableView;
-
-/*!
- 底部背景视图
- */
-@property (retain, nonatomic) IBOutlet UIView *bottomBarView;
 
 /*!
  定义一级目录的target
