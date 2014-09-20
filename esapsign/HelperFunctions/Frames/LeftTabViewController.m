@@ -20,10 +20,6 @@
     [super viewDidLoad];
     
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"LeftBackground"]]];
-    for (UITabBarItem* item in self.tabBar.items)
-    {
-
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,12 +53,7 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self recalHeightConstrantInPortrait:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    // 旋转过后的Orientation正好与之相对
-    // [self recalHeightConstrantInPortrait:UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)];
+    [self.tabBar setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomLeft"]]];
 }
 
 @end

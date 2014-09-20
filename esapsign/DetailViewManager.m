@@ -160,16 +160,21 @@
 // 左侧Tab切换完成处理
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-    if ([viewController isKindOfClass:[UINavigationController class]]) {
+    if ([viewController isKindOfClass:[UINavigationController class]])
+    {
         UINavigationController *navController = (UINavigationController *)viewController;
         // 当显示文档管理第一个界面时，传入一级目录的parent_id = "0";
-        if ([navController.title isEqualToString:@"Document Tab"]) {
+        if ([navController.title isEqualToString:@"Document Tab"])
+        {
             UIViewController *controller = [navController.viewControllers firstObject];
-            if ([controller isKindOfClass:[DocViewController class]]) {
+            if ([controller isKindOfClass:[DocViewController class]])
+            {
                 DocViewController *docController = (DocViewController *)controller;
                 docController.parent = nil;
             }
-        } else {
+        }
+        else
+        {
             [navController popToRootViewControllerAnimated:YES];
         }
         

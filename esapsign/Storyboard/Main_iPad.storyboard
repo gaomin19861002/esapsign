@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -433,7 +432,7 @@
                 <tabBarController title="Left Navigation" id="jfu-N6-4Jf" userLabel="Left Navigation" customClass="LeftTabViewController" sceneMemberID="viewController">
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" autoresizesSubviews="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" backgroundImage="BarBottomLeft" itemPositioning="fill" id="Xor-61-joM">
+                    <tabBar key="tabBar" autoresizesSubviews="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" backgroundImage="BarBottomLeft" id="Xor-61-joM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </tabBar>
@@ -531,10 +530,12 @@
         <scene sceneID="jQZ-Ds-rnR">
             <objects>
                 <tableViewController id="Bfl-hc-Wgy" userLabel="R2 Impl-Document" customClass="DocListViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" sectionHeaderHeight="22" sectionFooterHeight="22" id="IZs-V5-7Sq">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IZs-V5-7Sq">
                         <rect key="frame" x="0.0" y="44" width="703" height="675"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <inset key="scrollIndicatorInsets" minX="-15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <inset key="separatorInset" minX="58" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="FileDetailCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="FileDetailCell" rowHeight="175" id="VMR-xb-sa3" customClass="FileDetailCell">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -549,10 +550,10 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2sf-k8-4ug" userLabel="Icon">
-                                                    <rect key="frame" x="15" y="8" width="47" height="50"/>
+                                                    <rect key="frame" x="8" y="8" width="50" height="55"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="47" id="9e4-bd-qqz"/>
-                                                        <constraint firstAttribute="height" constant="50" id="B0b-ix-qDP"/>
+                                                        <constraint firstAttribute="width" constant="50" id="9e4-bd-qqz"/>
+                                                        <constraint firstAttribute="height" constant="55" id="B0b-ix-qDP"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress" translatesAutoresizingMaskIntoConstraints="NO" id="Jr5-CR-5PS" userLabel="ProgressStatus">
@@ -668,7 +669,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="OzH-8a-KeI" secondAttribute="trailing" constant="183" id="mAY-Iu-5Bx"/>
                                                 <constraint firstItem="Oq7-Fq-jk8" firstAttribute="leading" secondItem="yzO-SU-RMK" secondAttribute="leading" constant="329" id="ozm-fA-8GZ"/>
                                                 <constraint firstItem="dHL-Kf-k5D" firstAttribute="top" secondItem="yzO-SU-RMK" secondAttribute="top" constant="13" id="stv-Yp-uSC"/>
-                                                <constraint firstItem="2sf-k8-4ug" firstAttribute="leading" secondItem="yzO-SU-RMK" secondAttribute="leading" constant="15" id="tkf-bk-CsJ"/>
+                                                <constraint firstItem="2sf-k8-4ug" firstAttribute="leading" secondItem="yzO-SU-RMK" secondAttribute="leading" constant="8" id="tkf-bk-CsJ"/>
                                                 <constraint firstAttribute="trailing" secondItem="dHL-Kf-k5D" secondAttribute="trailing" constant="120" id="vba-wi-hGV"/>
                                             </constraints>
                                         </view>
@@ -822,7 +823,7 @@
                                             </connections>
                                         </button>
                                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VqY-Ta-B95" userLabel="DownloadProgress">
-                                            <rect key="frame" x="0.0" y="70" width="703" height="2"/>
+                                            <rect key="frame" x="58" y="170" width="645" height="2"/>
                                         </progressView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -830,12 +831,11 @@
                                         <constraint firstItem="pcJ-Rm-ckl" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="68" id="1wE-oc-Krb"/>
                                         <constraint firstItem="pcJ-Rm-ckl" firstAttribute="leading" secondItem="eDD-if-DvF" secondAttribute="leadingMargin" constant="-8" id="2iu-Fl-lML"/>
                                         <constraint firstItem="fYv-0t-bdX" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="-8" id="5I9-tN-FGs"/>
-                                        <constraint firstItem="VqY-Ta-B95" firstAttribute="leading" secondItem="eDD-if-DvF" secondAttribute="leadingMargin" constant="-8" id="Aja-i8-LHY"/>
+                                        <constraint firstItem="VqY-Ta-B95" firstAttribute="leading" secondItem="eDD-if-DvF" secondAttribute="leadingMargin" constant="50" id="Aja-i8-LHY"/>
                                         <constraint firstItem="6Ng-Ho-ASN" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="67" id="FbC-DC-hnv"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="sxg-9r-dKg" secondAttribute="trailing" constant="-8" id="Mx8-G2-tep"/>
                                         <constraint firstItem="0C5-6f-oFk" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="112" id="TpX-Ba-JFg"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="fYv-0t-bdX" secondAttribute="trailing" constant="-8" id="Xqu-Ww-bpx"/>
-                                        <constraint firstItem="VqY-Ta-B95" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="62" id="Yzc-TQ-HpP"/>
                                         <constraint firstItem="yzO-SU-RMK" firstAttribute="leading" secondItem="eDD-if-DvF" secondAttribute="leadingMargin" constant="-8" id="cvW-z9-mxH"/>
                                         <constraint firstItem="yzO-SU-RMK" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="-6" id="dqC-LD-1EG"/>
                                         <constraint firstItem="sxg-9r-dKg" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="67" id="eGU-vd-gy0"/>
@@ -847,6 +847,7 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="VqY-Ta-B95" secondAttribute="trailing" constant="-8" id="mQs-la-Q5g"/>
                                         <constraint firstItem="5Zx-xv-adg" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="38" id="oyO-N7-bZq"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="6Ng-Ho-ASN" secondAttribute="trailing" constant="-8" id="tEq-Fg-c3E"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="VqY-Ta-B95" secondAttribute="bottom" constant="-6" id="tQi-BJ-C7b"/>
                                         <constraint firstItem="xsp-0o-cOX" firstAttribute="top" secondItem="eDD-if-DvF" secondAttribute="topMargin" constant="5" id="vyw-gg-glL"/>
                                     </constraints>
                                 </tableViewCellContentView>

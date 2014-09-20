@@ -1001,8 +1001,6 @@
 				D0ECDF7619A498020008062E /* FileDetailCell.m */,
 				D0ECDF7D19A498020008062E /* MiniFileDetailCell.h */,
 				D0ECDF7E19A498020008062E /* MiniFileDetailCell.m */,
-				D0ECDF6F19A498020008062E /* DocSelectedViewController.h */,
-				D0ECDF7019A498020008062E /* DocSelectedViewController.m */,
 			);
 			name = "File Cell";
 			sourceTree = "<group>";
@@ -1170,6 +1168,8 @@
 				D0ECDF7919A498020008062E /* MiniDocListViewController.h */,
 				D0ECDF7A19A498020008062E /* MiniDocListViewController.m */,
 				D0E8399019AF4C9D00ED539D /* File Cell */,
+				D0ECDF6F19A498020008062E /* DocSelectedViewController.h */,
+				D0ECDF7019A498020008062E /* DocSelectedViewController.m */,
 				D0ECDF6B19A498020008062E /* DocDetailViewController.h */,
 				D0ECDF6C19A498020008062E /* DocDetailViewController.m */,
 				D0E8399119AF4CEA00ED539D /* BlueKey */,

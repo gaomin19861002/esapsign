@@ -17,16 +17,8 @@
 #import "CAAppDelegate.h"
 #import "SignerFlowOutsideView.h"
 
-/*!
- 签名人按钮起始Tag
- */
 #define TagSignButtonStart      1000
-
-/*!
- 签名人名称起始Tag
- */
 #define TagSignNameLabelStart   2000
-
 #define TagDeleteButtonStart    3000
 
 @interface FileDetailCell() <SignInfoViewDelegate>
@@ -34,10 +26,10 @@
     int currentFlowCount;
 }
 
+@property(nonatomic, assign) BOOL signEditing;
 @property(nonatomic, strong) NSArray *currentSignFlows;
 @property(nonatomic, strong) UIView *overlayView;
-@property(nonatomic, assign) BOOL signEditing;
-@property(nonatomic, retain) SignerFlowOutsideView *dragImageView;
+@property(nonatomic, strong) SignerFlowOutsideView *dragImageView;
 @property(nonatomic, assign) CGPoint dragBeginPos;
 @property(nonatomic, assign) CGPoint dragViewOriCenter;
 @property(nonatomic, retain) NSMutableArray *allCenters;
@@ -45,29 +37,19 @@
 @property (strong, nonatomic) IBOutlet UIView *standardRect;
 @property (strong, nonatomic) IBOutlet UIView *expandRect;
 
-/*!
- 右侧状态按钮响应方法
- */
+// 右侧状态按钮响应方法
 - (IBAction)rightButtonClicked:(id)sender;
 
-/*!
- 修改文件名按钮响应方法
- */
+// 修改文件名按钮响应方法
 - (IBAction)modifyButtonClicked:(id)sender;
 
-/*!
- 下载按钮响应方法
- */
+// 下载按钮响应方法
 - (IBAction)downLoadButtonClicked:(id)sender;
 
-/*!
- 添加签名人按钮响应方法
- */
+// 添加签名人按钮响应方法
 - (IBAction)addSignButtonClicked:(id)sender;
 
-/*!
- 提交签名流程响应方法
- */
+// 提交签名流程响应方法
 - (IBAction)submitSignButtonClicked:(id)sender;
 
 // 操作下载方法
@@ -84,17 +66,6 @@
 
 @implementation FileDetailCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDownloadProgressNotification:) name:DownloadProgressUpdateNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDownloadStatusChangedNotification:) name:DownloadStatusChangedNotification object:nil];
-    }
-    
-    return self;
-}
-
 - (void)awakeFromNib
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDownloadProgressNotification:) name:DownloadProgressUpdateNotification object:nil];
@@ -106,9 +77,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-/*!
- 更新签名流程
- */
+// 更新签名流程
 - (void)updateSignFlow:(Client_sign_flow *)signFlow
 {
     if (signFlow != nil)
@@ -148,19 +117,13 @@
         signerHead.userInteractionEnabled = YES;
         [signerHead addGestureRecognizer:pressGesture];
     }
-    
-    // 在后面添加＋按钮
-    //if ([signFlows count] < MaxSignMembers) {
-    //    UIButton *btn = (UIButton *)[self viewWithTag:TagSignButtonStart + [signFlows count]];
-    //    [btn setBackgroundImage:[UIImage imageNamed:@"SignNew"] forState:UIControlStateNormal];
-    //    [btn setEnabled:YES];
-    //}
 }
 
+// 更新下载状态
 - (void)setStatus:(FileDownloadStatus)status
 {
     _status = status;
-    self.progressView.hidden = _status == FileStatusFinished;
+    self.progressView.hidden = _status != FileStatusDownloading;
     self.statusButton.hidden = _status == FileStatusFinished;
     self.statusLabel.hidden = _status == FileStatusFinished;
     CGFloat alpha = _status == FileStatusFinished ? 1.0f : 0.3f;
@@ -211,6 +174,7 @@
     }
 }
 
+// 设置文档所有者
 - (void)setIsOwner:(BOOL)isOwner
 {
     _isOwner = isOwner;
@@ -224,65 +188,39 @@
 
 #pragma mark - Private Methods
 
-/*!
- 右侧状态按钮响应方法
- */
 - (IBAction)rightButtonClicked:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(statusButtonClicked:)])
-    {
         [self.delegate statusButtonClicked:self];
-    }
 }
 
-/*!
- 修改文件名按钮响应方法
- */
 - (IBAction)modifyButtonClicked:(id)sender
 {
-    return; // 暂时不响应修改文件名操作。
-    if ([self.delegate respondsToSelector:@selector(modifyButtonClicked:)]) {
+    if ([self.delegate respondsToSelector:@selector(modifyButtonClicked:)])
         [self.delegate modifyButtonClicked:self];
-    }
 }
 
-/*!
- 下载按钮响应方法
- */
 - (IBAction)downLoadButtonClicked:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(downLoadButtonClicked:)])
-    {
         [self.delegate downLoadButtonClicked:self];
-    }
 }
 
-/*!
- 添加签名人按钮响应方法
- */
 - (IBAction)addSignButtonClicked:(id)sender
 {
     if (currentFlowCount >= 6)
-    {
         return;
-    }
+
     UIButton *addButton = (UIButton *)sender;
     if ([self.delegate respondsToSelector:@selector(addSignButtonClicked:sender:)])
-    {
         [self.delegate addSignButtonClicked:self sender:addButton];
-    }
 }
 
-/**
- * @abstract 提交签名流程按钮点击
- */
 - (IBAction)submitSignButtonClicked:(id)sender
 {
 }
 
-/**
- * @abstract 设置是否正在编辑签名流程
- */
+// 设置是否正在编辑签名流程
 - (void)setSignEditing:(BOOL)signEditing
 {
     _signEditing = signEditing;
@@ -294,9 +232,7 @@
     }
 }
 
-/**
- * @abstract 叠加层
- */
+// 叠加层
 - (UIView *)overlayView
 {
     if (!_overlayView)
@@ -315,9 +251,7 @@
     return _overlayView;
 }
 
-/**
- * @abstract 设置是否可以编辑签名流程
- */
+// 设置是否可以编辑签名流程
 - (void)setSignManageAvaliable:(BOOL)avaliable
 {
     _signManageAvaliable = avaliable;
@@ -347,9 +281,7 @@
     if ([info.fileID isEqualToString:self.targetInfo.clientFile.file_id])
     {
         if (self.status != FileStatusDownloading)
-        {
             [self.progressView setProgress:0 animated:NO];
-        }
         if (self.status != FileStatusFinished)
         {
             self.status = FileStatusDownloading;
@@ -409,17 +341,20 @@
     for (int i = 0; i < currentFlowCount; i++)
     {
         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
-        if (signerHead) {
+        if (signerHead)
+        {
             CGPoint point = [recognizer locationInView:signerHead];
             DebugLog(@"%@", NSStringFromCGPoint(point));
-            if (CGRectContainsPoint(CGRectMake(0, 0, 60.0f, 60.0f), point)) {
+            if (CGRectContainsPoint(CGRectMake(0, 0, 60.0f, 60.0f), point))
+            {
                 tapInSignHead = YES;
                 [signerHead deleteButtonClicked:nil];
                 break;
             }
         }
     }
-    if (!tapInSignHead) {
+    if (!tapInSignHead)
+    {
         self.signEditing = NO;
         [self.overlayView removeFromSuperview];
     }
@@ -433,27 +368,31 @@
 - (void)handlePanGesture:(UIGestureRecognizer *)recognizer
 {
     UIPanGestureRecognizer *pan = (UIPanGestureRecognizer *)recognizer;
-    switch (pan.state) {
-        case UIGestureRecognizerStateBegan: {
+    switch (pan.state)
+    {
+        case UIGestureRecognizerStateBegan:
+        {
             // 判断点击区域是否在签名图标内
             currentFlowCount = (int)[self.currentSignFlows count];
             
             for (int i = 0; i < currentFlowCount; i++)
             {
                 SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
-                if (signerHead) {
+                if (signerHead)
+                {
                     CGPoint point = [recognizer locationInView:signerHead];
                     DebugLog(@"%@", NSStringFromCGPoint(point));
-                    if (CGRectContainsPoint(signerHead.bounds, point)) {
+                    if (CGRectContainsPoint(signerHead.bounds, point))
+                    {
                         self.dragImageView = signerHead;
                         self.dragBeginPos = [pan locationInView:pan.view];
-                        
                         break;
                     }
                 }
             }
             
-            if (self.dragImageView) {
+            if (self.dragImageView)
+            {
                 self.dragViewOriCenter = self.dragImageView.center;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.15];
@@ -465,27 +404,30 @@
             }
         }
             break;
-        case UIGestureRecognizerStateChanged: {
+        case UIGestureRecognizerStateChanged:
+        {
             CGPoint point = [pan locationInView:pan.view];
             DebugLog(@"pan change %@", NSStringFromCGPoint(point));
             CGFloat xoffset = point.x - self.dragBeginPos.x;
             CGFloat targetX = self.dragViewOriCenter.x + xoffset;
             CGFloat targetY = self.dragViewOriCenter.y;
-            if (self.dragImageView) {
+            if (self.dragImageView)
                 self.dragImageView.center = CGPointMake(targetX, targetY);
-            }
         }
             break;
         case UIGestureRecognizerStateEnded:
-        case UIGestureRecognizerStateCancelled: {
+        case UIGestureRecognizerStateCancelled:
+        {
             CGPoint point = [pan locationInView:self.contentView];
             DebugLog(@"pan end %@", NSStringFromCGPoint(point));
 
             // 计算目标位置的索引
             int nIndex = -1;
-            for (int i = 0; i < [self.allCenters count]; i++) {
+            for (int i = 0; i < [self.allCenters count]; i++)
+            {
                 CGPoint signPos = [[self.allCenters objectAtIndex:i] CGPointValue];
-                if (point.x <= signPos.x) {
+                if (point.x <= signPos.x)
+                {
                     nIndex = i;
                     break;
                 }
@@ -493,26 +435,30 @@
             
             // 判断是否是最后边
             CGPoint lastPos = [[self.allCenters lastObject] CGPointValue];
-            if (point.x >= lastPos.x) {
+            if (point.x >= lastPos.x)
                 nIndex = (int)[self.allCenters count] - 1;
-            }
             
             int oriIndex = (int)self.dragImageView.tag - TagSignButtonStart;
-            if (nIndex > -1) {
+            if (nIndex > -1)
+            {
                 // 如果位置没有变化
-                if (oriIndex == nIndex) {
+                if (oriIndex == nIndex)
+                {
                     [UIView beginAnimations:nil context:NULL];
                     [UIView setAnimationDuration:0.3];
                     self.dragImageView.center = [[self.allCenters objectAtIndex:oriIndex] CGPointValue];
                     [UIView commitAnimations];
 
-                } else if (nIndex < oriIndex) {
+                }
+                else if (nIndex < oriIndex)
+                {
                     // 向前调整
                     [UIView beginAnimations:nil context:NULL];
                     [UIView setAnimationDuration:0.3];
                     self.dragImageView.center = [[self.allCenters objectAtIndex:nIndex] CGPointValue];
                     
-                    for (int i = nIndex; i < oriIndex; i++) {
+                    for (int i = nIndex; i < oriIndex; i++)
+                    {
                         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
                         signerHead.center = [[self.allCenters objectAtIndex:i + 1] CGPointValue];
                     }
@@ -520,7 +466,8 @@
                     [UIView commitAnimations];
                     
                     // 修改图标的tag值
-                    for (int i = oriIndex - 1; i >= nIndex; i--) {
+                    for (int i = oriIndex - 1; i >= nIndex; i--)
+                    {
                         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
                         CGRect frame = signerHead.frame;
                         [signerHead removeFromSuperview];
@@ -534,7 +481,8 @@
                     
                     // 调整签名顺序
                     NSNumber *sequence = self.dragImageView.sign.sequence;
-                    for (int i = nIndex; i < oriIndex - 1; i++) {
+                    for (int i = nIndex; i < oriIndex - 1; i++)
+                    {
                         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
                         SignerFlowOutsideView *nextSign = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i + 1];
                         signerHead.sign.sequence = nextSign.sign.sequence;
@@ -543,13 +491,16 @@
                     SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + oriIndex];
                     signerHead.sign.sequence = sequence;
 
-                } else if (nIndex > oriIndex) {
+                }
+                else if (nIndex > oriIndex)
+                {
                     // 向后调整
                     [UIView beginAnimations:nil context:NULL];
                     [UIView setAnimationDuration:0.3];
                     self.dragImageView.center = [[self.allCenters objectAtIndex:nIndex] CGPointValue];
                     
-                    for (int i = oriIndex + 1; i <= nIndex; i++) {
+                    for (int i = oriIndex + 1; i <= nIndex; i++)
+                    {
                         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
                         signerHead.center = [[self.allCenters objectAtIndex:i - 1] CGPointValue];
                     }
@@ -557,7 +508,8 @@
                     [UIView commitAnimations];
                     
                     // 修改图标的tag值
-                    for (int i = oriIndex + 1; i <= nIndex; i++) {
+                    for (int i = oriIndex + 1; i <= nIndex; i++)
+                    {
                         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
                         [signerHead removeFromSuperview];
                         signerHead.tag = TagSignButtonStart + i - 1;
@@ -570,7 +522,8 @@
                     
                     // 调整签名顺序
                     NSNumber *sequence = self.dragImageView.sign.sequence;
-                    for (int i = nIndex; i > oriIndex; i--) {
+                    for (int i = nIndex; i > oriIndex; i--)
+                    {
                         SignerFlowOutsideView *signerHead = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i];
                         SignerFlowOutsideView *prevSign = (SignerFlowOutsideView *)[self viewWithTag:TagSignButtonStart + i - 1];
                         signerHead.sign.sequence = prevSign.sign.sequence;

@@ -215,7 +215,7 @@
     if ([identifier isEqualToString:@"openFile"] && cell != nil)
     {
         if (cell.status != FileStatusFinished
-            && [cell.targetInfo.clientFile.file_type intValue] != FileExtendTypePdf) // 暂时不打开除PDF以外类型的文件
+            || [cell.targetInfo.clientFile.file_type intValue] != FileExtendTypePdf) // 暂时不打开除PDF以外类型的文件
             return NO;
     }
     return YES;
@@ -539,6 +539,5 @@
         }
     }
 }
-
 
 @end
