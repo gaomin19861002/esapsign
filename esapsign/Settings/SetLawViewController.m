@@ -8,25 +8,24 @@
 
 #import "SetLawViewController.h"
 
-@interface SetLawViewController ()
+@interface SetLawViewController () <UIWebViewDelegate>
+
+@property (strong, nonatomic) IBOutlet UIWebView *contentPDF;
 
 @end
 
 @implementation SetLawViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    NSString *boundleFolder = [[NSBundle mainBundle] bundlePath];;
+    NSString* documentPath = [NSString stringWithFormat:@"%@", [boundleFolder stringByAppendingPathComponent:@"law.pdf"]];
+    [self.contentPDF loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:documentPath]]];
+    [self.contentPDF setDelegate:self];
+    //[self.contentPDF setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,15 +34,29 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [webView.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
+        [webView.scrollView setBounces:NO];
+
+        for (UIView *shadowView in [webView.scrollView subviews])
+        {
+            [shadowView setBackgroundColor:[UIColor clearColor]];
+        }
+    });
 }
-*/
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    CGRect rectProtrait = self.contentPDF.frame;
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+        self.contentPDF.frame = CGRectMake(rectProtrait.origin.x, rectProtrait.origin.y,
+                                     703, rectProtrait.size.height);
+    else
+        self.contentPDF.frame = CGRectMake(rectProtrait.origin.x, rectProtrait.origin.y,
+                                     768, rectProtrait.size.height);
+    [self webViewDidFinishLoad:self.contentPDF];
+}
 
 @end

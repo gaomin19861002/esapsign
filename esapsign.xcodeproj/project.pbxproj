@@ -32,6 +32,7 @@
 		D04A1F6219CBF92700231798 /* SkinDemoBlue.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D04A1F6119CBF92700231798 /* SkinDemoBlue.xcassets */; };
 		D04A1F6419CC003D00231798 /* ContactGroup.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04A1F6319CC003D00231798 /* ContactGroup.xib */; };
 		D04A1F6A19CC181D00231798 /* CAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04A1F6919CC181D00231798 /* CAViewController.m */; };
+		D0575A0C19CE318100F0320E /* law.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D0575A0B19CE318100F0320E /* law.pdf */; };
 		D0596A4E19AEFE3B000A7350 /* libpdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0596A4B19AEFD58000A7350 /* libpdf.a */; };
 		D084A04919CBE14000EC6837 /* RootFolderSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = D084A04819CBE14000EC6837 /* RootFolderSection.xib */; };
 		D084A04B19CBEB8700EC6837 /* ContactSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = D084A04A19CBEB8700EC6837 /* ContactSection.xib */; };
@@ -242,6 +243,7 @@
 		D04A1F6319CC003D00231798 /* ContactGroup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactGroup.xib; sourceTree = "<group>"; };
 		D04A1F6819CC181D00231798 /* CAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAViewController.h; sourceTree = "<group>"; };
 		D04A1F6919CC181D00231798 /* CAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAViewController.m; sourceTree = "<group>"; };
+		D0575A0B19CE318100F0320E /* law.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = law.pdf; sourceTree = "<group>"; };
 		D0596A0F19AEFC3F000A7350 /* ASIFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIFormDataRequest.h; path = ../asihttp/asihttp/code/ASIFormDataRequest.h; sourceTree = "<group>"; };
 		D0596A1019AEFC3F000A7350 /* ASIHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIHTTPRequest.h; path = ../asihttp/asihttp/code/ASIHTTPRequest.h; sourceTree = "<group>"; };
 		D0596A1119AEFC3F000A7350 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASINetworkQueue.h; path = ../asihttp/asihttp/code/ASINetworkQueue.h; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 				D0ECDE5719A483F70008062E /* Main_iPad.storyboard */,
 				D0ECDE5819A483F70008062E /* Contact_iPad.storyboard */,
 				D0ECDE5619A483F70008062E /* Toolkits_iPad.storyboard */,
+				D0575A0B19CE318100F0320E /* law.pdf */,
 				D0ECDE6019A484120008062E /* Libian.ttc */,
 				D0ECDE5219A483F70008062E /* Images.xcassets */,
 				D0ECDE5119A483F70008062E /* Document.xcassets */,
@@ -1599,6 +1602,7 @@
 				D0ECDFF719A49B450008062E /* Release Note.txt in Resources */,
 				D0ECDE5F19A483F70008062E /* Contact_iPad.storyboard in Resources */,
 				D04A1F6419CC003D00231798 /* ContactGroup.xib in Resources */,
+				D0575A0C19CE318100F0320E /* law.pdf in Resources */,
 				D0ECDF6219A497360008062E /* SignerLabelInside.xib in Resources */,
 				D0ECDFF919A49B450008062E /* gsdk_key.txt in Resources */,
 				D0ECDE5919A483F70008062E /* Document.xcassets in Resources */,
