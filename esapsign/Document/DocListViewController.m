@@ -19,8 +19,6 @@
 #import "Client_file.h"
 #import "NSArray+Additions.h"
 #import "UIAlertView+Additions.h"
-#import "SignatureClipListView.h"
-#import "HandSignViewController.h"
 #import "ContactSelectedViewController.h"
 #import "DocDetailViewController.h"
 #import "AllNaviViewController.h"
@@ -30,7 +28,6 @@
 #import "RequestManager.h"
 #import "ActionManager.h"
 #import "CAAppDelegate.h"
-#import "NoRotateNaviViewController.h"
 #import "UIViewController+Additions.h"
 #import "NSObject+Json.h"
 
@@ -41,7 +38,9 @@
 #define AlertViewCreateFile     101
 #define AlertViewModifyFile     102
 
-@interface DocListViewController ()<FileDetailCellDelegate, SignatureClipListViewDelegate, HandSignViewControllerDelegate, RequestManagerDelegate>
+@interface DocListViewController ()<FileDetailCellDelegate, RequestManagerDelegate>
+
+@property (nonatomic, retain) UIPopoverController* addSignerPopoverController;
 
 @property(nonatomic, retain) NSMutableArray *foldStatus;
 @property(nonatomic, assign) NSInteger lastRow;
@@ -50,31 +49,9 @@
 @property(nonatomic, retain) ASIFormDataRequest *signflowRequest;
 @property(nonatomic, retain) Client_sign *currentAppendSign;
 
-/*!
- 导航栏右侧按钮
- */
+// 导航栏右侧按钮
 @property(nonatomic, retain) UIBarButtonItem *addFileBarItem;
 @property(nonatomic, retain) UIBarButtonItem *changeFolderNameItem;
-
-/*!
- 定义底部的预置签名界面
- */
-@property(nonatomic, retain) SignatureClipListView *signListView;
-
-/*!
- 签名界面
- */
-@property(nonatomic, retain) HandSignViewController *handSignController;
-
-/*!
- 修改目录名称按钮响应方法
- */
-- (void)modifyFolderButtonClicked:(id)sender;
-
-/*!
- 新建按钮响应方法
- */
-- (void)addFileButtonClicked:(id)sender;
 
 @end
 
@@ -83,66 +60,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     NSLog(@"%s", __FUNCTION__);
-    // Do any additional setup after loading the view.
-    self.automaticallyAdjustsScrollViewInsets = NO;
 
-    // 添加左侧搜索栏
+#warning 搜索功能按钮暂时尚未完成
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
     searchBar.delegate = self;
     searchBar.tintColor = [UIColor blueColor];
     searchBar.placeholder = @"输入文件名进行检索";
-    
-#warning 搜索功能按钮暂时尚未完成
     // UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
     
-    // 添加右侧操作按钮
     _changeFolderNameItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                            target:self
                                                                            action:@selector(modifyFolderButtonClicked:)];
     _addFileBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                      target:self
                                                                      action:@selector(addFileButtonClicked:)];
-    
     self.tableView.sectionFooterHeight = 0.0f;
     self.tableView.sectionHeaderHeight = 0.0f;
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allSignPics];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSignPicUpdateComplete:) name:SignPicUpdateCompleteNotification object:nil];
-    NSLog(@"%s", __FUNCTION__);
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     [[RequestManager defaultInstance] registerDelegate:self];
-    
-    // 此处纠正位置是因为，在初始生成的时候，还无法判定旋转屏状态，第一次进入页面重新刷下
-    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation) || UIDeviceOrientationIsPortrait(self.interfaceOrientation) ) {
-        
-        self.signListView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, -(ScreenHeight - ScreenWidth - 320.0), 0);
-        CGRect frame = _signListView.signCollectionView.frame;
-        frame.origin.x = -31;
-        frame.size.width = 604;
-        _signListView.signCollectionView.frame = frame;
-        NSLog(@"%@", NSStringFromCGRect(_signListView.signCollectionView.frame));
-    }else {
-        self.signListView.transform = CGAffineTransformIdentity;
-    }
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [[RequestManager defaultInstance] unRegisterDelegate:self];
-    [self.tableView reloadData];
 }
 
 - (void)dealloc
 {
+    [[RequestManager defaultInstance] unRegisterDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -157,14 +101,16 @@
         [self setTitle:[NSString stringWithFormat:@"%@", parentTarget.display_name]];
         [[self parentViewController] setTitle:keep];
 
-        if ([self.parentTarget.type intValue] == TargetTypeSystemFolder) {
+        if ([self.parentTarget.type intValue] == TargetTypeSystemFolder)
+        {
 #warning 暂时屏蔽新建文件按钮
             //self.navigationItem.rightBarButtonItems = @[_addFileBarItem];
-        } else {
+        }
+        else
+        {
 #warning 暂时屏蔽新建文件按钮
             self.navigationItem.rightBarButtonItems = @[/*_addFileBarItem,*/_changeFolderNameItem];
         }
-        
         self.lastRow = 0;
         [self.tableView reloadData];
     }
@@ -177,120 +123,14 @@
         if ([self.parentTarget.subFiles count])
         {
             _foldStatus = [[NSMutableArray alloc] init];
-            for (NSUInteger i = 0; i < [self.parentTarget.subFiles count]; i++) {
+            for (NSUInteger i = 0; i < [self.parentTarget.subFiles count]; i++)
                 [_foldStatus addObject:@(NO)];
-            }
         }
     }
-    
     return _foldStatus;
 }
 
-- (SignatureClipListView *)signListView
-{
-    if (!_signListView)
-    {
-        _signListView = [[SignatureClipListView alloc] initWithFrame:CGRectMake(0, 0, 704, 56)];
-        _signListView.signsListDelegate = self;
-        // _signListView.allowDragSign = YES;
-        _signListView.clipsToBounds = NO;
-        [_signListView.btnAdd setImage:[UIImage imageNamed:@"SignNew"] forState:UIControlStateNormal];
-        _signListView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomRight"]];
-
-#warning [self.bottomBarView addSubview:_signListView];
-    }
-    
-    return _signListView;
-}
-
-- (HandSignViewController *)handSignController
-{
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Toolkits_iPad" bundle:nil];
-    _handSignController = [storyBoard instantiateViewControllerWithIdentifier:@"NewSignViewController"];
-    // _handSignController.view.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.4f];
-    _handSignController.delegate = self;
-    // _handSignController.view.frame = CGRectMake(0.0f,64.0f, self.view.frame.size.width, self.view.frame.size.height - 64.0f - 60.0f);
-    return _handSignController;
-}
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
-    FileDetailCell* cell = (FileDetailCell*)sender;
-    if (!cell)
-        return NO;
-    
-    if ([identifier isEqualToString:@"openFile"] && cell != nil)
-    {
-        if (cell.status != FileStatusFinished)
-            return NO;
-    }
-    return YES;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    FileDetailCell* cell = (FileDetailCell*)sender;
-    if ([segue.identifier isEqualToString:@"openFile"] && cell != nil)
-    {
-        if (cell.status == FileStatusFinished)
-        {
-            UINavigationController* nc = (UINavigationController*)segue.destinationViewController;
-            DocDetailViewController* viewFileController = (DocDetailViewController*)nc.topViewController;
-            viewFileController->clientTarget = cell.targetInfo;
-
-            // 设置当前用户对应的签名包
-            viewFileController->currentSign = nil;
-            Client_sign_flow* signFlow = cell.targetInfo.clientFile.currentSignflow;
-            if (signFlow != nil)
-            {
-                for (Client_sign * sign in signFlow.clientSigns)
-                {
-                    // 当前用户参与该签名流程，设置个人签名状态标签
-                    if ([sign.sign_account_id isEqualToString:[Util currentLoginUserId]])
-                        viewFileController->currentSign = sign;
-                }
-            }
-        }
-    }
-}
-
-#pragma mark - Private Methods
-
-/*!
- 修改目录名称按钮响应方法
- */
-- (void)modifyFolderButtonClicked:(id)sender
-{
-    UIAlertView *folderAlert = [[UIAlertView alloc] initWithTitle:nil
-                                                          message:@"请输入目录名称"
-                                                         delegate:self
-                                                cancelButtonTitle:@"取消"
-                                                otherButtonTitles:@"确定", nil];
-    folderAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *field = [folderAlert textFieldAtIndex:0];
-    field.text = self.parentTarget.display_name;
-    folderAlert.tag = AlertViewModifyFolder;
-    [folderAlert show];
-}
-
-/*!
- 新建按钮响应方法
- */
-- (void)addFileButtonClicked:(id)sender
-{
-    UIAlertView *fileAlert = [[UIAlertView alloc] initWithTitle:nil
-                                                          message:@"请输入文件名称"
-                                                       delegate:self
-                                              cancelButtonTitle:@"取消"
-                                              otherButtonTitles:@"确定", nil];
-    fileAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    fileAlert.tag = AlertViewCreateFile;
-    [fileAlert show];
-}
-
-/**
- * @abstract 设置签名状态标签
- */
+// 设置签名状态标签
 - (void)setSignStatusLabel:(FileDetailCell*)cell bySignFlow:(Client_sign_flow*) signFlow
 {
     // 如果没有签名流程，隐藏所有状态标签并返回
@@ -364,6 +204,50 @@
     }
 }
 
+#pragma mark - Navigation
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    FileDetailCell* cell = (FileDetailCell*)sender;
+    if (!cell)
+        return NO;
+    
+    if ([identifier isEqualToString:@"openFile"] && cell != nil)
+    {
+        if (cell.status != FileStatusFinished
+            && [cell.targetInfo.clientFile.file_type intValue] != FileExtendTypePdf) // 暂时不打开除PDF以外类型的文件
+            return NO;
+    }
+    return YES;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    FileDetailCell* cell = (FileDetailCell*)sender;
+    if ([segue.identifier isEqualToString:@"openFile"] && cell != nil)
+    {
+        if (cell.status == FileStatusFinished)
+        {
+            UINavigationController* nc = (UINavigationController*)segue.destinationViewController;
+            DocDetailViewController* viewFileController = (DocDetailViewController*)nc.topViewController;
+            viewFileController->clientTarget = cell.targetInfo;
+
+            // 设置当前用户对应的签名包
+            viewFileController->currentSign = nil;
+            Client_sign_flow* signFlow = cell.targetInfo.clientFile.currentSignflow;
+            if (signFlow != nil)
+            {
+                for (Client_sign * sign in signFlow.clientSigns)
+                {
+                    // 当前用户参与该签名流程，设置个人签名状态标签
+                    if ([sign.sign_account_id isEqualToString:[Util currentLoginUserId]])
+                        viewFileController->currentSign = sign;
+                }
+            }
+        }
+    }
+}
+
 #pragma mark - UIAlertView Delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -399,6 +283,34 @@
             }
         }
     }
+}
+
+// 修改目录名称按钮响应方法
+- (void)modifyFolderButtonClicked:(id)sender
+{
+    UIAlertView *folderAlert = [[UIAlertView alloc] initWithTitle:nil
+                                                          message:@"请输入目录名称"
+                                                         delegate:self
+                                                cancelButtonTitle:@"取消"
+                                                otherButtonTitles:@"确定", nil];
+    folderAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *field = [folderAlert textFieldAtIndex:0];
+    field.text = self.parentTarget.display_name;
+    folderAlert.tag = AlertViewModifyFolder;
+    [folderAlert show];
+}
+
+// 新建按钮响应方法
+- (void)addFileButtonClicked:(id)sender
+{
+    UIAlertView *fileAlert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"请输入文件名称"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"确定", nil];
+    fileAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    fileAlert.tag = AlertViewCreateFile;
+    [fileAlert show];
 }
 
 #pragma mark - UITableView Delegate
@@ -444,8 +356,7 @@
     
     // 根据sign flow来设置当前文件的签署流程状态标签和个人签署状态标签
     [self setSignStatusLabel:cell bySignFlow:file.currentSignflow];
-
-    cell.isOwner = !![[Util currentLoginUser].accountId isEqualToString:file.owner_account_id];
+    cell.isOwner = [[Util currentLoginUser].accountId isEqualToString:file.owner_account_id];
     
     return cell;
 }
@@ -482,6 +393,11 @@
     
     self.lastRow = index.row;
     [self.tableView reloadData];
+    
+    NSInteger totalCellCount = [self.tableView numberOfRowsInSection:index.section];
+    if (index.row >= totalCellCount - 2)
+        // 最后两格可能会伸展后超出显示范围，滚动调整一下
+        [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 /**
@@ -509,28 +425,6 @@
     {
         [UIAlertView showAlertMessage:@"请选择要修改的文件"];
     }
-}
-
-/**
- * @abstract 添加签名人
- */
-- (void)addSignButtonClicked:(FileDetailCell *)cell sender:(id)sender
-{
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
-    ContactSelectedViewController *selectedController = [story instantiateViewControllerWithIdentifier:@"ContactSelectedViewController"];
-    _addSignerPopoverController = [[UIPopoverController alloc] initWithContentViewController:selectedController];
-    UIButton* addButton = (UIButton*)sender;
-    CGRect source = addButton.frame;
-    source.origin.x += cell.frame.origin.x - [self.tableView contentOffset].x;
-    source.origin.y += cell.frame.origin.y - [self.tableView contentOffset].y;
-    
-    selectedController.delegate = self;
-    [_addSignerPopoverController presentPopoverFromRect:source inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-}
-
-- (void)submitSignButtonClicked:(FileDetailCell *)cell sender:(id)sender
-{
-    
 }
 
 /**
@@ -573,56 +467,26 @@
     //self.signflowRequest = [[ActionManager defaultInstance] addToQueue:signsetAction];
 }
 
-#pragma mark - SignsListViewDelegate Methods
-
 /**
- *  点击新增按钮事件
- *
- *  @param curSignsListView 当前签名列表图
+ * @abstract 添加签名人
  */
-- (void)SignatureClipListViewDidClickedNewSignBtn:(SignatureClipListView *)curSignsListView
+- (void)addSignButtonClicked:(FileDetailCell *)cell sender:(id)sender
 {
-    [self popHandSignController:YES];
-}
-
-- (void)popHandSignController:(BOOL)needVerifyCount
-{
-    NSLog(@"%s", __FUNCTION__);
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
+    ContactSelectedViewController *selectedController = [story instantiateViewControllerWithIdentifier:@"ContactSelectedViewController"];
+    _addSignerPopoverController = [[UIPopoverController alloc] initWithContentViewController:selectedController];
+    UIButton* addButton = (UIButton*)sender;
+    CGRect source = addButton.frame;
+    source.origin.x += cell.frame.origin.x - [self.tableView contentOffset].x;
+    source.origin.y += cell.frame.origin.y - [self.tableView contentOffset].y;
     
-    User *user = [Util currentLoginUser];
-    Client_account *account = [[DataManager defaultInstance] queryAccountByAccountId:[NSString stringWithFormat:@"%@", user.accountId]];
-    Assert(account, @"account shouldn't be null");
-    int limitCount = [account.sign_count intValue];
-    int signCount = (int)[DataManager defaultInstance].allSignPics.count;
+    selectedController.delegate = self;
+    [_addSignerPopoverController presentPopoverFromRect:source inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void)submitSignButtonClicked:(FileDetailCell *)cell sender:(id)sender
+{
     
-    if (signCount >= limitCount && needVerifyCount)
-    {
-        NSString* info = [NSString stringWithFormat:@"已达到预设签名图数量上限(%d)", limitCount];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:info message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alertView show];
-        return;
-    }
-    
-    UINavigationController *nav = [[NoRotateNaviViewController alloc] initWithRootViewController:self.handSignController];
-    [self presentViewController:nav animated:YES completion:nil];
-}
-
-- (void)HandSignViewController:(HandSignViewController *)controller DidFinishSignWithImage:(UIImage *)image
-{
-    [self.signListView insertNewSign:image];
-    [controller dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)HandSignViewController:(HandSignViewController *)controller qrFinishSignWithImage:(UIImage *)image
-{
-    [self.signListView addNewSign:image];
-    [controller dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)handleSignPicUpdateComplete:(NSNotification *)notification
-{
-    DataManager* manager = [DataManager defaultInstance];
-    [self.signListView setArrDefaultSigns:manager.allSignPics];
 }
 
 #pragma mark - RequestManager Delegate
@@ -676,36 +540,5 @@
     }
 }
 
-#pragma mark - UIViewController Rotate
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self resetSignListFrame];
-}
-
-- (void)resetSignListFrame
-{
-    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
-    {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.signListView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, -(ScreenHeight - ScreenWidth - 320.0), 0); // 320为左侧菜单宽度
-            
-           CGRect frame = _signListView.signCollectionView.frame;
-           frame.origin.x = -31;
-           frame.size.width = 604;
-          _signListView.signCollectionView.frame = frame;
-        }];
-    }
-    else
-    {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.signListView.transform = CGAffineTransformIdentity;
-            CGRect frame = _signListView.signCollectionView.frame;
-            frame.origin.x = 0;
-            frame.size.width = 604;
-            _signListView.signCollectionView.frame = frame;
-        }];
-    }
-}
 
 @end

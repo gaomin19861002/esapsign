@@ -8,14 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ContextTableViewCell : UITableViewCell
-{
-    
-}
+@interface SubFolderCell : UITableViewCell
 
 @property (retain, nonatomic) IBOutlet UIButton* nameButton;
 @property (retain, nonatomic) IBOutlet UILabel *countLabel;
-@property (retain, nonatomic) IBOutlet UIImageView *subIcon;
 
 - (void)updateColorWithTargetType:(TargetType)type andParentType:(TargetType)parentType;
 

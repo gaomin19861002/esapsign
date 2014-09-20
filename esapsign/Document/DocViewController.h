@@ -7,48 +7,33 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ContextHeaderView.h"
+#import "RootFolderSection.h"
 #import "DocListViewController.h"
 
 
 @class Client_target;
 
+/**
+ * @abstract 文档导航部分控制器
+ */
 @interface DocViewController : UITableViewController
 
-/*!
- 定义一级目录的target
- */
+// 定义当前列表上级目录的target
 @property (nonatomic, retain) Client_target *parent;
 
-/*!
- 定义上次展开的目录索引
- */
+// 定义上次展开的目录索引
 @property (nonatomic, assign) NSInteger lastSection;
 
-/*!
- 定义右侧文档列表对象(By Yi Minwen 放到.h中，方便派生类访问)
- */
+// 定义右侧文档列表对象
 @property (nonatomic, assign) DocListViewController *listViewController;
 
-/*!
- 定义所有显示在一级的目录
- */
-@property(nonatomic, retain, readonly) NSArray *levelOneFolders;
+// 定义所有显示在一级的目录
+@property (nonatomic, retain) NSArray *levelOneFolders;
 
-/*
- * 定义角落视图
- */
-@property(nonatomic, retain) UIImage* sysBg;
-@property(nonatomic, retain) UIImage* defBg;
-
-/*
- Show to derived class
- */
+// Show to derived class
 - (NSMutableArray *)foldStatus;
 
-/*
- 通过该方法重置文档视图数据，更新显示
- */
-- (void) resetViewData;
+// 通过该方法重置文档视图数据，更新显示
+- (void)resetViewData;
 
 @end

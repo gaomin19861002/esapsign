@@ -43,4 +43,26 @@
     } afterDelay:0.1];
 }
 
+- (void)recalHeightConstrantInPortrait:(UIInterfaceOrientation)isPortraitOrientation
+{
+    CGRect rectProtrait = self.view.frame;
+    if (isPortraitOrientation)
+        self.view.frame = CGRectMake(rectProtrait.origin.x, rectProtrait.origin.y,
+                                       314, rectProtrait.size.height);
+    else
+        self.view.frame = CGRectMake(rectProtrait.origin.x, rectProtrait.origin.y,
+                                       320, rectProtrait.size.height);
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self recalHeightConstrantInPortrait:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    // 旋转过后的Orientation正好与之相对
+    // [self recalHeightConstrantInPortrait:UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)];
+}
+
 @end

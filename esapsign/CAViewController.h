@@ -13,6 +13,7 @@
 @property (strong, nonatomic) IBOutlet UIView *containRight;
 @property (strong, nonatomic) IBOutlet UIView *signatureFlow;
 
-@property (strong, nonatomic) UITabBarController *contantTabBar;
+// 该属性为containRight容器导航到内容TabBar后，记录TabBar的引用
+@property (assign, nonatomic) UITabBarController *contantTabBar;
 
 @end

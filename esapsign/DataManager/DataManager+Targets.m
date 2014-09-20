@@ -160,25 +160,22 @@
 // 清除本地所有下载文件
 - (void)clearAllLocalFiles
 {
-    NSMutableArray *delFiles = [NSMutableArray array];
     for (Client_file *file in self.allFiles)
-    {
-        [delFiles addObject:file];
-    }
-    
-    for (Client_file *file in delFiles)
     {
         [[NSFileManager defaultManager] removeItemAtPath:file.phsical_filename error:nil];
         file.local_version = @(0);
-        // [self.objectContext deleteObject:file];
     }
-    //self.allFiles = nil;
     [[DownloadManager defaultInstance] resetDownloadFileList];
 }
 
 #pragma mark - Search
 
-// 返回指定parent_id的所有文件夹
+- (Client_target*)getTargetByID:(NSString*)target_id
+{
+    return [self fetchTarget:target_id];
+}
+
+// 返回指定parent_id的所有文件夹对象
 - (NSArray *)foldersWithParentTarget:(NSString *)parent_id
 {
     if (parent_id.length == 0)
@@ -199,11 +196,11 @@
     return folders;
 }
 
-// 返回指定parent_id下的所有文件
+// 返回指定parent_id下的所有文件对象
 - (NSArray *)filesWithParentTarget:(NSString *)parent_id
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parent_id==%@ AND type==2", parent_id];
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"display_name" ascending:NO];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"update_time" ascending:NO];
     
     return [self arrayFromCoreData:EntityClientTarget
                          predicate:predicate

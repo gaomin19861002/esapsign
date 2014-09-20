@@ -1,15 +1,15 @@
 //
-//  ContextHeaderView.m
+//  RootSectionView.m
 //  esapsign
 //
 //  Created by Suzic on 14-7-29.
 //  Copyright (c) 2014年 Caland. All rights reserved.
 //
 
-#import "ContextHeaderView.h"
+#import "RootFolderSection.h"
 #import "UIColor+Additions.h"
 
-@interface ContextHeaderView()
+@interface RootFolderSection()
 
 // 背景视图
 @property(nonatomic, retain) IBOutlet UIView *backgroundView;
@@ -24,12 +24,12 @@
 
 @end
 
-@implementation ContextHeaderView
+@implementation RootFolderSection
 
-// 创建HeaderView
-+ (ContextHeaderView *)headerView
+// 创建section
++ (RootFolderSection *)rootSection
 {
-    ContextHeaderView *header = [[NSBundle mainBundle] loadNibNamed:@"ContextHeader" owner:self options:nil].lastObject;
+    RootFolderSection *header = [[NSBundle mainBundle] loadNibNamed:@"RootFolderSection" owner:self options:nil].lastObject;
     return header;
 }
 
@@ -53,7 +53,6 @@
     [self addGestureRecognizer:_leftSwip];
 }
 
-// 更新显示
 - (void)updateShowWithTargetType:(TargetType)type selected:(BOOL)selected
 {
     [self.titleButton.titleLabel setFont:[UIFont fontWithName:@"Libian SC" size:23.0]];
@@ -98,8 +97,8 @@
         return;
     }
     
-    if ([self.delegate respondsToSelector:@selector(headerViewClicked:)])
-        [self.delegate headerViewClicked:self];
+    if ([self.delegate respondsToSelector:@selector(rootSectionClicked:)])
+        [self.delegate rootSectionClicked:self];
 }
 
 // 删除按钮响应方法

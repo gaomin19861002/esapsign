@@ -31,6 +31,9 @@
 // 同步写入一个Sign
 - (Client_sign*)syncSign:(NSDictionary*)dicSign;
 
+// 返回指定的target对象
+- (Client_target*)getTargetByID:(NSString*)target_id;
+
 // 返回指定parent_id的所有文件夹
 - (NSArray *)foldersWithParentTarget:(NSString *)parent_id;
 

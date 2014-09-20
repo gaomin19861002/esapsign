@@ -9,72 +9,48 @@
 #import "MiniDocViewController.h"
 #import "MiniDocListViewController.h"
 
-@interface MiniDocViewController ()
+@interface MiniDocViewController () <RootFolderSectionDelegate>
 
 @end
 
 @implementation MiniDocViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    // UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Contact_iPad" bundle:nil];
-    ContextHeaderView *headerView = [ContextHeaderView headerView];
+    RootFolderSection *rootSection = [RootFolderSection rootSection];
     
-    Client_target *target = [self.levelOneFolders objectAtIndex:section];
-    [headerView.titleButton setTitle:target.display_name forState:UIControlStateNormal];
-    headerView.countLabel.text = [NSString stringWithFormat:@"%u", [target.subFolders count] + [target.subFiles count]];
-    headerView.section = section;
-    headerView.delegate = self;
-    [headerView updateShowWithTargetType:[target.type intValue] selected:[super.foldStatus[section] boolValue]];
+    Client_target *target = [super.levelOneFolders objectAtIndex:section];
+    [rootSection.titleButton setTitle:target.display_name forState:UIControlStateNormal];
+    [rootSection.countLabel setText:[NSString stringWithFormat:@"%u", [target.subFolders count] + [target.subFiles count]]];
     
-    return headerView;
+    rootSection.section = section;
+    rootSection.delegate = self;
+    
+    [rootSection updateShowWithTargetType:[target.type intValue] selected:[super.foldStatus[section] boolValue]];
+    
+    return rootSection;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     Client_target *target = [super.levelOneFolders objectAtIndex:section];
     UIImageView *footerView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 280, 6)];
-    
+
     if ([target.type intValue] == TargetTypeSystemFolder)
-        [footerView setImage:super.sysBg];
+        [footerView setImage:[UIImage imageNamed:@"FolderSysTail"]];
     else
-        [footerView setImage:super.defBg];
+        [footerView setImage:[UIImage imageNamed:@"FolderDefTail"]];
     
     return footerView;
 }
 
-/*
- @ 该方法初始化对应文件夹右侧的文件列表视图
- */
 - (DocListViewController *)listViewController
 {
-    //    _listViewController = nil;
-    //
-    //    for (UIViewController *topController in [[self.navigationController parentViewController].navigationController viewControllers]) {
-    //        if ([topController isKindOfClass:[MiniDocListViewController class]]) {
-    //            _listViewController = (MiniDocListViewController *)topController;
-    //            break;
-    //        }
-    //    }
-    // 不更新右侧视图
     return super.listViewController;
 }
 
 - (UIBarButtonItem *)rightBarItem
 {
-    // 返回空，不处理添加事件
     return nil;
 }
 
@@ -86,7 +62,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
         DocViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"MiniDocView"];
         Client_target *target = self.levelOneFolders[indexPath.section];
         controller.parent = target;

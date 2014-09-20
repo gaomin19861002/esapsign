@@ -6,10 +6,10 @@
 //  Copyright (c) 2014年 Caland. All rights reserved.
 //
 
-#import "ContextTableViewCell.h"
+#import "SubFolderCell.h"
 #import "UIColor+Additions.h"
 
-@implementation ContextTableViewCell
+@implementation SubFolderCell
 
 - (void)updateColorWithTargetType:(TargetType)type andParentType:(TargetType)parentType
 {

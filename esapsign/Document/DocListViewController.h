@@ -13,13 +13,7 @@
 
 @interface DocListViewController : UITableViewController <UISearchBarDelegate, ContactSelectedViewControllerDelegate>
 
-@property (nonatomic, retain) UIPopoverController* addSignerPopoverController;
-
-/*!
- 定义一级目录的target
- */
+// 所属目录的target
 @property(nonatomic, retain) Client_target *parentTarget;
-
-- (void)popHandSignController:(BOOL)needVerifyCount;
 
 @end

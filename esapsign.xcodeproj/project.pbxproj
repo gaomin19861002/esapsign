@@ -33,7 +33,7 @@
 		D04A1F6419CC003D00231798 /* ContactGroup.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04A1F6319CC003D00231798 /* ContactGroup.xib */; };
 		D04A1F6A19CC181D00231798 /* CAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04A1F6919CC181D00231798 /* CAViewController.m */; };
 		D0596A4E19AEFE3B000A7350 /* libpdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0596A4B19AEFD58000A7350 /* libpdf.a */; };
-		D084A04919CBE14000EC6837 /* ContextHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = D084A04819CBE14000EC6837 /* ContextHeader.xib */; };
+		D084A04919CBE14000EC6837 /* RootFolderSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = D084A04819CBE14000EC6837 /* RootFolderSection.xib */; };
 		D084A04B19CBEB8700EC6837 /* ContactSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = D084A04A19CBEB8700EC6837 /* ContactSection.xib */; };
 		D09026CA19B5DA0B00E48DCB /* CompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D09026C919B5DA0B00E48DCB /* CompleteManager.m */; };
 		D092EBF019A59A4C00878377 /* libasihttp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D092EBED19A597A500878377 /* libasihttp.a */; };
@@ -116,9 +116,8 @@
 		D0ECDF5E19A496810008062E /* SignatureClipListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF5519A496810008062E /* SignatureClipListView.m */; };
 		D0ECDF6219A497360008062E /* SignerLabelInside.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ECDF5F19A497360008062E /* SignerLabelInside.xib */; };
 		D0ECDF6319A497360008062E /* SignerLabelInsideView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF6019A497360008062E /* SignerLabelInsideView.m */; };
-		D0ECDF8519A498020008062E /* Context.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF6619A498020008062E /* Context.m */; };
-		D0ECDF8619A498020008062E /* ContextHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF6819A498020008062E /* ContextHeaderView.m */; };
-		D0ECDF8719A498020008062E /* ContextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF6A19A498020008062E /* ContextTableViewCell.m */; };
+		D0ECDF8619A498020008062E /* RootFolderSection.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF6819A498020008062E /* RootFolderSection.m */; };
+		D0ECDF8719A498020008062E /* SubFolderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF6A19A498020008062E /* SubFolderCell.m */; };
 		D0ECDF8819A498020008062E /* DocDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF6C19A498020008062E /* DocDetailViewController.m */; };
 		D0ECDF8919A498020008062E /* DocListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF6E19A498020008062E /* DocListViewController.m */; };
 		D0ECDF8A19A498020008062E /* DocSelectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ECDF7019A498020008062E /* DocSelectedViewController.m */; };
@@ -247,7 +246,7 @@
 		D0596A1019AEFC3F000A7350 /* ASIHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIHTTPRequest.h; path = ../asihttp/asihttp/code/ASIHTTPRequest.h; sourceTree = "<group>"; };
 		D0596A1119AEFC3F000A7350 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASINetworkQueue.h; path = ../asihttp/asihttp/code/ASINetworkQueue.h; sourceTree = "<group>"; };
 		D0596A4519AEFD57000A7350 /* pdf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = pdf.xcodeproj; path = pdf/pdf.xcodeproj; sourceTree = "<group>"; };
-		D084A04819CBE14000EC6837 /* ContextHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContextHeader.xib; sourceTree = "<group>"; };
+		D084A04819CBE14000EC6837 /* RootFolderSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootFolderSection.xib; sourceTree = "<group>"; };
 		D084A04A19CBEB8700EC6837 /* ContactSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactSection.xib; sourceTree = "<group>"; };
 		D09026C819B5DA0B00E48DCB /* CompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompleteManager.h; sourceTree = "<group>"; };
 		D09026C919B5DA0B00E48DCB /* CompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompleteManager.m; sourceTree = "<group>"; };
@@ -398,12 +397,10 @@
 		D0ECDF5F19A497360008062E /* SignerLabelInside.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignerLabelInside.xib; sourceTree = "<group>"; };
 		D0ECDF6019A497360008062E /* SignerLabelInsideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignerLabelInsideView.m; sourceTree = "<group>"; };
 		D0ECDF6119A497360008062E /* SignerLabelInsideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignerLabelInsideView.h; sourceTree = "<group>"; };
-		D0ECDF6519A498020008062E /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Context.h; sourceTree = "<group>"; };
-		D0ECDF6619A498020008062E /* Context.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Context.m; sourceTree = "<group>"; };
-		D0ECDF6719A498020008062E /* ContextHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextHeaderView.h; sourceTree = "<group>"; };
-		D0ECDF6819A498020008062E /* ContextHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextHeaderView.m; sourceTree = "<group>"; };
-		D0ECDF6919A498020008062E /* ContextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextTableViewCell.h; sourceTree = "<group>"; };
-		D0ECDF6A19A498020008062E /* ContextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextTableViewCell.m; sourceTree = "<group>"; };
+		D0ECDF6719A498020008062E /* RootFolderSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootFolderSection.h; sourceTree = "<group>"; };
+		D0ECDF6819A498020008062E /* RootFolderSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootFolderSection.m; sourceTree = "<group>"; };
+		D0ECDF6919A498020008062E /* SubFolderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubFolderCell.h; sourceTree = "<group>"; };
+		D0ECDF6A19A498020008062E /* SubFolderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubFolderCell.m; sourceTree = "<group>"; };
 		D0ECDF6B19A498020008062E /* DocDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocDetailViewController.h; sourceTree = "<group>"; };
 		D0ECDF6C19A498020008062E /* DocDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocDetailViewController.m; sourceTree = "<group>"; };
 		D0ECDF6D19A498020008062E /* DocListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocListViewController.h; sourceTree = "<group>"; };
@@ -985,18 +982,16 @@
 			name = "Contact Cell";
 			sourceTree = "<group>";
 		};
-		D0E8398F19AF4BD100ED539D /* Target Cell */ = {
+		D0E8398F19AF4BD100ED539D /* Folder Cell */ = {
 			isa = PBXGroup;
 			children = (
-				D0ECDF6519A498020008062E /* Context.h */,
-				D0ECDF6619A498020008062E /* Context.m */,
-				D084A04819CBE14000EC6837 /* ContextHeader.xib */,
-				D0ECDF6719A498020008062E /* ContextHeaderView.h */,
-				D0ECDF6819A498020008062E /* ContextHeaderView.m */,
-				D0ECDF6919A498020008062E /* ContextTableViewCell.h */,
-				D0ECDF6A19A498020008062E /* ContextTableViewCell.m */,
+				D084A04819CBE14000EC6837 /* RootFolderSection.xib */,
+				D0ECDF6719A498020008062E /* RootFolderSection.h */,
+				D0ECDF6819A498020008062E /* RootFolderSection.m */,
+				D0ECDF6919A498020008062E /* SubFolderCell.h */,
+				D0ECDF6A19A498020008062E /* SubFolderCell.m */,
 			);
-			name = "Target Cell";
+			name = "Folder Cell";
 			sourceTree = "<group>";
 		};
 		D0E8399019AF4C9D00ED539D /* File Cell */ = {
@@ -1169,7 +1164,7 @@
 				D0ECDF7219A498020008062E /* DocViewController.m */,
 				D0ECDF7B19A498020008062E /* MiniDocViewController.h */,
 				D0ECDF7C19A498020008062E /* MiniDocViewController.m */,
-				D0E8398F19AF4BD100ED539D /* Target Cell */,
+				D0E8398F19AF4BD100ED539D /* Folder Cell */,
 				D0ECDF6D19A498020008062E /* DocListViewController.h */,
 				D0ECDF6E19A498020008062E /* DocListViewController.m */,
 				D0ECDF7919A498020008062E /* MiniDocListViewController.h */,
@@ -1596,7 +1591,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0ECDE5A19A483F70008062E /* Images.xcassets in Resources */,
-				D084A04919CBE14000EC6837 /* ContextHeader.xib in Resources */,
+				D084A04919CBE14000EC6837 /* RootFolderSection.xib in Resources */,
 				D0ECDE6119A484120008062E /* Libian.ttc in Resources */,
 				D0BA373C19AF342400933E0F /* SignControls.xcassets in Resources */,
 				D084A04B19CBEB8700EC6837 /* ContactSection.xib in Resources */,
@@ -1637,13 +1632,12 @@
 				D0ECDEFE19A48EAA0008062E /* ContactGroupView.m in Sources */,
 				D02630D519C6DAA80065A3A9 /* DataManager+Contacts.m in Sources */,
 				D09026CA19B5DA0B00E48DCB /* CompleteManager.m in Sources */,
-				D0ECDF8519A498020008062E /* Context.m in Sources */,
 				D0ECDED819A48D940008062E /* User.m in Sources */,
 				D03F6F4619B0995800B2FB60 /* SetLogoutViewController.m in Sources */,
 				D0ECE09D19A4A7A50008062E /* EXTScope.m in Sources */,
 				D0ECDEFD19A48EAA0008062E /* ContactSectionView.m in Sources */,
 				D0ECDF0619A48F880008062E /* NSObject+Json.m in Sources */,
-				D0ECDF8719A498020008062E /* ContextTableViewCell.m in Sources */,
+				D0ECDF8719A498020008062E /* SubFolderCell.m in Sources */,
 				D0E8398019AF47F800ED539D /* LeftNaviViewController.m in Sources */,
 				D0ECDEB819A489800008062E /* UIDevice+Addiotions.m in Sources */,
 				D0ECDF8819A498020008062E /* DocDetailViewController.m in Sources */,
@@ -1723,7 +1717,7 @@
 				D0ECDF3519A48F910008062E /* RequestManager.m in Sources */,
 				D038360719CC453E00017004 /* RightTabViewController.m in Sources */,
 				D0ECDF5919A496810008062E /* ResizableSignatureClipView.m in Sources */,
-				D0ECDF8619A498020008062E /* ContextHeaderView.m in Sources */,
+				D0ECDF8619A498020008062E /* RootFolderSection.m in Sources */,
 				D0E8396D19AF454400ED539D /* SignerFlowOutsideView.m in Sources */,
 				D0ECDEB219A489800008062E /* NSArray+Additions.m in Sources */,
 				D0ECE06519A49F000008062E /* GTMBase64.m in Sources */,

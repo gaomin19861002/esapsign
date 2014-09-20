@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" userLabel="Context Header" customClass="ContextHeaderView">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" userLabel="Root Folder Section" customClass="RootFolderSection">
             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -32,7 +32,7 @@
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
                             <inset key="contentEdgeInsets" minX="55" minY="0.0" maxX="30" maxY="0.0"/>
                             <size key="titleShadowOffset" width="0.5" height="0.5"/>
-                            <state key="normal" title="RootFolder Name">
+                            <state key="normal" title="Root Folder Name">
                                 <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -72,7 +72,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="backgroundView" destination="lob-zW-v8Q" id="gSq-Lv-pqk"/>
+                <outlet property="backgroundView" destination="lob-zW-v8Q" id="zbZ-8M-xee"/>
                 <outlet property="countLabel" destination="PEq-s4-wtF" id="Ofa-Px-wfh"/>
                 <outlet property="deleteButton" destination="T7N-7I-229" id="dai-Ei-Igd"/>
                 <outlet property="titleButton" destination="1LN-Pz-UXv" id="m15-84-yW6"/>

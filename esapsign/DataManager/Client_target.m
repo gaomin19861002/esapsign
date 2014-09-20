@@ -29,7 +29,6 @@
 @synthesize subFolders = _subFolders;
 @synthesize subFiles = _subFiles;
 
-
 - (NSArray *)subFolders
 {
     if (!_subFolders)
@@ -42,7 +41,8 @@
 
 - (NSArray *)subFiles
 {
-    if (!_subFiles) {
+    if (!_subFiles)
+    {
         NSArray *files = [self.manager filesWithParentTarget:self.target_id];
         _subFiles = files;
     }
