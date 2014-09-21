@@ -76,6 +76,7 @@
 
     firstUpdateGroupUserData = YES;
     // self.view.backgroundColor = [UIColor clearColor];
+    [self.tableView setSectionIndexBackgroundColor:[UIColor clearColor]];
  
     // 添加工具按钮
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addContact:)];

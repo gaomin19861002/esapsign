@@ -34,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //初始化最大下载书目 对于所有用户
+    //初始化最大下载数目 对于所有用户
     NSUserDefaults *nd = [NSUserDefaults standardUserDefaults];
     NSNumber *downloadCount = [nd objectForKey:DownloadCountKey];
     if (downloadCount == nil)

@@ -90,9 +90,9 @@
         // viewControllers 中的0位置实际上是UITabBarController
         UITabBarController *tabBarController = [self.splitViewController.viewControllers objectAtIndex:0];
         tabBarController.delegate = self;
-        
         NSArray *viewControllers = [[NSArray alloc] initWithObjects:tabBarController, _detailFrameController, nil];
         self.splitViewController.viewControllers = viewControllers;
+        //[self.splitViewController setMaximumPrimaryColumnWidth:180];
     }
     
     // Dismiss the navigation popover if one was present.  This will
@@ -102,7 +102,7 @@
 }
 
 // 根据导航控制器的标题进行切换
--(void)switchNavDetailByTitleText:(NSString*)titleText
+- (void)switchNavDetailByTitleText:(NSString*)titleText
 {
     CAViewController* base = (CAViewController*)_detailFrameController;
     if (![base isKindOfClass:[CAViewController class]])
@@ -111,8 +111,10 @@
     if (![base.contantTabBar.selectedViewController.title isEqualToString:titleText])
     {
         [(UINavigationController*)([base.contantTabBar selectedViewController]) popToRootViewControllerAnimated:YES];
-        for (UIViewController* detailController in base.contantTabBar.viewControllers) {
-            if ([detailController.title isEqualToString:titleText]) {
+        for (UIViewController* detailController in base.contantTabBar.viewControllers)
+        {
+            if ([detailController.title isEqualToString:titleText])
+            {
                 [base.contantTabBar setSelectedViewController:detailController];
                 break;
             }
@@ -142,17 +144,20 @@
 }
 
 // 异步请求开始通知外部程序
-- (void)asynRequestStarted:(ASIHTTPRequest *)request {
+- (void)asynRequestStarted:(ASIHTTPRequest *)request
+{
     
 }
 
 // 异步请求失败通知外部程序
-- (void)asynRequestFailed:(ASIHTTPRequest *)request {
+- (void)asynRequestFailed:(ASIHTTPRequest *)request
+{
     DebugLog(@"upload failed!");
 }
 
 // 异步请求结束通知外部程序
-- (void)asynRequestFinished:(ASIHTTPRequest *)request {
+- (void)asynRequestFinished:(ASIHTTPRequest *)request
+{
     DebugLog(@"upload succeed!");
 }
 
@@ -187,23 +192,35 @@
 // -------------------------------------------------------------------------------
 //	splitViewController:shouldHideViewController:inOrientation:
 // -------------------------------------------------------------------------------
-//- (BOOL)splitViewController:(UISplitViewController *)svc 
-//   shouldHideViewController:(UIViewController *)vc 
-//              inOrientation:(UIInterfaceOrientation)orientation
-//{
-//    return UIInterfaceOrientationIsPortrait(orientation);
-//}
+- (BOOL)splitViewController:(UISplitViewController *)svc 
+   shouldHideViewController:(UIViewController *)vc 
+              inOrientation:(UIInterfaceOrientation)orientation
+{
+    return UIInterfaceOrientationIsPortrait(orientation) ;
+    bool inDocTab = NO;
+    UITabBarController* tabBarLeft = (UITabBarController*)vc;
+    if ([tabBarLeft isKindOfClass:[UITabBarController class]])
+    {
+        UINavigationController* leftNav = (UINavigationController*)tabBarLeft.selectedViewController;
+        inDocTab = [leftNav.title isEqualToString:@"Document Tab"];
+    }
+    return UIInterfaceOrientationIsPortrait(orientation) && inDocTab;
+}
 
 // 切分视图转置时的隐藏方式：将要隐藏
-- (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
+- (void)splitViewController:(UISplitViewController *)splitController
+     willHideViewController:(UIViewController *)viewController
+          withBarButtonItem:(UIBarButtonItem *)barButtonItem
+       forPopoverController:(UIPopoverController *)popoverController
 {
     NSLog(@"%s", __FUNCTION__);
     
     CAViewController* base = (CAViewController*)_detailFrameController;
     
     self.navigationPaneButtonItem = barButtonItem;
-    barButtonItem.title = NSLocalizedString(@"菜单", @"Master");
-    for (UINavigationController *navDetailTabItem in base.contantTabBar.viewControllers) {
+    barButtonItem.title = NSLocalizedString(@"导航", @"Master");
+    for (UINavigationController *navDetailTabItem in base.contantTabBar.viewControllers)
+    {
         UIViewController *rootCtroller = navDetailTabItem.viewControllers[0];
         [rootCtroller.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
     }
@@ -211,7 +228,6 @@
     self.navigationPopoverController = popoverController;
 //    self.navigationPopoverController.delegate = self;
     
-    //隐藏擦擦男单揽
 //    UITabBarController *tab = (UITabBarController *) viewController;
 //    if ([tab.selectedViewController.title isEqualToString:@"Settings Tab"]) {
 //        UIBarButtonItem *b = barButtonItem;
@@ -219,18 +235,20 @@
 //        SEL s = [b action];
 //        [target performSelector:s withObject:nil afterDelay:0.5f];
 //    }
-    
 }
 
 // 切分视图转置时的隐藏方式：将要显示
-- (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+- (void)splitViewController:(UISplitViewController *)splitController
+     willShowViewController:(UIViewController *)viewController
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
     NSLog(@"%s", __FUNCTION__);
     
     CAViewController* base = (CAViewController*)_detailFrameController;
     
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
-    for (UINavigationController *navDetailTabItem in base.contantTabBar.viewControllers) {
+    for (UINavigationController *navDetailTabItem in base.contantTabBar.viewControllers)
+    {
         UIViewController *rootCtroller = navDetailTabItem.viewControllers[0];
         [rootCtroller.navigationItem setLeftBarButtonItem:nil animated:YES];
     }

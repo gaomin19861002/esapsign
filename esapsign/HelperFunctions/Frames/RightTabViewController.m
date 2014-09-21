@@ -7,6 +7,7 @@
 //
 
 #import "RightTabViewController.h"
+#import "UIColor+Additions.h"
 
 @interface RightTabViewController ()
 
@@ -17,8 +18,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"RightBackground"]]];
+    
+    [self.view setBackgroundColor:[UIColor colorWithR:232 G:244 B:246 A:255]];
+    //[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"RightBackground"]]];
 }
 
 - (void)didReceiveMemoryWarning

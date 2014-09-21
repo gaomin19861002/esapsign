@@ -8,6 +8,7 @@
 
 #import "LeftTabViewController.h"
 #import "NSObject+DelayBlocks.h"
+#import "UIColor+Additions.h"
 
 @interface LeftTabViewController ()
 
@@ -18,8 +19,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"LeftBackground"]]];
+
+    [self.view setBackgroundColor:[UIColor colorWithR:232 G:244 B:246 A:255]];
+    //[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"LeftBackground"]]];
 }
 
 - (void)didReceiveMemoryWarning
