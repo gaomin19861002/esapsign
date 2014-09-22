@@ -91,8 +91,8 @@
 
 - (void)setParentTarget:(Client_target *)parentTarget
 {
-    //if (![_parentTarget isEqual:parentTarget])
-    //{
+    if (![_parentTarget isEqual:parentTarget])
+    {
         _parentTarget = parentTarget;
 
         // 修改当前视图的标题会影响到其归属NavigationController，注意保存现场
@@ -115,7 +115,7 @@
         [self.tableView reloadData];
         if ([self.tableView numberOfRowsInSection:0] > 0)
             [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    //}
+    }
 }
 
 // 设置签名状态标签

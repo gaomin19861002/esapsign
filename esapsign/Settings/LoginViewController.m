@@ -231,9 +231,8 @@
             //TODO:禁用登陆按钮。
             self.allowLogin = NO;
             
-            
-            
-        }else if([[resDict objectForKey:@"result"] intValue] == 1)
+        }
+        else if([[resDict objectForKey:@"result"] intValue] == 1)
         {
             // 存储登录成功对象
             User *user = [[User alloc] init];
@@ -251,22 +250,29 @@
 #warning 进行签名的处理。
             // NSString *cert = [resDict objectForKey:@"cert"];
             
-            [CAAppDelegate sharedDelegate].loginSucceed = YES;
-            [self dismissViewControllerAnimated:YES completion:^{
-                // 自动执行一次同步
-                [SyncManager defaultInstance].parentController = [CAAppDelegate sharedDelegate].window.rootViewController;
-                [[SyncManager defaultInstance] startSync:0];
-            }];
-            
+            if (![CAAppDelegate sharedDelegate].loginSucceed)
+            {
+                [CAAppDelegate sharedDelegate].loginSucceed = YES;
+                [self dismissViewControllerAnimated:YES completion:^{
+                    // 自动执行一次同步
+                    [SyncManager defaultInstance].parentController = [CAAppDelegate sharedDelegate].window.rootViewController;
+                    [[SyncManager defaultInstance] startSync:0];
+                }];
+            }
+            else
+            {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
             self.isNeedVerifyNumber = NO;
-        }else if([[resDict objectForKey:@"result"] intValue] == 2)
+        }
+        else if([[resDict objectForKey:@"result"] intValue] == 2)
         {
             //用户不存在
             self.tipsLabel.text = @"该用户不存在";
             
-        }else if([[resDict objectForKey:@"result"] intValue] == 3)
+        }
+        else if([[resDict objectForKey:@"result"] intValue] == 3)
         {
-            
             //用户输入的密码错误
             self.tipsLabel.text = @"密码错误，请重新输入";
             

@@ -184,10 +184,10 @@
         if ([appDelegate.splitViewController respondsToSelector:@selector(setPresentsWithGesture:)])
             [appDelegate.splitViewController setPresentsWithGesture:YES];
         
-        [appDelegate performBlock:^{
-            appDelegate.loginSucceed = NO;
-            [appDelegate popLoginView];
-        } afterDelay:0.01];
+//        [appDelegate performBlock:^{
+//            appDelegate.loginSucceed = NO;
+//            [appDelegate popLoginView];
+//        } afterDelay:0.01];
     }
 }
 

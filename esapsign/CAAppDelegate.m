@@ -112,7 +112,10 @@
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     self.detailViewManager.splitViewController = splitViewController;
     self.detailViewManager.detailFrameController = [splitViewController.viewControllers lastObject];
-    
+
+    [self.window makeKeyAndVisible];
+    self.loginSucceed = NO;
+    [self popLoginView];
     return YES;
 }
 
@@ -131,6 +134,8 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    self.loginSucceed = YES; // 该标记将停止登录后的自动同步
+    [self popLoginView];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
