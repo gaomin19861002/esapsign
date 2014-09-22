@@ -31,13 +31,13 @@
 @interface FileDetailCell : UITableViewCell
 
 // 文件关联的对象
-@property(nonatomic, retain) Client_target* targetInfo;
+@property (nonatomic, retain) Client_target* targetInfo;
 // 文件下载状态值
-@property(nonatomic, assign) FileDownloadStatus status;
+@property (nonatomic, assign) FileDownloadStatus status;
 // 是否是文件的所有者
-@property(nonatomic, assign) BOOL isOwner;
+@property (nonatomic, assign) BOOL isOwner;
 // 是否有编辑签名流程的权限
-@property(nonatomic, assign) BOOL signManageAvaliable;
+@property (nonatomic, assign) BOOL signManageAvaliable;
 
 @property(nonatomic, assign) id<FileDetailCellDelegate> delegate;
 

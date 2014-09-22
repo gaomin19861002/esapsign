@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13F34" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Client_account" representedClassName="Client_account" syncable="YES">
         <attribute name="account_id" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="cert" optional="YES" attributeType="String" syncable="YES"/>
@@ -47,8 +47,8 @@
         <attribute name="upload_size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="version" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="version_guid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="clientTargets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Client_target" inverseName="clientFile" inverseEntity="Client_target" syncable="YES"/>
-        <relationship name="currentSignflow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_sign_flow" inverseName="clientFile" inverseEntity="Client_sign_flow" syncable="YES"/>
+        <relationship name="clientTargets" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Client_target" inverseName="clientFile" inverseEntity="Client_target" syncable="YES"/>
+        <relationship name="currentSignflow" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Client_sign_flow" inverseName="clientFile" inverseEntity="Client_sign_flow" syncable="YES"/>
     </entity>
     <entity name="Client_sign" representedClassName="Client_sign" syncable="YES">
         <attribute name="refuse_date" optional="YES" attributeType="Date" syncable="YES"/>
@@ -87,16 +87,16 @@
         <attribute name="target_id" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="update_time" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="clientFile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_file" inverseName="clientTargets" inverseEntity="Client_file" syncable="YES"/>
+        <relationship name="clientFile" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Client_file" inverseName="clientTargets" inverseEntity="Client_file" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Client_account" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="Client_contact" positionX="0" positionY="0" width="128" height="163"/>
-        <element name="Client_contact_item" positionX="0" positionY="0" width="128" height="165"/>
-        <element name="Client_file" positionX="0" positionY="0" width="128" height="343"/>
-        <element name="Client_sign" positionX="0" positionY="0" width="128" height="180"/>
-        <element name="Client_sign_flow" positionX="0" positionY="0" width="128" height="150"/>
-        <element name="Client_signpic" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="Client_target" positionX="0" positionY="0" width="128" height="210"/>
+        <element name="Client_account" positionX="97" positionY="153" width="128" height="135"/>
+        <element name="Client_contact" positionX="-531" positionY="144" width="128" height="163"/>
+        <element name="Client_contact_item" positionX="-315" positionY="144" width="128" height="165"/>
+        <element name="Client_file" positionX="-317" positionY="-244" width="128" height="343"/>
+        <element name="Client_sign" positionX="97" positionY="-63" width="128" height="180"/>
+        <element name="Client_sign_flow" positionX="-108" positionY="-36" width="128" height="148"/>
+        <element name="Client_signpic" positionX="-108" positionY="180" width="128" height="105"/>
+        <element name="Client_target" positionX="-531" positionY="-126" width="128" height="208"/>
     </elements>
 </model>

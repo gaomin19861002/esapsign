@@ -227,10 +227,11 @@ DefaultInstanceForClass(SyncManager);
                 }
             }
         }
-
-        // 设置一个合理的时机发送可能迟滞的Action
-        [[ActionManager defaultInstance] sendQueueAtOnce];
     }
+    [manager syncContactCache];
+    
+    // 设置一个合理的时机发送可能迟滞的Action
+    [[ActionManager defaultInstance] sendQueueAtOnce];
 }
 
 // 处理文档目录信息

@@ -52,6 +52,10 @@ DefaultInstanceForClassHeader(DataManager);
 @property(nonatomic, retain, readonly) NSMutableArray *allSignPics;
 @property(nonatomic, retain, readonly) NSMutableArray *allSignFlows;
 
+// 该联系人缓冲队列用于在合并数据库时，避免高频度反复从数据库中获取数据
+@property (nonatomic, strong) NSMutableArray* contactCache;
+- (void)syncContactCache;
+
 /*!
  用户目录路径
  */
@@ -79,8 +83,6 @@ DefaultInstanceForClassHeader(DataManager);
           fromClientFile:(Client_file *)file;
 
 
-// 清空缓存文件
-- (void) clearnCaches;
 
 /**
  *  获取与联系人所有相关签名文档(By Yi Minwen)

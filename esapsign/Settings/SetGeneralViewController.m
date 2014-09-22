@@ -10,7 +10,7 @@
 #import "DownloadManager.h"
 #import "Util.h"
 #import "User.h"
-#import "DataManager.h"
+#import "DataManager+Targets.h"
 #import "UIAlertView+Additions.h"
 #import "CAAppDelegate.h"
 #import "UIViewController+Additions.h"
@@ -115,7 +115,7 @@
     UIViewController *controller = [CAAppDelegate sharedDelegate].window.rootViewController;
     [controller showProgressText:@"删除中..."];
     
-    [[DataManager defaultInstance] clearnCaches];
+    [[DataManager defaultInstance] clearCaches];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ClearCacheFinishedNotification object:nil];
     

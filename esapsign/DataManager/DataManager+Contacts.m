@@ -30,9 +30,7 @@
                                              offset:0
                                             orderBy:nil];
     for (Client_contact_item *item in fetchObjects)
-    {
         [self.objectContext deleteObject:item];
-    }
 }
 
 // 从服务器同步一个联系人对象
@@ -75,7 +73,8 @@
         item.contact_id = contact.contact_id;
         item.clientContact = contact;
     }
-    
+
+    [self syncContactCache];
     return contact;
 }
 
@@ -111,7 +110,7 @@
 // 根据Address找对应的用户
 - (Client_contact *) findUserWithAddress:(NSString *) address
 {
-    for (Client_contact *contact in self.allContacts)
+    for (Client_contact *contact in self.contactCache)
     {
         for (Client_contact_item *item in contact.clientItems)
         {
@@ -187,7 +186,7 @@
     user.family_name = lastName;
 
     [self.objectContext insertObject:user];
-    
+    // 直接生成联系人的方法不需要立刻更新缓存
     return user;
 }
 
@@ -220,13 +219,13 @@
                                          limit:NSUIntegerMax
                                         offset:0
                                        orderBy:nil];
-    
 
     for (Client_contact *contact in contacts)
     {
         [self clearAllItemsInContact:contact];
         [self.objectContext deleteObject:contact];
     }
+    [self syncContactCache];
 }
 
 #pragma mark - Private functions

@@ -64,4 +64,7 @@
 // 清除本地所有下载文件
 - (void)clearAllLocalFiles;
 
+// 清空缓存文件
+- (void)clearCaches;
+
 @end

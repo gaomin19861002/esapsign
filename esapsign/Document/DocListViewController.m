@@ -15,6 +15,7 @@
 #import "UIImage+Additions.h"
 #import "UIColor+Additions.h"
 #import "FileDetailCell.h"
+#import "FilePaddingCell.h"
 #import "NSDate+Additions.h"
 #import "Client_file.h"
 #import "NSArray+Additions.h"
@@ -41,10 +42,8 @@
 @interface DocListViewController ()<FileDetailCellDelegate, RequestManagerDelegate>
 
 @property (nonatomic, retain) UIPopoverController* addSignerPopoverController;
-
-@property(nonatomic, retain) NSMutableArray *foldStatus;
-@property(nonatomic, assign) NSInteger lastRow;
-@property(nonatomic, assign) NSInteger selectedRow;
+@property (nonatomic, assign) NSInteger expandRow;
+@property (nonatomic, assign) NSInteger selectedRow;
 
 @property(nonatomic, retain) ASIFormDataRequest *signflowRequest;
 @property(nonatomic, retain) Client_sign *currentAppendSign;
@@ -92,8 +91,8 @@
 
 - (void)setParentTarget:(Client_target *)parentTarget
 {
-    if (![_parentTarget isEqual:parentTarget])
-    {
+    //if (![_parentTarget isEqual:parentTarget])
+    //{
         _parentTarget = parentTarget;
 
         // 修改当前视图的标题会影响到其归属NavigationController，注意保存现场
@@ -111,23 +110,12 @@
 #warning 暂时屏蔽新建文件按钮
             self.navigationItem.rightBarButtonItems = @[/*_addFileBarItem,*/_changeFolderNameItem];
         }
-        self.lastRow = 0;
+        self.expandRow = -1;
+        self.selectedRow = -1;
         [self.tableView reloadData];
-    }
-}
-
-- (NSMutableArray *)foldStatus
-{
-    if (!_foldStatus)
-    {
-        if ([self.parentTarget.subFiles count])
-        {
-            _foldStatus = [[NSMutableArray alloc] init];
-            for (NSUInteger i = 0; i < [self.parentTarget.subFiles count]; i++)
-                [_foldStatus addObject:@(NO)];
-        }
-    }
-    return _foldStatus;
+        if ([self.tableView numberOfRowsInSection:0] > 0)
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    //}
 }
 
 // 设置签名状态标签
@@ -315,61 +303,88 @@
 
 #pragma mark - UITableView Delegate
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.parentTarget.subFiles count];
+    return section == 0 ? [self.parentTarget.subFiles count] : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FileDetailCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"FileDetailCell" forIndexPath:indexPath];
-    Client_target *fileTarget = (Client_target *)[self.parentTarget.subFiles objectAtIndex:indexPath.row];
-    cell.backgroundColor = [UIColor clearColor];
-    cell.targetInfo = fileTarget;
-    cell.delegate = self;
-    cell.titleLabel.font = [UIFont fontWithName:@"Libian SC" size:20.0];
-    cell.titleLabel.text = fileTarget.display_name;
-    cell.signLabel.text = nil;
-    cell.createLabel.text = [fileTarget.create_time fullDateString];
-    cell.updateLabel.text = [fileTarget.update_time fullDateString];
-    cell.status = [fileTarget.clientFile fileDownloadStatus];
-#warning 现在不允许编辑签名流程
-    cell.signManageAvaliable = NO;
-    
-    Client_file *file = fileTarget.clientFile;
-    if ([file.file_type intValue] == FileExtendTypePdf)
-        cell.leftImageView.image = [UIImage imageNamed:@"FileTypePDF"];
-    else if ([file.file_type intValue] == FileExtendTypeTxt)
-        cell.leftImageView.image = [UIImage imageNamed:@"FileTypeText"];
-    else
-        cell.leftImageView.image = [UIImage imageNamed:@"FileTypeImage"];
-    
-    bool isPDFfile = ([file.file_type intValue] == FileExtendTypePdf);
-
-    [cell.rightImageButton setBackgroundImage:[UIImage imageNamed:@"FlowManage"] forState:UIControlStateNormal];
-    [cell.rightImageButton setHidden:!isPDFfile];
-    if (isPDFfile)
+    if (indexPath.section == 0)
     {
-        if ([[self.foldStatus objectOrNilAtIndex:indexPath.row] boolValue])
+        FileDetailCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"FileDetailCell" forIndexPath:indexPath];
+        Client_target *fileTarget = (Client_target *)[self.parentTarget.subFiles objectAtIndex:indexPath.row];
+        NSLog(@"File ID is : %@", fileTarget.file_id);
+        cell.backgroundColor = [UIColor clearColor];
+        cell.targetInfo = fileTarget;
+        cell.delegate = self;
+        cell.titleLabel.font = [UIFont fontWithName:@"Libian SC" size:20.0];
+        cell.titleLabel.text = fileTarget.display_name;
+        cell.signLabel.text = nil;
+        cell.createLabel.text = [fileTarget.create_time fullDateString];
+        cell.updateLabel.text = [fileTarget.update_time fullDateString];
+        cell.status = [fileTarget.clientFile fileDownloadStatus];
+#warning 现在不允许编辑签名流程
+        cell.signManageAvaliable = NO;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        
+        Client_file *file = fileTarget.clientFile;
+        if ([file.file_type intValue] == FileExtendTypePdf)
+            cell.leftImageView.image = [UIImage imageNamed:@"FileTypePDF"];
+        else if ([file.file_type intValue] == FileExtendTypeTxt)
+            cell.leftImageView.image = [UIImage imageNamed:@"FileTypeText"];
+        else
+            cell.leftImageView.image = [UIImage imageNamed:@"FileTypeImage"];
+        
+        bool isPDFfile = ([file.file_type intValue] == FileExtendTypePdf);
+        [cell.rightImageButton setBackgroundImage:[UIImage imageNamed:@"FlowManage"] forState:UIControlStateNormal];
+        [cell.rightImageButton setHidden:!isPDFfile];
+        if (isPDFfile && (self.expandRow == indexPath.row))
             [cell updateSignFlow:file.currentSignflow];
+    
+        // 根据sign flow来设置当前文件的签署流程状态标签和个人签署状态标签
+        [self setSignStatusLabel:cell bySignFlow:file.currentSignflow];
+        cell.isOwner = [[Util currentLoginUser].accountId isEqualToString:file.owner_account_id];
+    
+        return cell;
     }
-    
-    // 根据sign flow来设置当前文件的签署流程状态标签和个人签署状态标签
-    [self setSignStatusLabel:cell bySignFlow:file.currentSignflow];
-    cell.isOwner = [[Util currentLoginUser].accountId isEqualToString:file.owner_account_id];
-    
-    return cell;
+    else // indexPath.section == 1
+    {
+        FilePaddingCell* cell = (FilePaddingCell*)[self.tableView dequeueReusableCellWithIdentifier:@"PaddingCell" forIndexPath:indexPath];
+        cell.backgroundColor = [UIColor clearColor];
+        [cell.paddingTitle setHidden:([self.parentTarget.subFiles count] > 0)];
+        // [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        return cell;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[self.foldStatus objectOrNilAtIndex:indexPath.row] boolValue])
-        return 175.0f;
-    return 75.0f;
+    if (indexPath.section == 0)
+        return self.expandRow == indexPath.row ? 175.0f : 75.0f;
+    else
+        return 75.0f;
 }
 
-- (void)tableView:(UITableView *)tView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.selectedRow = indexPath.row;
+    if (self.selectedRow != self.expandRow)
+        self.expandRow = -1;
+    [tableView reloadData];
+
+    FileDetailCell* cell = (FileDetailCell*)[tableView cellForRowAtIndexPath:indexPath];
+    if (cell == [self.tableView.visibleCells lastObject])
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionBottom];
+    else if (cell == [self.tableView.visibleCells firstObject])
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+    else
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
 #pragma mark - FileDetailCellDelegate Methods
@@ -379,25 +394,20 @@
  */
 - (void)statusButtonClicked:(FileDetailCell *)cell
 {
-    NSIndexPath *index = [self.tableView indexPathForCell:cell];
-    if(index.row == self.lastRow)
-    {
-        BOOL isFold = [self.foldStatus[self.lastRow] boolValue];
-        self.foldStatus[self.lastRow] = @(!isFold);
-    }
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    if (self.expandRow != indexPath.row)
+        self.expandRow = indexPath.row;
     else
-    {
-        self.foldStatus[self.lastRow] = @(NO);
-        self.foldStatus[index.row] = @(YES);
-    }
-    
-    self.lastRow = index.row;
+        self.expandRow = -1;
+    self.selectedRow = indexPath.row;
     [self.tableView reloadData];
     
-    NSInteger totalCellCount = [self.tableView numberOfRowsInSection:index.section];
-    if (index.row >= totalCellCount - 2)
-        // 最后两格可能会伸展后超出显示范围，滚动调整一下
-        [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    if (cell == [self.tableView.visibleCells lastObject])
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionBottom];
+    else if (cell == [self.tableView.visibleCells firstObject])
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+    else
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
 /**
@@ -458,7 +468,7 @@
                  userName:(NSString *)userName
                   address:(NSString *)address
 {
-    Client_target *fileTarget = (Client_target *)[self.parentTarget.subFiles objectAtIndex:self.lastRow];
+    Client_target *fileTarget = (Client_target *)[self.parentTarget.subFiles objectAtIndex:self.expandRow];
     self.currentAppendSign = [fileTarget.clientFile.currentSignflow addUserToSignFlow:userName address:address];
     [self.tableView reloadData];
     [_addSignerPopoverController dismissPopoverAnimated:YES];

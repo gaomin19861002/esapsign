@@ -269,21 +269,6 @@ DefaultInstanceForClass(DataManager);
 
 #pragma mark - Clear Cache
 
-/**
- *  @abstract 清空缓存文件
- */
-- (void) clearnCaches
-{
-#warning 目前的清空缓存都是在文件有相应的逻辑对象引用时方可清理，一旦对应的逻辑对象删除了，文件就成为孤立文件，如何清理？
-    for (Client_file *file in self.allFiles)
-        [[NSFileManager defaultManager] removeItemAtPath:file.phsical_filename error:nil];
-
-    //for (Client_signpic *pic in self.allSignPics)
-    //    [[NSFileManager defaultManager] removeItemAtPath:pic.signpic_path error:nil];
-
-    //通知下载管理器重置列表
-    [[DownloadManager defaultInstance] resetDownloadFileList];
-}
 
 #pragma mark - Sign Flow Management
 
@@ -380,7 +365,6 @@ DefaultInstanceForClass(DataManager);
 // 全部的文件对象（文件体）
 - (NSMutableArray *)allFiles
 {
-    NSMutableArray* files = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type==%d", TargetTypeFile];
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"display_name" ascending:NO];
     NSArray *fetchObjects = [self arrayFromCoreData:EntityClientTarget
@@ -388,7 +372,7 @@ DefaultInstanceForClass(DataManager);
                                               limit:NSUIntegerMax
                                              offset:0
                                             orderBy:sort];
-    files = [[NSMutableArray alloc] init];
+    NSMutableArray* files = [[NSMutableArray alloc] init];
     
     for (Client_target *target in fetchObjects)
     {
@@ -449,6 +433,18 @@ DefaultInstanceForClass(DataManager);
     else
         flows = [[NSMutableArray alloc] init];
     return flows;
+}
+
+- (NSMutableArray *)contactCache
+{
+    if (_contactCache == nil)
+        _contactCache = [NSMutableArray arrayWithArray:self.allContacts];
+    return _contactCache;
+}
+
+- (void)syncContactCache
+{
+    _contactCache = nil;
 }
 
 // Method for create path

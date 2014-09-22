@@ -291,6 +291,8 @@ static int signViewTag = SignViewTagBase;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.documentDisplayView.scrollView setContentOffset:CGPointMake(0.0f, contentOffsetY) animated:NO];
+        for (UIView *subView in [self.documentDisplayView.scrollView subviews])
+            [subView setBackgroundColor:[UIColor clearColor]];
     });
 }
 

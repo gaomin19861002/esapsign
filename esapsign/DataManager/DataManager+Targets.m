@@ -168,6 +168,22 @@
     [[DownloadManager defaultInstance] resetDownloadFileList];
 }
 
+// 清空缓存文件
+- (void) clearCaches
+{
+    for (Client_file *file in self.allFiles)
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:file.phsical_filename error:nil];
+        file.local_version = @(0);
+    }
+    
+    //for (Client_signpic *pic in self.allSignPics)
+    //    [[NSFileManager defaultManager] removeItemAtPath:pic.signpic_path error:nil];
+    
+    //通知下载管理器重置列表
+    [[DownloadManager defaultInstance] resetDownloadFileList];
+}
+
 #pragma mark - Search
 
 - (Client_target*)getTargetByID:(NSString*)target_id
@@ -304,7 +320,6 @@
         file.local_version = file.server_version;
     }
 }
-
 
 #pragma mark - Private function
 

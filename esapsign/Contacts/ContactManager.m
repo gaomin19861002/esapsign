@@ -219,8 +219,11 @@ DefaultInstanceForClass(ContactManager);
             
             // 生成action
             NSDictionary *action = [[ActionManager defaultInstance] contactNewAction:user];
-            [[ActionManager defaultInstance] addToQueue:action sendAtOnce:YES];//添加到队列中
+            [[ActionManager defaultInstance] addToQueue:action sendAtOnce:NO];//添加到队列中但不立即提交
         }
+        
+        // 设置一个合理的时机发送可能迟滞的Action
+        [[ActionManager defaultInstance] sendQueueAtOnce];
         
         CFRelease(results);
         CFRelease(addressBook);
@@ -231,6 +234,7 @@ DefaultInstanceForClass(ContactManager);
         [Util setValue:@"1" forKey:user.name];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [[DataManager defaultInstance] syncContactCache];
             [[NSNotificationCenter defaultCenter] postNotificationName:ContactImportSucceedNotification object:nil];
         });
     });
