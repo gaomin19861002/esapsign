@@ -71,7 +71,7 @@
     {
         Client_contact_item* item = [self syncContactItem:itemDic];
         item.contact_id = contact.contact_id;
-        item.clientContact = contact;
+        item.ownerContact = contact;
     }
 
     [self syncContactCache];
@@ -112,7 +112,7 @@
 {
     for (Client_contact *contact in self.contactCache)
     {
-        for (Client_contact_item *item in contact.clientItems)
+        for (Client_contact_item *item in contact.items)
         {
             if ([item.contentValue isEqualToString:address])
                 return contact;
@@ -204,7 +204,7 @@
     item.item_id = [Util generalUUID];
     item.contentType = @(contentType);
     item.contentValue = contentVlaue;
-    item.clientContact = contact;
+    item.ownerContact = contact;
     item.major = @(major);
     item.title = title;
     [self.objectContext insertObject:item];
@@ -261,7 +261,7 @@
 // 清除指定Client_user的所有联系方式
 - (void) clearAllItemsInContact:(Client_contact *)contact
 {
-    for (Client_contact_item *content in contact.clientItems)
+    for (Client_contact_item *content in contact.items)
     {
         //[self.objectContext refreshObject:content mergeChanges:YES];
         [self.objectContext deleteObject:content];

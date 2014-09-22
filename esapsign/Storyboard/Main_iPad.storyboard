@@ -290,7 +290,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y81-kB-Xzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5377.5" y="-829"/>
+            <point key="canvasLocation" x="5343.5" y="-829"/>
         </scene>
         <!--R4 Impl-SettingTabs-->
         <scene sceneID="A41-P7-uQm">
@@ -1765,7 +1765,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wWF-Us-Oca" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6258.5" y="-830"/>
+            <point key="canvasLocation" x="6255.5" y="-829"/>
         </scene>
         <!--R4 Settings-Bluetooth-->
         <scene sceneID="X04-Zu-625">
@@ -1880,7 +1880,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p80-td-dbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7146.5" y="-829"/>
+            <point key="canvasLocation" x="7150.5" y="-829"/>
         </scene>
         <!--R4 Settings-Logout-->
         <scene sceneID="o3v-vs-btP">
@@ -1966,7 +1966,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7wp-5A-Qf7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7146.5" y="149"/>
+            <point key="canvasLocation" x="7150.5" y="149"/>
         </scene>
         <!--R4 Settings - Law-->
         <scene sceneID="9nl-yq-anP">
@@ -2002,7 +2002,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lD1-HY-CjI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5377.5" y="149"/>
+            <point key="canvasLocation" x="5343.5" y="149"/>
         </scene>
         <!--R4 Settings-About-->
         <scene sceneID="jcJ-fB-37z">
@@ -2088,7 +2088,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A5V-CX-0RD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6258.5" y="149"/>
+            <point key="canvasLocation" x="6255.5" y="149"/>
         </scene>
     </scenes>
     <resources>

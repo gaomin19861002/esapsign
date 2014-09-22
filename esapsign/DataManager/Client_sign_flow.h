@@ -18,16 +18,8 @@
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * sign_flow_id;
 
-@property (nonatomic, retain) NSSet *clientSigns;
-
-@end
-
-@interface Client_sign_flow (CoreDataGeneratedAccessors)
-
-- (void)addClientSignsObject:(Client_sign *)value;
-- (void)removeClientSignsObject:(Client_sign *)value;
-- (void)addClientSigns:(NSSet *)values;
-- (void)removeClientSigns:(NSSet *)values;
+@property (nonatomic, retain) Client_file* flowFile;
+@property (nonatomic, retain) NSSet *signs;
 
 /*!
  返回文件的所有签名人，按照签名流程的顺序返回
@@ -43,5 +35,10 @@
  添加一个用户到签名流程
  */
 - (Client_sign *)addUserToSignFlow:(NSString *)userName address:(NSString *)address;
+
+/*!
+ 删除一个签名流程
+ */
+- (void)removeUserFromSignFlow:(Client_sign*)sign;
 
 @end

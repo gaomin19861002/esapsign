@@ -255,7 +255,7 @@
     self.familyNameTextField.text = self.currentContact.family_name;
     
     [self.itemsInEditing removeAllObjects];
-    for (Client_contact_item *item in self.currentContact.clientItems)
+    for (Client_contact_item *item in self.currentContact.items)
     {
         NSDictionary *newItem = [manager createContactItemValueByItem:item];
         [self.itemsInEditing addObject:newItem];
@@ -478,7 +478,7 @@
     Client_target *fileTarget = [self.currentSignDocuments objectAtIndex:indexPath.row];
     DocSignedWithSomeOneCell* cell = [tableView dequeueReusableCellWithIdentifier:@"DocSignedWithSomeOneCell" forIndexPath:indexPath];
     cell.docNameLabel.text = fileTarget.display_name;
-    Client_file *file = fileTarget.clientFile;
+    Client_file *file = fileTarget.refFile;
     if ([file.file_type intValue] == FileExtendTypePdf)
         cell.docFaceImageView.image = [UIImage imageNamed:@"FileTypePDF"];
     else if ([file.file_type intValue] == FileExtendTypeTxt)
@@ -685,7 +685,7 @@
     bool contactIsCurrentLoginUser = NO;
     // 签约用地址
     self.selectAddress.text = @"未选择";
-    for (Client_contact_item *content in _currentContact.clientItems)
+    for (Client_contact_item *content in _currentContact.items)
     {
         if (content.account_id != nil && [user.accountId isEqualToString:content.account_id])
             contactIsCurrentLoginUser = YES;

@@ -30,10 +30,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IZI-0L-Lch">
-                            <rect key="frame" x="215" y="2" width="80" height="21"/>
+                            <rect key="frame" x="223" y="2" width="93" height="21"/>
                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="80" id="hWH-zT-bcE"/>
+                                <constraint firstAttribute="width" constant="93" id="hWH-zT-bcE"/>
                                 <constraint firstAttribute="height" constant="21" id="nw9-xM-dwt"/>
                             </constraints>
                         </view>
@@ -52,7 +52,7 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="Jus-IB-Cvl" secondAttribute="trailing" constant="35" id="3Va-rc-U0w"/>
                         <constraint firstItem="kbV-Gx-Kzn" firstAttribute="top" secondItem="sIP-ri-XS2" secondAttribute="top" constant="2" id="HhV-jj-RO9"/>
-                        <constraint firstAttribute="trailing" secondItem="IZI-0L-Lch" secondAttribute="trailing" constant="25" id="Pku-tA-YfC"/>
+                        <constraint firstAttribute="trailing" secondItem="IZI-0L-Lch" secondAttribute="trailing" constant="4" id="Pku-tA-YfC"/>
                         <constraint firstAttribute="height" constant="25" id="X3z-DM-9UY"/>
                         <constraint firstItem="IZI-0L-Lch" firstAttribute="top" secondItem="sIP-ri-XS2" secondAttribute="top" constant="2" id="hHS-0F-bui"/>
                         <constraint firstItem="Jus-IB-Cvl" firstAttribute="top" secondItem="sIP-ri-XS2" secondAttribute="top" constant="2" id="qeq-fR-q1c"/>

@@ -43,13 +43,12 @@
 @dynamic version;
 @dynamic version_guid;
 
-@dynamic currentSignflow;
-@dynamic clientTargets;
+@dynamic fileFlow;
+@dynamic targets;
 
-- (BOOL)removeClientSign:(Client_sign *)sign
+- (void)removeClientSign:(Client_sign *)sign
 {
-    return [[DataManager defaultInstance] removeClientSign:sign
-                                            fromClientFile:self];
+    [[DataManager defaultInstance] removeClientSign:sign fromFlow:self.fileFlow];
 }
 
 - (FileDownloadStatus)fileDownloadStatus

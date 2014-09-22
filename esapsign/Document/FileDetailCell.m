@@ -129,7 +129,7 @@
     CGFloat alpha = _status == FileStatusFinished ? 1.0f : 0.3f;
     
     self.standardRect.alpha = alpha;
-    self.expandRect.alpha = alpha;
+    // self.expandRect.alpha = alpha;
     
     if (_status != FileStatusDownloading)
         self.progressView.progress = .0f;
@@ -278,7 +278,7 @@
 - (void)handleDownloadProgressNotification:(NSNotification *)notification
 {
     DownloadInfo *info = (DownloadInfo *)[notification.userInfo objectForKey:DownloadInfoKey];
-    if ([info.fileID isEqualToString:self.targetInfo.clientFile.file_id])
+    if ([info.fileID isEqualToString:self.targetInfo.refFile.file_id])
     {
         if (self.status != FileStatusDownloading)
             [self.progressView setProgress:0 animated:NO];
@@ -293,7 +293,7 @@
 - (void)handleDownloadStatusChangedNotification:(NSNotification *)notification
 {
     DownloadInfo *info = (DownloadInfo *)[notification.userInfo objectForKey:DownloadInfoKey];
-    if ([info.fileID isEqualToString:self.targetInfo.clientFile.file_id]) {
+    if ([info.fileID isEqualToString:self.targetInfo.refFile.file_id]) {
         switch (info.status)
         {
             case DownloadStatusFinished:

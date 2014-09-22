@@ -136,7 +136,6 @@ DefaultInstanceForClass(RequestManager);
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *resString = [request responseString];
-        DebugLog(@"res= %@", resString);
         
         NSDictionary *resDict = [resString jsonValue];
         NSDictionary *loginDict = [resDict objectForKey:@"login"];

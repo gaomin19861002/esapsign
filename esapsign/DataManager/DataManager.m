@@ -14,35 +14,13 @@
 
 @interface DataManager()
 
-/*!
- 如果目录不存在，则创建目录
- */
+// 如果目录不存在，则创建目录
 - (void)createPathIfNoExist:(NSString *)path;
 
-/*!
- 存储当前的数据
- */
-- (void)saveContext;
-
-/*!
- 从数据库中取得数据
- */
-- (NSArray *)arrayFromCoreData:(NSString *)entityName
-                     predicate:(NSPredicate *)predicate
-                         limit:(NSUInteger)limit
-                        offset:(NSUInteger)offset
-                       orderBy:(NSSortDescriptor *)sortDescriptor;
-
-/*!
- 添加默认数据
- */
+// 添加默认数据
 - (void)addDefalutData;
 
-
-/*!
- 处理程序将进入后台的通知
- @param notification 通知
- */
+// 处理程序将进入后台的通知
 - (void)applicationWillEnterbackground:(NSNotification *)notification;
 
 - (void)syncDataToFile;
@@ -82,12 +60,12 @@ DefaultInstanceForClass(DataManager);
         if (targetItem.type.intValue != TargetTypeFile)
             continue;
         
-        Client_file *file = targetItem.clientFile;
+        Client_file *file = targetItem.refFile;
         if ([collectedFiles containsObject:file])
             continue;
         
         // 获取当前文件下签名流
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"clientFile.file_id==%@", file.file_id];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"flowFile.file_id==%@", file.file_id];
         NSArray *arrSignFlows = [self arrayFromCoreData:EntityClientSignFlow
                                               predicate:predicate
                                                   limit:NSUIntegerMax
@@ -99,7 +77,7 @@ DefaultInstanceForClass(DataManager);
             {
                 __block BOOL bFind = NO;
                 // 枚举当前签名流下所有签名
-                for (Client_sign *sign in signFlowItem.clientSigns)
+                for (Client_sign *sign in signFlowItem.signs)
                 {
                     // 判定是否存在未签署的签名，存在则认为此targetItem不是想要的，则跳出此次检查
                     //if (sign.sign_date == nil || sign.refuse_date == nil)
@@ -108,7 +86,7 @@ DefaultInstanceForClass(DataManager);
                     //    break;
                     //}
                     // 再枚举签名流中是否有对应用户
-                    [user.clientItems enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+                    [user.items enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
                         Client_contact_item *item = (Client_contact_item *)obj;
                         if ([item.contentValue isEqualToString:sign.sign_address]) {
                             bFind = YES;
@@ -132,10 +110,8 @@ DefaultInstanceForClass(DataManager);
 
 #pragma mark - Client_account Methods
 
-/**
- *  @abstract 根据用户名（登陆账号）匹配用户，如果没有则创建一个新的用户信息
- */
-- (Client_account *) queryAccountByAccountId:(NSString *) accountId;
+// 根据用户名（登陆账号）匹配用户
+- (Client_account *) fetchAccount:(NSString *) accountId;
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"account_id==%@", accountId];
     NSArray *arrAccounts = [self arrayFromCoreData:EntityClientAccount
@@ -143,23 +119,25 @@ DefaultInstanceForClass(DataManager);
                                              limit:NSUIntegerMax
                                             offset:0
                                            orderBy:nil];
-    if ([arrAccounts count]) {
+    if ([arrAccounts count])
         return [arrAccounts firstObject];
-    }
-    
     return nil;
 }
 
-/**
- *  @abstract 创建一个新的用户信息
- *  @param user User
- */
-- (Client_account *) createAccountWithUser:(User *) user
+// 创建一个新帐户
+- (Client_account *) syncAccount:(User *)user
 {
-    Client_account *account = (Client_account *) [NSEntityDescription insertNewObjectForEntityForName:EntityClientAccount
-                                                                               inManagedObjectContext:self.objectContext];
+    Client_account *account = [self fetchAccount:user.accountId];
+    if (account == nil)
+    {
+        account = (Client_account *)[NSEntityDescription insertNewObjectForEntityForName:EntityClientAccount
+                                                                  inManagedObjectContext:self.objectContext];
+        account.account_id = user.accountId;
+        [self.objectContext insertObject:account];
+    }
+
+#warning 目前暂时不使用Account数据库对象存储user，但时后面需要改正这一做法
     account.name = user.name;
-    account.account_id = user.accountId;
     account.major_email = @"";
     account.password = @"";
     account.cert = nil;
@@ -171,14 +149,10 @@ DefaultInstanceForClass(DataManager);
 
 #pragma mark - MiniDocList
 
-/**
- *  判定是否有对应签名流程(By Yi Minwen)
- *
- *  @param file 当前文件
- */
+// 判定是否有对应签名流程(By Yi Minwen)
 - (BOOL)hasSignFlowWithClientFile:(Client_file *)file
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"clientFile.file_id==%@", file.file_id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"flowFile.file_id==%@", file.file_id];
     NSArray *arrSignFlows = [self arrayFromCoreData:EntityClientSignFlow
                                           predicate:predicate
                                               limit:NSUIntegerMax
@@ -193,11 +167,7 @@ DefaultInstanceForClass(DataManager);
 
 #pragma mark - DocDetail
 
-/*!
- 提交签名并检查是否整个签名流程已经完成
- @param signFlow 当前signflow
- @param sign 签名
- */
+// 提交签名并检查是否整个签名流程已经完成
 - (bool)finishSignFlow:(Client_sign_flow *)signFlow withSign:(Client_sign*)sign
 {
     // 过滤非当前流程的sign
@@ -210,7 +180,7 @@ DefaultInstanceForClass(DataManager);
 
     bool finished = NO;
     NSNumber *minSequence = nil;
-    for (Client_sign *member in signFlow.clientSigns)
+    for (Client_sign *member in signFlow.signs)
     {
         // 如果还有同等或更大序列号的签名包没有签署
         if ([member.sequence intValue] >= [sign.sequence intValue] && member.sign_date == nil)
@@ -229,7 +199,7 @@ DefaultInstanceForClass(DataManager);
 - (BOOL)isClientFileFinishedSign:(Client_file *)file
 {
     // 获取当前文件下签名流
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"clientFile.file_id==%@", file.file_id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"flowFile.file_id==%@", file.file_id];
     NSArray *arrSignFlows = [self arrayFromCoreData:EntityClientSignFlow
                                           predicate:predicate
                                               limit:NSUIntegerMax
@@ -242,7 +212,7 @@ DefaultInstanceForClass(DataManager);
         for (Client_sign_flow *signFlowItem in arrSignFlows)
         {
             // 枚举当前签名流下所有签名
-            for (Client_sign *sign in signFlowItem.clientSigns)
+            for (Client_sign *sign in signFlowItem.signs)
             {
                 // 判定是否存在未签署的签名，存在则认为此targetItem不是想要的，则跳出此次检查
                 if (sign.sign_date == nil && sign.refuse_date == nil)
@@ -267,14 +237,9 @@ DefaultInstanceForClass(DataManager);
     return [target.parent_id isEqualToString:inboxId];
 }
 
-#pragma mark - Clear Cache
-
-
 #pragma mark - Sign Flow Management
 
-/*!
- 添加一个用户到指定的签名流程中
- */
+// 添加一个用户到指定的签名流程中
 - (Client_sign *)addFileSignFlow:(Client_sign_flow *)flow
                      displayName:(NSString *)displayName
                          address:(NSString *)address
@@ -283,7 +248,6 @@ DefaultInstanceForClass(DataManager);
     {
         flow = [NSEntityDescription insertNewObjectForEntityForName:EntityClientSignFlow inManagedObjectContext:self.objectContext];
         flow.sign_flow_id = [Util generalUUID];
-        // flow.clientFile = file;
         flow.status = @(0);
         [self.objectContext insertObject:flow];
     }
@@ -294,26 +258,22 @@ DefaultInstanceForClass(DataManager);
     sign.sign_displayname = displayName;
     sign.sign_address = address;
     
-    if (![flow.clientSigns count]) {
+    if (![flow.signs count]) {
         flow.current_sign_id = sign.sign_id;
         flow.current_sequence = @(1);
         flow.current_sign_status = @(0);
     }
-    sign.sequence = @([flow.clientSigns count] + 1);
-    sign.sign_flow = flow;
+    sign.sequence = @([flow.signs count] + 1);
+    sign.ownerFlow = flow;
     [self.objectContext insertObject:sign];
     
     return sign;
 }
 
-- (BOOL)removeClientSign:(Client_sign *)sign
-          fromClientFile:(Client_file *)file
+- (void)removeClientSign:(Client_sign *)sign
+                fromFlow:(Client_sign_flow *)flow
 {
-    NSMutableSet *mutSet = [NSMutableSet setWithSet:file.currentSignflow.clientSigns];
-    [mutSet removeObject:sign];
     [self.objectContext deleteObject:sign];
-    file.currentSignflow.clientSigns = mutSet;
-    return YES;
 }
 
 
@@ -376,8 +336,8 @@ DefaultInstanceForClass(DataManager);
     
     for (Client_target *target in fetchObjects)
     {
-        if (![files containsObject:target.clientFile])
-                [files addObject:target.clientFile];
+        if (![files containsObject:target.refFile])
+                [files addObject:target.refFile];
     }
     return files;
 }
@@ -433,6 +393,22 @@ DefaultInstanceForClass(DataManager);
     else
         flows = [[NSMutableArray alloc] init];
     return flows;
+}
+
+// 全部的签名数据包
+- (NSMutableArray *)allSigns
+{
+    NSMutableArray* signs = nil;
+    NSArray *fetchObjects = [self arrayFromCoreData:EntityClientSign
+                                          predicate:nil
+                                              limit:NSUIntegerMax
+                                             offset:0
+                                            orderBy:nil];
+    if (fetchObjects)
+        signs = [[NSMutableArray alloc] initWithArray:fetchObjects];
+    else
+        signs = [[NSMutableArray alloc] init];
+    return signs;
 }
 
 - (NSMutableArray *)contactCache

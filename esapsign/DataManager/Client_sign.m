@@ -22,7 +22,7 @@
 @dynamic sign_displayname;
 @dynamic sign_address;
 
-@dynamic sign_flow;
+@dynamic ownerFlow;
 
 /*!
  返回sign对应的User对象

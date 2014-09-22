@@ -23,7 +23,7 @@
 @property (nonatomic, retain) NSString * sign_displayname;
 @property (nonatomic, retain) NSString * sign_address;
 
-@property (nonatomic, retain) Client_sign_flow *sign_flow;
+@property (nonatomic, retain) Client_sign_flow *ownerFlow;
 
 /*!
  返回sign对应的User对象

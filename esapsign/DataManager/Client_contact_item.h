@@ -21,7 +21,7 @@
 @property (nonatomic, retain) NSString * contact_id;
 @property (nonatomic, retain) NSString * account_id;
 
-@property (nonatomic, retain) Client_contact *clientContact;
+@property (nonatomic, retain) Client_contact *ownerContact;
 
 /*!
  条目类型名称

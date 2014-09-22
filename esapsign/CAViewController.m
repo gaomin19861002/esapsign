@@ -123,7 +123,7 @@
     NSLog(@"%s", __FUNCTION__);
     
     User *user = [Util currentLoginUser];
-    Client_account *account = [[DataManager defaultInstance] queryAccountByAccountId:[NSString stringWithFormat:@"%@", user.accountId]];
+    Client_account *account = [[DataManager defaultInstance] fetchAccount:[NSString stringWithFormat:@"%@", user.accountId]];
     Assert(account, @"account shouldn't be null");
     int limitCount = [account.sign_count intValue];
     int signCount = (int)[DataManager defaultInstance].allSignPics.count;

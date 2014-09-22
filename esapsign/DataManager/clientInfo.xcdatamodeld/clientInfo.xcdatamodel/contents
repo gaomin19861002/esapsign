@@ -16,7 +16,7 @@
         <attribute name="last_timestamp" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="last_used" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="person_name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="clientItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Client_contact_item" inverseName="clientContact" inverseEntity="Client_contact_item" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Client_contact_item" inverseName="ownerContact" inverseEntity="Client_contact_item" syncable="YES"/>
     </entity>
     <entity name="Client_contact_item" representedClassName="Client_contact_item" syncable="YES">
         <attribute name="account_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -26,7 +26,7 @@
         <attribute name="item_id" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="major" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="clientContact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_contact" inverseName="clientItems" inverseEntity="Client_contact" syncable="YES"/>
+        <relationship name="ownerContact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_contact" inverseName="items" inverseEntity="Client_contact" syncable="YES"/>
     </entity>
     <entity name="Client_file" representedClassName="Client_file" syncable="YES">
         <attribute name="download_size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -47,8 +47,8 @@
         <attribute name="upload_size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="version" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="version_guid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="clientTargets" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Client_target" inverseName="clientFile" inverseEntity="Client_target" syncable="YES"/>
-        <relationship name="currentSignflow" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Client_sign_flow" inverseName="clientFile" inverseEntity="Client_sign_flow" syncable="YES"/>
+        <relationship name="fileFlow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_sign_flow" inverseName="flowFile" inverseEntity="Client_sign_flow" syncable="YES"/>
+        <relationship name="targets" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Client_target" inverseName="refFile" inverseEntity="Client_target" syncable="YES"/>
     </entity>
     <entity name="Client_sign" representedClassName="Client_sign" syncable="YES">
         <attribute name="refuse_date" optional="YES" attributeType="Date" syncable="YES"/>
@@ -59,7 +59,7 @@
         <attribute name="sign_displayname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sign_flow_id" attributeType="String" syncable="YES"/>
         <attribute name="sign_id" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="sign_flow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_sign_flow" inverseName="clientSigns" inverseEntity="Client_sign_flow" syncable="YES"/>
+        <relationship name="ownerFlow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_sign_flow" inverseName="signs" inverseEntity="Client_sign_flow" syncable="YES"/>
     </entity>
     <entity name="Client_sign_flow" representedClassName="Client_sign_flow" syncable="YES">
         <attribute name="current_sequence" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -67,8 +67,8 @@
         <attribute name="current_sign_status" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="sign_flow_id" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="clientFile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_file" inverseName="currentSignflow" inverseEntity="Client_file" syncable="YES"/>
-        <relationship name="clientSigns" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Client_sign" inverseName="sign_flow" inverseEntity="Client_sign" syncable="YES"/>
+        <relationship name="flowFile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_file" inverseName="fileFlow" inverseEntity="Client_file" syncable="YES"/>
+        <relationship name="signs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Client_sign" inverseName="ownerFlow" inverseEntity="Client_sign" syncable="YES"/>
     </entity>
     <entity name="Client_signpic" representedClassName="Client_signpic" syncable="YES">
         <attribute name="signpic_id" attributeType="String" indexed="YES" syncable="YES"/>
@@ -87,16 +87,16 @@
         <attribute name="target_id" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="update_time" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="clientFile" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Client_file" inverseName="clientTargets" inverseEntity="Client_file" syncable="YES"/>
+        <relationship name="refFile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client_file" inverseName="targets" inverseEntity="Client_file" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Client_account" positionX="97" positionY="153" width="128" height="135"/>
-        <element name="Client_contact" positionX="-531" positionY="144" width="128" height="163"/>
-        <element name="Client_contact_item" positionX="-315" positionY="144" width="128" height="165"/>
-        <element name="Client_file" positionX="-317" positionY="-244" width="128" height="343"/>
-        <element name="Client_sign" positionX="97" positionY="-63" width="128" height="180"/>
-        <element name="Client_sign_flow" positionX="-108" positionY="-36" width="128" height="148"/>
-        <element name="Client_signpic" positionX="-108" positionY="180" width="128" height="105"/>
-        <element name="Client_target" positionX="-531" positionY="-126" width="128" height="208"/>
+        <element name="Client_account" positionX="151" positionY="252" width="128" height="135"/>
+        <element name="Client_contact" positionX="-497" positionY="249" width="128" height="165"/>
+        <element name="Client_contact_item" positionX="-279" positionY="249" width="128" height="165"/>
+        <element name="Client_file" positionX="-279" positionY="-210" width="128" height="345"/>
+        <element name="Client_sign" positionX="151" positionY="-72" width="128" height="180"/>
+        <element name="Client_sign_flow" positionX="-63" positionY="-150" width="128" height="150"/>
+        <element name="Client_signpic" positionX="-65" positionY="252" width="128" height="105"/>
+        <element name="Client_target" positionX="-497" positionY="-75" width="128" height="210"/>
     </elements>
 </model>

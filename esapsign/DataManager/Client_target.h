@@ -27,7 +27,7 @@
 
 @property (nonatomic, retain) NSNumber * record_status;
 
-@property (nonatomic, retain) Client_file *clientFile;
+@property (nonatomic, retain) Client_file *refFile;
 
 /*!
  定义数据管理对象

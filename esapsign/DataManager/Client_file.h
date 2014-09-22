@@ -34,10 +34,10 @@
 @property (nonatomic, retain) NSNumber * version;
 @property (nonatomic, retain) NSNumber * version_guid;
 
-@property (nonatomic, retain) Client_sign_flow *currentSignflow;
-@property (nonatomic, retain) NSSet *clientTargets;
+@property (nonatomic, retain) Client_sign_flow *fileFlow;
+@property (nonatomic, retain) NSSet *targets;
 
-- (BOOL)removeClientSign:(Client_sign *)sign;
+- (void)removeClientSign:(Client_sign *)sign;
 
 - (FileDownloadStatus)fileDownloadStatus;
 
@@ -45,9 +45,9 @@
 
 @interface Client_file (CoreDataGeneratedAccessors)
 
-- (void)addClientTargetsObject:(Client_target *)value;
-- (void)removeClientTargetsObject:(Client_target *)value;
-- (void)addClientTargets:(NSSet *)values;
-- (void)removeClientTargets:(NSSet *)values;
+- (void)addTargetsObject:(Client_target *)value;
+- (void)removeTargetsObject:(Client_target *)value;
+- (void)addTargets:(NSSet *)values;
+- (void)removeTargets:(NSSet *)values;
 
 @end

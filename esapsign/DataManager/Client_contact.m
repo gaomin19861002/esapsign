@@ -20,7 +20,7 @@
 @dynamic last_used;
 @dynamic last_timestamp;
 
-@dynamic clientItems;
+@dynamic items;
 
 @synthesize user_name = _user_name;
 
@@ -50,7 +50,7 @@
 {
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
-    for (Client_contact_item *item in self.clientItems)
+    for (Client_contact_item *item in self.items)
     {
         NSMutableDictionary* itemDic = [[DataManager defaultInstance] createContactItemValueByItem:item];
         [items addObject:itemDic];
@@ -73,14 +73,14 @@
 - (NSString *)majorAddress
 {
     // 优先返回指定的主要地址
-    for (Client_contact_item *content in self.clientItems)
+    for (Client_contact_item *content in self.items)
     {
         if ([content.major boolValue])
             return content.contentValue;
     }
 
     // 没有指定的优先地址时，返回有账号关联的地址
-    for (Client_contact_item *content in self.clientItems)
+    for (Client_contact_item *content in self.items)
     {
         if ([content.account_id length] > 0
             && [content.contentType intValue] != UserContentTypeAddress)

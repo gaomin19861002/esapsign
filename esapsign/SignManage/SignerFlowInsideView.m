@@ -191,7 +191,7 @@
         
         // FIXME: 此方法需suzhi确认
         bool needSequence = NO;
-        Client_sign_flow *signFlow = clientSign.sign_flow;
+        Client_sign_flow *signFlow = clientSign.ownerFlow;
         if (([clientSign.sign_id isEqualToString:signFlow.current_sign_id] && clientSign.sign_date != nil)
             || signFlow.current_sign_id == nil || [signFlow.current_sign_id isEqualToString:@""]) {
             needSequence = YES;

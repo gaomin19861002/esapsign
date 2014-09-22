@@ -99,7 +99,7 @@
     cell.titleLabel.text = fileTarget.display_name;
     cell.createLabel.text = [fileTarget.create_time fullDateString];
     
-    Client_file *file = fileTarget.clientFile;
+    Client_file *file = fileTarget.refFile;
     if ([file.file_type intValue] == FileExtendTypePdf)
         cell.leftImageView.image = [UIImage imageNamed:@"FileTypePDF"];
     else if ([file.file_type intValue] == FileExtendTypeTxt)
@@ -141,7 +141,7 @@
         for (int i = 0; i < arrFiles.count; i++)
         {
             Client_target *item = [arrFiles objectAtIndex:i];
-            if (![[DataManager defaultInstance] hasSignFlowWithClientFile:item.clientFile])
+            if (![[DataManager defaultInstance] hasSignFlowWithClientFile:item.refFile])
             {
                 [self.arrSubFiles addObject:item];
             }

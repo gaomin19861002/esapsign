@@ -49,7 +49,7 @@
     
     //初始化签名图数量对于每个用户
     User *user = [Util currentLoginUser];
-    Client_account *account = [[DataManager defaultInstance] queryAccountByAccountId:user.accountId];
+    Client_account *account = [[DataManager defaultInstance] fetchAccount:user.accountId];
     self.stepperSignPicCount.value = account.sign_count.integerValue;
     self.countSignPic.text = [NSString stringWithFormat:@"%ld", (long)[account.sign_count integerValue]];
 }
@@ -92,7 +92,7 @@
     self.countSignPic.text = [NSString stringWithFormat:@"%ld", (long)count];
     
     User *user = [Util currentLoginUser];
-    Client_account *account = [[DataManager defaultInstance] queryAccountByAccountId:user.accountId];
+    Client_account *account = [[DataManager defaultInstance] fetchAccount:user.accountId];
     account.sign_count = @(count);
 }
 

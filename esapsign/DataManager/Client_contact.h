@@ -22,7 +22,7 @@
 @property (nonatomic, retain) NSDate * last_timestamp;
 @property (nonatomic, retain) NSDate * last_used;
 
-@property (nonatomic, retain) NSSet *clientItems;
+@property (nonatomic, retain) NSSet *items;
 
 // 用户名
 @property (nonatomic, copy) NSString *user_name;
@@ -40,10 +40,10 @@
 
 @interface Client_contact (CoreDataGeneratedAccessors)
 
-- (void)addClientItemsObject:(Client_contact_item *)value;
-- (void)removeClientItemsObject:(Client_contact_item *)value;
-- (void)addClientItems:(NSSet *)values;
-- (void)removeClientItems:(NSSet *)values;
+- (void)addItemsObject:(Client_contact_item *)value;
+- (void)removeItemsObject:(Client_contact_item *)value;
+- (void)addItems:(NSSet *)values;
+- (void)removeItems:(NSSet *)values;
 
 @end
 

@@ -24,7 +24,7 @@
 @dynamic record_status;
 @dynamic type;
 @dynamic update_time;
-@dynamic clientFile;
+@dynamic refFile;
 @synthesize manager = _manager;
 @synthesize subFolders = _subFolders;
 @synthesize subFiles = _subFiles;

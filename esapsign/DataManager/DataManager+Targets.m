@@ -146,7 +146,7 @@
     NSMutableArray *delFiles = [NSMutableArray array];
     for (Client_file *file in self.allFiles)
     {
-        if ([file.clientTargets count] == 0)
+        if ([file.targets count] == 0)
             [delFiles addObject:file];
     }
     
@@ -273,7 +273,7 @@
     file.record_references = @(1);
     file.version = @(1);
 #warning message(file.total_size)
-    fileTarget.clientFile = file;
+    fileTarget.refFile = file;
 
     [self.objectContext insertObject:fileTarget];
     [self.objectContext insertObject:file];

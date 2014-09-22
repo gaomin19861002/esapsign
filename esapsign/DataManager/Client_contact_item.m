@@ -19,7 +19,7 @@
 @dynamic contact_id;
 @dynamic account_id;
 
-@dynamic clientContact;
+@dynamic ownerContact;
 
 @synthesize contentTypeName = _contentTypeName;
 

@@ -19,7 +19,7 @@
 @dynamic current_sign_status;
 @dynamic status;
 
-@dynamic clientSigns;
+@dynamic signs;
 
 /*!
  返回文件的所有签名人，按照签名流程的顺序返回
@@ -27,7 +27,7 @@
 - (NSArray *)sortedSignFlows
 {
     NSMutableArray *signFlows = [NSMutableArray array];
-    for (Client_sign * sign in self.clientSigns)
+    for (Client_sign * sign in self.signs)
     {
         [signFlows addObject:sign];
     }
@@ -65,6 +65,11 @@
 - (Client_sign *)addUserToSignFlow:(NSString *)userName address:(NSString *)address
 {
     return [[DataManager defaultInstance] addFileSignFlow:self displayName:userName address:address];
+}
+
+- (void)removeUserFromSignFlow:(Client_sign*)sign
+{
+    return [[DataManager defaultInstance] removeClientSign:sign fromFlow:self];
 }
 
 @end

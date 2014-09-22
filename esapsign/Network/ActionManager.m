@@ -241,7 +241,7 @@ DefaultInstanceForClass(ActionManager);
 {
     //组装newData，contactItems
     NSMutableArray *contactItems = [NSMutableArray array];
-    for (Client_contact_item *content in user.clientItems) {
+    for (Client_contact_item *content in user.items) {
         [contactItems addObject:[self contentItemAction:content isNew:YES]];
     }
     
@@ -278,7 +278,7 @@ DefaultInstanceForClass(ActionManager);
 {
     //组装newData，contactItems
     NSMutableArray *contactItems = [NSMutableArray array];
-    for (Client_contact_item *content in user.clientItems) {
+    for (Client_contact_item *content in user.items) {
         [contactItems addObject:[self contentItemAction:content isNew:NO]];
     }
     
@@ -359,7 +359,7 @@ DefaultInstanceForClass(ActionManager);
  */
 - (NSDictionary *)signsetAction:(Client_file *)file
 {
-    Client_sign_flow *signflow = file.currentSignflow;
+    Client_sign_flow *signflow = file.fileFlow;
     NSMutableDictionary *signflowDict = [NSMutableDictionary dictionary];
     [signflowDict setObject:signflow.sign_flow_id forKey:@"id"];
     [signflowDict setObject:[NSString stringWithFormat:@"%@", signflow.current_sequence] forKey:@"currentSequence"];
@@ -367,7 +367,7 @@ DefaultInstanceForClass(ActionManager);
     [signflowDict setObject:[NSString stringWithFormat:@"%@", signflow.current_sign_status] forKey:@"currentSignStatus"];
     
     NSMutableArray *signs = [NSMutableArray array];
-    for (Client_sign *sign in [file.currentSignflow sortedSignFlows])
+    for (Client_sign *sign in [file.fileFlow sortedSignFlows])
     {
         [signs addObject:[self signPacket:sign]];
     }
@@ -428,7 +428,7 @@ DefaultInstanceForClass(ActionManager);
                              @"timestamp":[NSString stringWithFormat:@"%@", [NSDate date]],
                              @"version": @"",
                              @"category": @"lock",
-                             @"orgData": target.clientFile.file_id,
+                             @"orgData": target.refFile.file_id,
                              @"newData": @"",
                              @"actionResult": @""};
     return action;
@@ -445,12 +445,20 @@ DefaultInstanceForClass(ActionManager);
 - (ASIFormDataRequest*) addToQueue:(NSDictionary *) param sendAtOnce:(bool)sendAtOnce
 {
     [self.actionQueue addObject:param];
-    
+
+    NSLog(@"----------------------------------------------------------------------------------------");
+    NSLog(@"-------Add an action to queue:  %@",  [param valueForKey:@"category"]);
+
     // 如果已经在发送一个action请求，暂时不处理，直接返回。这样保证单例模式ActionManager只有一个actionRequest对象
     // 如果不要求立即发送，也直接返回
     if (inRequest || !sendAtOnce)
+    {
+        NSLog(@"----------------------------------------------------------------------------------------");
         return nil;
+    }
     
+    NSLog(@"------Action enters posting process.......");
+    NSLog(@"----------------------------------------------------------------------------------------");
     return [self postAction];
 }
 
@@ -486,7 +494,7 @@ DefaultInstanceForClass(ActionManager);
     if ([self.actionQueue count] > 0 && ![CAAppDelegate sharedDelegate].offlineMode)
     {
         [self backupAction];
-        
+       
         NSDictionary *userInfo = [Util currentLoginUserInfo];
         NSDictionary *requestPackage = @{@"login": userInfo, @"actions": self.actionQueue};
         self.actionRequest = [[RequestManager defaultInstance] asyncPostData:ActionRequestPath Parameter:requestPackage];
@@ -541,7 +549,7 @@ DefaultInstanceForClass(ActionManager);
     {
         inRequest = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [UIAlertView showAlertMessage:@"动作请求已创建，但因为网络问题，未能提交。"];
+            [UIAlertView showAlertMessage:@"网络通讯错误"];
         
             for (id<ActionManagerDelegate> delegate in self.allDelegates) {
                 if ([delegate respondsToSelector:@selector(actionRequestFailed:)]) {
@@ -549,8 +557,9 @@ DefaultInstanceForClass(ActionManager);
                 }
             }
 
-            // 这种情况下，之前清除的Action Queue数据应当恢复
-            [self restoreActionsFromBackup];
+#warning 网络链接错误的处理，最好是能够保存缓存的动作，下次再次尝试提交；目前先丢弃所有的缓存动作
+            // [self restoreActionsFromBackup];
+            [self clearCacheQueue];
         });
     }
 }

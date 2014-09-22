@@ -192,20 +192,20 @@
 // -------------------------------------------------------------------------------
 //	splitViewController:shouldHideViewController:inOrientation:
 // -------------------------------------------------------------------------------
-- (BOOL)splitViewController:(UISplitViewController *)svc 
-   shouldHideViewController:(UIViewController *)vc 
-              inOrientation:(UIInterfaceOrientation)orientation
-{
-    return UIInterfaceOrientationIsPortrait(orientation) ;
-    bool inDocTab = NO;
-    UITabBarController* tabBarLeft = (UITabBarController*)vc;
-    if ([tabBarLeft isKindOfClass:[UITabBarController class]])
-    {
-        UINavigationController* leftNav = (UINavigationController*)tabBarLeft.selectedViewController;
-        inDocTab = [leftNav.title isEqualToString:@"Document Tab"];
-    }
-    return UIInterfaceOrientationIsPortrait(orientation) && inDocTab;
-}
+//- (BOOL)splitViewController:(UISplitViewController *)svc 
+//   shouldHideViewController:(UIViewController *)vc 
+//              inOrientation:(UIInterfaceOrientation)orientation
+//{
+//    return UIInterfaceOrientationIsPortrait(orientation);
+//    bool inDocTab = NO;
+//    UITabBarController* tabBarLeft = (UITabBarController*)vc;
+//    if ([tabBarLeft isKindOfClass:[UITabBarController class]])
+//    {
+//        UINavigationController* leftNav = (UINavigationController*)tabBarLeft.selectedViewController;
+//        inDocTab = [leftNav.title isEqualToString:@"Document Tab"];
+//    }
+//    return UIInterfaceOrientationIsPortrait(orientation) && inDocTab;
+//}
 
 // 切分视图转置时的隐藏方式：将要隐藏
 - (void)splitViewController:(UISplitViewController *)splitController

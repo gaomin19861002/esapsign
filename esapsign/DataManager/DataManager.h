@@ -51,14 +51,13 @@ DefaultInstanceForClassHeader(DataManager);
 @property(nonatomic, retain, readonly) NSMutableArray *allContacts;
 @property(nonatomic, retain, readonly) NSMutableArray *allSignPics;
 @property(nonatomic, retain, readonly) NSMutableArray *allSignFlows;
+@property(nonatomic, retain, readonly) NSMutableArray *allSigns;
 
 // 该联系人缓冲队列用于在合并数据库时，避免高频度反复从数据库中获取数据
 @property (nonatomic, strong) NSMutableArray* contactCache;
 - (void)syncContactCache;
 
-/*!
- 用户目录路径
- */
+// 用户目录路径
 @property(nonatomic, copy) NSString *userPath;
 
 // 保存数据
@@ -79,57 +78,30 @@ DefaultInstanceForClassHeader(DataManager);
                          address:(NSString *)address;
 
 // 从一个文件的签名流程中删除一个签名包
-- (BOOL)removeClientSign:(Client_sign *)sign
-          fromClientFile:(Client_file *)file;
+- (void)removeClientSign:(Client_sign *)sign
+                fromFlow:(Client_sign_flow *)flow;
 
-
-
-/**
- *  获取与联系人所有相关签名文档(By Yi Minwen)
- *  @param user 相关联系人
- */
+// 获取与联系人所有相关签名文档(By Yi Minwen)
 - (NSMutableArray *)allTargetsWithClientUser:(Client_contact *)contact;
 
-/**
- *  判定是否有对应签名流程(By Yi Minwen)
- *  @param file 当前文件
- */
+// 判定是否有对应签名流程(By Yi Minwen)
 - (BOOL)hasSignFlowWithClientFile:(Client_file *)file;
 
-/*!
- 提交签名并检查是否整个签名流程已经完成
- @param signFlow 当前signflow
- @param sign 签名
- */
+// 提交签名并检查是否整个签名流程已经完成
 - (bool)finishSignFlow:(Client_sign_flow *)signFlow withSign:(Client_sign*)sign;
 
-/*!
- 是否签名流程已走完
- @param file 签名文件
- @return
- */
+// 是否签名流程已走完
 - (BOOL)isClientFileFinishedSign:(Client_file *)file;
 
-/*!
- 是否当前target具备编辑条件
- 目前只有收件箱下的可编辑，其他都不可编辑
- @param target 当前target
- @return 返回可编辑状态
- */
+// 是否当前target具备编辑条件 目前只有收件箱下的可编辑，其他都不可编辑
 - (BOOL)isClientTargetEditable:(Client_target *)target;
 
 #pragma mark - Client_account Methods
 
-/**
- *  @abstract 根据用户名（登陆账号）匹配用户
- *  @param accountId  NSString 用户登陆的账号。
- */
-- (Client_account *)queryAccountByAccountId:(NSString *) accountId;
+// 根据用户名（登陆账号）匹配用户
+- (Client_account *)fetchAccount:(NSString *) accountId;
 
-/**
- *  @abstract 创建一个新的用户信息
- *  @param user User
- */
-- (Client_account *)createAccountWithUser:(User *) user;
+// 创建一个新的用户信息
+- (Client_account *)syncAccount:(User *) user;
 
 @end

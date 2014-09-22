@@ -122,7 +122,7 @@
 - (void)setSignStatusLabel:(FileDetailCell*)cell bySignFlow:(Client_sign_flow*) signFlow
 {
     // 如果没有签名流程，隐藏所有状态标签并返回
-    if ([signFlow.clientSigns count] == 0)
+    if ([signFlow.signs count] == 0)
     {
         [cell.signProgressTotal setHidden:YES];
         [cell.signProgressCurrent setHidden:YES];
@@ -138,7 +138,7 @@
     SignProgressStatus signProgress = SignProgressOK;
     
     // 遍历所有签名包
-    for (Client_sign * sign in signFlow.clientSigns)
+    for (Client_sign * sign in signFlow.signs)
     {
         // 当前签名人如果已经完成签名，或者尚无当前签名人，则要求后续判断时注意新的签名顺序
         bool needSequence = NO;
@@ -203,7 +203,7 @@
     if ([identifier isEqualToString:@"openFile"] && cell != nil)
     {
         if (cell.status != FileStatusFinished
-            || [cell.targetInfo.clientFile.file_type intValue] != FileExtendTypePdf) // 暂时不打开除PDF以外类型的文件
+            || [cell.targetInfo.refFile.file_type intValue] != FileExtendTypePdf) // 暂时不打开除PDF以外类型的文件
             return NO;
     }
     return YES;
@@ -222,10 +222,10 @@
 
             // 设置当前用户对应的签名包
             viewFileController->currentSign = nil;
-            Client_sign_flow* signFlow = cell.targetInfo.clientFile.currentSignflow;
+            Client_sign_flow* signFlow = cell.targetInfo.refFile.fileFlow;
             if (signFlow != nil)
             {
-                for (Client_sign * sign in signFlow.clientSigns)
+                for (Client_sign * sign in signFlow.signs)
                 {
                     // 当前用户参与该签名流程，设置个人签名状态标签
                     if ([sign.sign_account_id isEqualToString:[Util currentLoginUserId]])
@@ -328,12 +328,12 @@
         cell.signLabel.text = nil;
         cell.createLabel.text = [fileTarget.create_time fullDateString];
         cell.updateLabel.text = [fileTarget.update_time fullDateString];
-        cell.status = [fileTarget.clientFile fileDownloadStatus];
+        cell.status = [fileTarget.refFile fileDownloadStatus];
 #warning 现在不允许编辑签名流程
         cell.signManageAvaliable = NO;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectedBackgroundView.backgroundColor = [UIColor redColor];
         
-        Client_file *file = fileTarget.clientFile;
+        Client_file *file = fileTarget.refFile;
         if ([file.file_type intValue] == FileExtendTypePdf)
             cell.leftImageView.image = [UIImage imageNamed:@"FileTypePDF"];
         else if ([file.file_type intValue] == FileExtendTypeTxt)
@@ -345,10 +345,10 @@
         [cell.rightImageButton setBackgroundImage:[UIImage imageNamed:@"FlowManage"] forState:UIControlStateNormal];
         [cell.rightImageButton setHidden:!isPDFfile];
         if (isPDFfile && (self.expandRow == indexPath.row))
-            [cell updateSignFlow:file.currentSignflow];
+            [cell updateSignFlow:file.fileFlow];
     
         // 根据sign flow来设置当前文件的签署流程状态标签和个人签署状态标签
-        [self setSignStatusLabel:cell bySignFlow:file.currentSignflow];
+        [self setSignStatusLabel:cell bySignFlow:file.fileFlow];
         cell.isOwner = [[Util currentLoginUser].accountId isEqualToString:file.owner_account_id];
     
         return cell;
@@ -445,17 +445,17 @@
     if (cell.status == FileStatusDownloading)
     {
         // 暂停下载
-        BOOL pause = [[DownloadManager defaultInstance] pauseDownloadingWithFile:cell.targetInfo.clientFile.file_id];
+        BOOL pause = [[DownloadManager defaultInstance] pauseDownloadingWithFile:cell.targetInfo.refFile.file_id];
         if (pause)
             cell.status = FileStatusPauseDownload;
     }
     else if (cell.status == FileStatusPauseDownload || cell.status == FileStatusNotStarted)
     {
-        [[DownloadManager defaultInstance] startDownloadingWithFile:cell.targetInfo.clientFile.file_id];
+        [[DownloadManager defaultInstance] startDownloadingWithFile:cell.targetInfo.refFile.file_id];
     }
     else if (cell.status == FileStatusWaitingDownload)
     {
-        [[DownloadManager defaultInstance] cancelDownloadingWithFile:cell.targetInfo.clientFile.file_id];
+        [[DownloadManager defaultInstance] cancelDownloadingWithFile:cell.targetInfo.refFile.file_id];
     }
 }
 
@@ -469,11 +469,11 @@
                   address:(NSString *)address
 {
     Client_target *fileTarget = (Client_target *)[self.parentTarget.subFiles objectAtIndex:self.expandRow];
-    self.currentAppendSign = [fileTarget.clientFile.currentSignflow addUserToSignFlow:userName address:address];
+    self.currentAppendSign = [fileTarget.refFile.fileFlow addUserToSignFlow:userName address:address];
     [self.tableView reloadData];
     [_addSignerPopoverController dismissPopoverAnimated:YES];
     
-    //NSDictionary *signsetAction = [[ActionManager defaultInstance] signsetAction:fileTarget.clientFile];
+    //NSDictionary *signsetAction = [[ActionManager defaultInstance] signsetAction:fileTarget.refFile];
     //self.signflowRequest = [[ActionManager defaultInstance] addToQueue:signsetAction];
 }
 
@@ -531,9 +531,7 @@
     if (request == self.signflowRequest)
     {
         [[CAAppDelegate sharedDelegate].window.rootViewController hideProgress];
-        NSString *resString = [request responseString];
-        DebugLog(@"res= %@", resString);
-        
+        NSString *resString = [request responseString];        
         NSDictionary *resDict = [resString jsonValue];
         NSArray *actions = [resDict objectForKey:@"actions"];
         if ([actions count])

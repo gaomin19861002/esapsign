@@ -153,7 +153,7 @@ static int signViewTag = SignViewTagBase;
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
     [self.signFlowView addGestureRecognizer:tapRecognizer];
     
-    NSArray *signs = [clientTarget.clientFile.currentSignflow sortedSignFlows];
+    NSArray *signs = [clientTarget.refFile.fileFlow sortedSignFlows];
     [self updateSignflowWithSigns:signs];
     
     // 增加滑动检测，滑动时收起签名流
@@ -190,7 +190,7 @@ static int signViewTag = SignViewTagBase;
     [self initSignListView];
     
     // 设置好临时文件的路径
-    NSString *documentPath = clientTarget.clientFile.phsical_filename;
+    NSString *documentPath = clientTarget.refFile.phsical_filename;
     NSString *fileName = [NSString stringWithFormat:@"temp_%@", [documentPath lastPathComponent]];
     self.fileTempPath = [documentPath stringByDeletingLastPathComponent];
     self.fileTempPath = [self.fileTempPath stringByAppendingPathComponent:fileName];
@@ -223,7 +223,7 @@ static int signViewTag = SignViewTagBase;
     
     //判断是否需要加锁,根据是否是收件箱下文件进行判断。
     if ([[DataManager defaultInstance] isClientTargetEditable:clientTarget]
-        && [clientTarget.clientFile.currentSignflow isActiveSign:currentSign])
+        && [clientTarget.refFile.fileFlow isActiveSign:currentSign])
     {
         //请求加锁操作
         NSDictionary* action = [[ActionManager defaultInstance] lockAction:clientTarget];
@@ -388,7 +388,7 @@ static int signViewTag = SignViewTagBase;
     clientTarget = newClientTarget;
 
     // 判定编辑状态
-    self.editable = ![[DataManager defaultInstance] isClientFileFinishedSign:clientTarget.clientFile];
+    self.editable = ![[DataManager defaultInstance] isClientFileFinishedSign:clientTarget.refFile];
     self.editable = self.editable & [[DataManager defaultInstance] isClientTargetEditable:newClientTarget];
 }
 
@@ -470,11 +470,11 @@ static int signViewTag = SignViewTagBase;
         return;
     }
     
-    if (clientTarget.clientFile.currentSignflow != nil)
+    if (clientTarget.refFile.fileFlow != nil)
     {
         // 进行sign请求
         currentSign.sign_date = [NSDate convertDateToLocalTime:[NSDate date]];
-        Client_sign_flow *currentSignFlow = clientTarget.clientFile.currentSignflow;
+        Client_sign_flow *currentSignFlow = clientTarget.refFile.fileFlow;
         [[DataManager defaultInstance] finishSignFlow:currentSignFlow withSign:currentSign];
 
         NSDictionary *actions = [[ActionManager defaultInstance] signRequestAction:currentSign andTarget:clientTarget];
@@ -566,13 +566,13 @@ static int signViewTag = SignViewTagBase;
                   address:(NSString *)address
 {
     Client_target *fileTarget = clientTarget;
-    [fileTarget.clientFile.currentSignflow addUserToSignFlow:userName address:address];
+    [fileTarget.refFile.fileFlow addUserToSignFlow:userName address:address];
     [_addSignerPopoverController dismissPopoverAnimated:YES];
-    NSArray *signs = [clientTarget.clientFile.currentSignflow sortedSignFlows];
+    NSArray *signs = [clientTarget.refFile.fileFlow sortedSignFlows];
     [self updateSignflowWithSigns:signs];
     
 #warning 暂时不做signset操作
-    // NSDictionary *signsetAction = [[ActionManager defaultInstance] signsetAction:fileTarget.clientFile];
+    // NSDictionary *signsetAction = [[ActionManager defaultInstance] signsetAction:fileTarget.refFile];
     // self.signflowRequest = [[RequestManager defaultInstance] asyncPostData:ActionRequestPath Parameter:signsetAction];
 }
 
@@ -581,7 +581,7 @@ static int signViewTag = SignViewTagBase;
  */
 - (void)updateSignflowWithSigns:(NSArray *)signs
 {
-    BOOL isOwner = !![[Util currentLoginUser].accountId isEqualToString:clientTarget.clientFile.owner_account_id];
+    BOOL isOwner = !![[Util currentLoginUser].accountId isEqualToString:clientTarget.refFile.owner_account_id];
     NSUInteger signsCount = signs.count;
     if (isOwner)
     {
@@ -599,7 +599,7 @@ static int signViewTag = SignViewTagBase;
         Client_sign *flow = [signs objectAtIndex:i];
         [self.signFlowView addClientSign:flow];
     }
-    isOwner &= ![[DataManager defaultInstance] isClientFileFinishedSign:clientTarget.clientFile];
+    isOwner &= ![[DataManager defaultInstance] isClientFileFinishedSign:clientTarget.refFile];
     isOwner &= self.editable;
     [self.signFlowView addNewClientSignButton:isOwner];
     self.signFlowView.supportLongPressAction = isOwner;
@@ -617,7 +617,7 @@ static int signViewTag = SignViewTagBase;
     self.signFlowView.shouldDeleteClientSignBlock = ^(Client_sign *clienSign)
     {
         BlockStrongObject(wself, self);
-        [self->clientTarget.clientFile removeClientSign:clienSign];
+        [self->clientTarget.refFile removeClientSign:clienSign];
         return YES;
     };
 }
@@ -1124,7 +1124,7 @@ static int signViewTag = SignViewTagBase;
         if (filePath && [filePath objectForKey:@"filePaths"])
         {
             NSString *url = [filePath objectForKey:@"filePaths"];
-            NSDictionary *complete = [[CompleteManager defaultInstance] uploadCompleteCommand:0 completeId:clientTarget.clientFile.file_id completeURL:url];
+            NSDictionary *complete = [[CompleteManager defaultInstance] uploadCompleteCommand:0 completeId:clientTarget.refFile.file_id completeURL:url];
             self.upCompleteRequest = [[RequestManager defaultInstance] asyncPostData:UploadCompleteRequestPath Parameter:complete];
         }
         else
@@ -1139,8 +1139,8 @@ static int signViewTag = SignViewTagBase;
     if (request == self.upCompleteRequest)
     {
         //进行文件拷贝
-        NSString *physicalName = [NSString stringWithFormat:@"%@", clientTarget.clientFile.phsical_filename];
-        [FileManagement removeFile:clientTarget.clientFile.phsical_filename];
+        NSString *physicalName = [NSString stringWithFormat:@"%@", clientTarget.refFile.phsical_filename];
+        [FileManagement removeFile:clientTarget.refFile.phsical_filename];
         NSFileManager *manager = [NSFileManager defaultManager];
         
         if (![manager fileExistsAtPath:physicalName])
@@ -1151,9 +1151,9 @@ static int signViewTag = SignViewTagBase;
         }
         
         //更新file的本地版本号
-        int localversion = [clientTarget.clientFile.local_version intValue];
+        int localversion = [clientTarget.refFile.local_version intValue];
         localversion ++;
-        clientTarget.clientFile.local_version = [NSNumber numberWithInt:localversion];
+        clientTarget.refFile.local_version = [NSNumber numberWithInt:localversion];
         
         //隐藏提交信息
         [self.navigationController hideProgress];
@@ -1232,7 +1232,7 @@ static int signViewTag = SignViewTagBase;
                 if ([[action objectForKey:@"actionResult"] intValue] == 1 )
                 {
                     //签名成功，上传文件
-//                    NSString *physicalName = [NSString stringWithFormat:@"%@", clientTarget.clientFile.phsical_filename];
+//                    NSString *physicalName = [NSString stringWithFormat:@"%@", clientTarget.refFile.phsical_filename];
                     NSString *physicalName = self.fileTempPath;
                     self.upSignRequest = [[RequestManager defaultInstance] asyncPostData:APIBaseUpload file:physicalName isPDF:YES];
                     return;

@@ -41,15 +41,15 @@
     } afterDelay:0.1];
 }
 
-- (void)recalHeightConstrantInPortrait:(UIInterfaceOrientation)isPortraitOrientation
+- (void)recalHeightConstrantInPortrait:(bool)isLandScapeOrientation
 {
     CGRect rectProtrait = self.view.frame;
-    if (isPortraitOrientation)
-        self.view.frame = CGRectMake(rectProtrait.origin.x, rectProtrait.origin.y,
-                                       314, rectProtrait.size.height);
-    else
+    if (isLandScapeOrientation)
         self.view.frame = CGRectMake(rectProtrait.origin.x, rectProtrait.origin.y,
                                        320, rectProtrait.size.height);
+    else
+        self.view.frame = CGRectMake(rectProtrait.origin.x, rectProtrait.origin.y,
+                                       314, rectProtrait.size.height);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

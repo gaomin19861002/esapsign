@@ -331,11 +331,12 @@
     }
     NSString *sectionName = [NSString stringWithFormat:@"%c",pinyinFirstLetter([firstUser.user_name characterAtIndex:0])];
     NSUInteger firstLetter = [ALPHA rangeOfString:[[sectionName lowercaseString] substringToIndex:1]].location;
-    if (firstLetter != NSNotFound) {
+    if (firstLetter != NSNotFound)
+    {
     }
     else
     {
-        sectionName = @"_";
+        sectionName = @"#";
     }
 
     header.sectionName.text = [sectionName uppercaseString];
@@ -353,11 +354,13 @@
     NSString *sectionName = [NSString stringWithFormat:@"%c",pinyinFirstLetter([firstUser.user_name characterAtIndex:0])];
     NSLog(@"%s, %@", __FUNCTION__, sectionName);
     NSUInteger firstLetter = [ALPHA rangeOfString:[[sectionName lowercaseString] substringToIndex:1]].location;
-    if (firstLetter != NSNotFound) {
+    if (firstLetter != NSNotFound)
+    {
         return [sectionName uppercaseString];
     }
-    else {
-        return @"_";
+    else
+    {
+        return @"#";
     }
 }
 
@@ -402,7 +405,7 @@
             if (firstLetter != NSNotFound)
                 [self.arrAllIndexTitles addObject:[sectionName uppercaseString]];
             else
-                [self.arrAllIndexTitles addObject:@"_"];
+                [self.arrAllIndexTitles addObject:@"#"];
         }
     }
     return self.arrAllIndexTitles;

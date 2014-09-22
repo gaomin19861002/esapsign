@@ -244,12 +244,12 @@
             [Util setValue:userData forKey:LoginUser];
             
             //查看ClientAccount,如果没有则添加
-            Client_account *account = [[DataManager defaultInstance] queryAccountByAccountId:[NSString stringWithFormat:@"%@", user.accountId]];
+            Client_account *account = [[DataManager defaultInstance] fetchAccount:[NSString stringWithFormat:@"%@", user.accountId]];
             if (!account) {
-                [[DataManager defaultInstance] createAccountWithUser:user];
+                [[DataManager defaultInstance] syncAccount:user];
             }
 #warning 进行签名的处理。
-//            NSString *cert = [resDict objectForKey:@"cert"];
+            // NSString *cert = [resDict objectForKey:@"cert"];
             
             [CAAppDelegate sharedDelegate].loginSucceed = YES;
             [self dismissViewControllerAnimated:YES completion:^{
