@@ -24,11 +24,13 @@
 /*!
  登录界面
  */
-@property(nonatomic, retain) UINavigationController *loginNavigationController;
+@property (nonatomic, retain) UINavigationController *loginNavigationController;
 
-@property(nonatomic, assign) BOOL loginSucceed;
+@property (nonatomic, assign) bool loginSucceed;
 
-@property(nonatomic, assign) BOOL offlineMode;
+@property (nonatomic, assign) bool offlineMode;
+
+@property (nonatomic, assign) bool showLogin;
 
 - (void)popLoginView;
 

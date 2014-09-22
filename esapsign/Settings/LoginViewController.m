@@ -98,7 +98,6 @@
     [self.verifyTimer invalidate];
     self.verifyButton.titleLabel.text = @"获取验证码";
     self.tipsLabel.text = @"";
-
     
     if (![self.nameTextField.text length]) {
         [UIAlertView showAlertMessage:@"请输入用户名"];
@@ -127,8 +126,10 @@
         
         [CAAppDelegate sharedDelegate].loginSucceed = YES;
         [CAAppDelegate sharedDelegate].offlineMode = YES;
+
         // 登录
         [self dismissViewControllerAnimated:YES completion:nil];
+        [CAAppDelegate sharedDelegate].showLogin = NO;
     }
     else
     {
@@ -263,6 +264,8 @@
             {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
+            [CAAppDelegate sharedDelegate].showLogin = NO;
+            
             self.isNeedVerifyNumber = NO;
         }
         else if([[resDict objectForKey:@"result"] intValue] == 2)

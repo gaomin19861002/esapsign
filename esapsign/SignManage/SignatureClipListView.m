@@ -63,7 +63,6 @@
         CGRect collectionRect = CGRectMake(0, 2, xpos, 52);
         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:collectionRect collectionViewLayout:flowLayout];
         collectionView.backgroundColor = [UIColor clearColor];
-        //collectionView.backgroundColor = [UIColor whiteColor];
         collectionView.allowsSelection = NO;
         // collectionView.clipsToBounds = NO;
         collectionView.dataSource = self;
@@ -81,12 +80,6 @@
         [self.btnAdd setImage:[UIImage imageNamed:@"SignNew"] forState:UIControlStateNormal];
         self.btnAdd.frame = CGRectMake(xpos, -40, 96, 96);
     
-        UIView *markView = [[UIView alloc] init];
-        // markView.backgroundColor = [UIColor colorWithRed:35.0 green:45.0 blue:59.0 alpha:1.0];
-        markView.backgroundColor = [UIColor colorWithR:35 G:45 B:59 A:255];
-        markView.frame = CGRectMake(xpos, 0, 100, 56);
-        [self addSubview:markView];
-
         [self.btnAdd addTarget:self action:@selector(addBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.btnAdd];
         

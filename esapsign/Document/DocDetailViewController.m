@@ -1203,7 +1203,7 @@ static int signViewTag = SignViewTagBase;
         //进行结果解析，判断是否需要显示签名版
         NSDictionary *dict = [[request responseString] jsonValue];
         
-        NSLog(@"the lock response：\n %@", dict);
+        // NSLog(@"the lock response：\n %@", dict);
         
         NSArray *arr = [dict objectForKey:@"actions"];
         NSDictionary *str = [arr firstObject];

@@ -50,7 +50,7 @@
  */
 - (bool)isActiveSign:(Client_sign*)sign
 {
-    if (sign == nil || sign.sign_flow_id != self.sign_flow_id)
+    if (sign == nil || ![sign.sign_flow_id isEqualToString:self.sign_flow_id])
         return NO;
     
     // 如果当前签名ID匹配

@@ -34,6 +34,7 @@
 {
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     [splitViewController presentViewController:self.loginNavigationController animated:YES completion:nil];
+    self.showLogin = YES;
 }
 
 - (UINavigationController *)loginNavigationController
@@ -134,6 +135,8 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    if (self.showLogin)
+        return;
     self.loginSucceed = YES; // 该标记将停止登录后的自动同步
     [self popLoginView];
 }

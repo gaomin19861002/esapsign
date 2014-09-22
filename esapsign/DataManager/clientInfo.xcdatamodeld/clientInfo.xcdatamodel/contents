@@ -92,11 +92,11 @@
     <elements>
         <element name="Client_account" positionX="151" positionY="252" width="128" height="135"/>
         <element name="Client_contact" positionX="-497" positionY="249" width="128" height="165"/>
-        <element name="Client_contact_item" positionX="-279" positionY="249" width="128" height="165"/>
-        <element name="Client_file" positionX="-279" positionY="-210" width="128" height="345"/>
+        <element name="Client_contact_item" positionX="-279" positionY="249" width="128" height="163"/>
+        <element name="Client_file" positionX="-279" positionY="-210" width="128" height="343"/>
         <element name="Client_sign" positionX="151" positionY="-72" width="128" height="180"/>
         <element name="Client_sign_flow" positionX="-63" positionY="-150" width="128" height="150"/>
         <element name="Client_signpic" positionX="-65" positionY="252" width="128" height="105"/>
-        <element name="Client_target" positionX="-497" positionY="-75" width="128" height="210"/>
+        <element name="Client_target" positionX="-488" positionY="-99" width="128" height="208"/>
     </elements>
 </model>

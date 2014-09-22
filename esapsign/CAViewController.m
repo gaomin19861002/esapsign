@@ -31,8 +31,6 @@
     [super viewDidLoad];
 
     [self.signatureFlow setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"BarBottomRight"]]];
-    
-    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allSignPics];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSignPicUpdateComplete:) name:SignPicUpdateCompleteNotification object:nil];
 }
 
@@ -44,6 +42,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     // 此处纠正位置是因为，在初始生成的时候，还无法判定旋转屏状态，第一次进入页面重新刷下
     if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation) || UIDeviceOrientationIsPortrait(self.interfaceOrientation) )
     {
@@ -58,6 +58,12 @@
     {
         self.signListView.transform = CGAffineTransformIdentity;
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.signListView setArrDefaultSigns:[DataManager defaultInstance].allSignPics];
 }
 
 - (SignatureClipListView *)signListView

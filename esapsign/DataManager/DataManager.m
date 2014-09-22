@@ -205,7 +205,7 @@ DefaultInstanceForClass(DataManager);
                                               limit:NSUIntegerMax
                                              offset:0
                                             orderBy:nil];
-    DebugLog(@"%s, arrSignFlows:%lu", __FUNCTION__, (unsigned long)arrSignFlows.count);
+    
     BOOL bFinished = YES;
     if ([arrSignFlows count])
     {
@@ -374,7 +374,7 @@ DefaultInstanceForClass(DataManager);
         pics = [[NSMutableArray alloc] initWithArray:fetchObjects];
     else
         pics = [[NSMutableArray alloc] init];
-    
+    NSLog(@"PIC COUNT: %d", pics.count);
     return pics;
 }
 
