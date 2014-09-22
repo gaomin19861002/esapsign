@@ -255,7 +255,7 @@
             [self dismissViewControllerAnimated:YES completion:^{
                 // 自动执行一次同步
                 [SyncManager defaultInstance].parentController = [CAAppDelegate sharedDelegate].window.rootViewController;
-                [[SyncManager defaultInstance] startSync];
+                [[SyncManager defaultInstance] startSync:0];
             }];
             
             self.isNeedVerifyNumber = NO;

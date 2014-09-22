@@ -51,17 +51,15 @@ DefaultInstanceForClass(SyncManager);
     return self;
 }
 
-- (void)startSync
+- (void)startSync:(NSInteger)syncType
 {
     if ([CAAppDelegate sharedDelegate].offlineMode)
-    {
         return;
-    }
     
     [[RequestManager defaultInstance] registerDelegate:self];
 
     NSDictionary *userInfo = [Util currentLoginUserInfo];
-    NSDictionary *para = @{@"login": userInfo, @"type": @"0"};
+    NSDictionary *para = @{@"login": userInfo, @"type": [NSString stringWithFormat:@"%d", syncType]};
 #ifdef UseTestDataPacket
     [self performSelector:@selector(asynRequestStarted:) withObject:nil];
     [self performSelector:@selector(asynRequestFinished:) withObject:nil afterDelay:1];
@@ -174,12 +172,11 @@ DefaultInstanceForClass(SyncManager);
 {
     DataManager* manager = [DataManager defaultInstance];
     
-    // 删除本地所有联系人 - 这一步不太有效率，暂时这样
-    [manager clearAllContacts];
-    [manager clearAllContactItems];
-    
     if ([[responseDic objectForKey:@"contact"] isKindOfClass:[NSDictionary class]])
     {
+        // 删除本地所有联系人 - 这一步不太有效率，暂时这样
+        [manager clearAllContacts];
+        [manager clearAllContactItems];
         NSDictionary *contactDict = [responseDic objectForKey:@"contact"];
         NSArray *contacts = [contactDict objectForKey:@"contacts"];
         
@@ -244,12 +241,15 @@ DefaultInstanceForClass(SyncManager);
     // 下载管理器中的未完成数据都重置
     [[DownloadManager defaultInstance] clearDownload];
     
+    NSDictionary *targetDict = [responseDic objectForKey:@"target"];
+    if (targetDict == nil || ![targetDict isKindOfClass:[NSDictionary class]])
+        return;
+    
     // 清除已有的target对象，除了file
     [manager clearAllTargets];
     [manager clearAllSignFlow];
     [manager clearAllSign];
     
-    NSDictionary *targetDict = [responseDic objectForKey:@"target"];
     NSArray *targetList = [targetDict objectForKey:@"targets"];
     for (NSDictionary *dict in targetList)
     {
@@ -300,12 +300,13 @@ DefaultInstanceForClass(SyncManager);
 - (void)processSignPicData:(NSDictionary*)responseDic
 {
     DataManager* manager = [DataManager defaultInstance];
-    [manager clearLocalSignPic];
-    
+
     NSDictionary *penDict = [responseDic objectForKey:@"pen"];
     NSArray *penList = [penDict objectForKey:@"pens"];
     if ([penList isKindOfClass:[NSArray class]])
     {
+        [manager clearLocalSignPic];
+        
         for (NSDictionary *dict in penList)
             [manager syncSignPicWithDict:dict];
     }

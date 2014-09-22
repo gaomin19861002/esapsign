@@ -19,6 +19,6 @@ DefaultInstanceForClassHeader(SyncManager);
 
 @property(nonatomic, retain) UIViewController *parentController;
 
-- (void)startSync;
+- (void)startSync:(NSInteger)syncType;
 
 @end

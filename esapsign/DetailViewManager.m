@@ -127,16 +127,19 @@
 // 左侧Tab切换开始前处理
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
-    if ([viewController isKindOfClass:[UINavigationController class]]) {
+    if ([viewController isKindOfClass:[UINavigationController class]])
+    {
         UINavigationController *navController = (UINavigationController *)viewController;
-        // 当是sync和setting时，不进行页面的切换;
+        
         if ([navController.title isEqualToString:@"Sync Tab"])
         {
-            // [UIAlertView showAlertMessage:@"未连接到网络"];
-            
             [SyncManager defaultInstance].parentController = self.splitViewController;
-            [[SyncManager defaultInstance] startSync];
-
+            if ([tabBarController.selectedViewController.title isEqualToString:@"Document Tab"])
+                [[SyncManager defaultInstance] startSync:2];
+            else if ([tabBarController.selectedViewController.title isEqualToString:@"Contact Tab"])
+                [[SyncManager defaultInstance] startSync:1];
+            else
+                [[SyncManager defaultInstance] startSync:0];
             return NO;
         }
     }

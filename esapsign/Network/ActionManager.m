@@ -596,7 +596,7 @@ DefaultInstanceForClass(ActionManager);
                     if ([[action objectForKey:@"actionResult"] intValue] == 0)
                     {
                         [SyncManager defaultInstance].parentController = [CAAppDelegate sharedDelegate].window.rootViewController;
-                        [[SyncManager defaultInstance] startSync];
+                        [[SyncManager defaultInstance] startSync:0];
                         break; // No more check needed
                     }
                 }
