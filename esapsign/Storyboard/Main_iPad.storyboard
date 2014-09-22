@@ -30,6 +30,7 @@
             <string>STLibian-SC-Regular</string>
             <string>STLibian-SC-Regular</string>
             <string>STLibian-SC-Regular</string>
+            <string>STLibian-SC-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -996,6 +997,16 @@
                                         <rect key="frame" x="0.0" y="0.0" width="1024" height="704"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </webView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前文件锁定信息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Df-yg-SlT">
+                                        <rect key="frame" x="0.0" y="657" width="1024" height="39"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="39" id="1HS-0b-hNT"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="STLibian-SC-Regular" family="Libian SC" pointSize="18"/>
+                                        <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="izI-QI-ZwA">
                                         <rect key="frame" x="0.0" y="567" width="240" height="45"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="0.60999999999999999" colorSpace="calibratedWhite"/>
@@ -1023,11 +1034,14 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="c0w-gg-zJW" secondAttribute="trailing" id="2Ix-q5-vjj"/>
+                                    <constraint firstAttribute="bottom" secondItem="2Df-yg-SlT" secondAttribute="bottom" constant="8" id="EUN-CA-9Vl"/>
                                     <constraint firstAttribute="bottom" secondItem="izI-QI-ZwA" secondAttribute="bottom" constant="92" id="Gb8-lz-ghT"/>
+                                    <constraint firstItem="2Df-yg-SlT" firstAttribute="leading" secondItem="c89-DD-nKq" secondAttribute="leading" id="LHb-um-MZ3"/>
                                     <constraint firstItem="c0w-gg-zJW" firstAttribute="top" secondItem="c89-DD-nKq" secondAttribute="top" id="PMt-ym-Ru8"/>
                                     <constraint firstItem="doD-6U-Deh" firstAttribute="top" secondItem="c89-DD-nKq" secondAttribute="top" id="R6F-pr-IKg"/>
                                     <constraint firstAttribute="bottom" secondItem="doD-6U-Deh" secondAttribute="bottom" id="S1v-Zl-uFs"/>
                                     <constraint firstAttribute="trailing" secondItem="doD-6U-Deh" secondAttribute="trailing" id="UT9-2S-7GI"/>
+                                    <constraint firstAttribute="trailing" secondItem="2Df-yg-SlT" secondAttribute="trailing" id="iXg-Pk-KzL"/>
                                     <constraint firstItem="izI-QI-ZwA" firstAttribute="leading" secondItem="c89-DD-nKq" secondAttribute="leading" id="jCh-mx-hVF"/>
                                     <constraint firstItem="doD-6U-Deh" firstAttribute="leading" secondItem="c89-DD-nKq" secondAttribute="leading" id="vrf-UL-zID"/>
                                 </constraints>
@@ -1226,6 +1240,7 @@
                         <outlet property="directSignView" destination="nP6-Sg-LAZ" id="Xsd-JR-zc7"/>
                         <outlet property="documentDisplayView" destination="doD-6U-Deh" id="X5Z-zf-nIM"/>
                         <outlet property="drawCanvas" destination="bcZ-x5-V50" id="pKh-Et-buX"/>
+                        <outlet property="lockInfo" destination="2Df-yg-SlT" id="Z3N-el-WOO"/>
                         <outlet property="operationBgView" destination="jqz-Xc-GQ6" id="xdy-3R-8L8"/>
                         <outlet property="redPicker" destination="3LU-5C-drV" id="EUM-e0-JZO"/>
                         <outlet property="signFlowView" destination="c0w-gg-zJW" id="sb1-3p-EV4"/>
@@ -1736,7 +1751,7 @@
                                                     <fontDescription key="fontDescription" name="STLibian-SC-Regular" family="Libian SC" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minimumValue="20" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="fBY-ri-4Gw">
+                                                <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minimumValue="20" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="fBY-ri-4Gw">
                                                     <rect key="frame" x="589" y="8" width="94" height="29"/>
                                                     <connections>
                                                         <action selector="stepperHistory:" destination="HHZ-fK-TIM" eventType="valueChanged" id="itU-bR-aLU"/>
@@ -1752,7 +1767,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="fBY-ri-4Gw" secondAttribute="centerY" id="Nyq-Lk-l7c"/>
+                                                <constraint firstAttribute="centerY" secondItem="fBY-ri-4Gw" secondAttribute="centerY" constant="-1" id="Nyq-Lk-l7c"/>
                                                 <constraint firstAttribute="centerY" secondItem="kjo-Va-exS" secondAttribute="centerY" constant="-0.5" id="dAU-7V-50S"/>
                                                 <constraint firstItem="fBY-ri-4Gw" firstAttribute="leading" secondItem="kjo-Va-exS" secondAttribute="trailing" constant="20" id="qCo-Z9-LcQ"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="fBY-ri-4Gw" secondAttribute="trailing" constant="12" id="zXK-q1-Brl"/>

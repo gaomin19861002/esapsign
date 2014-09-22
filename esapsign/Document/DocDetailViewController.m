@@ -97,6 +97,8 @@ static int signViewTag = SignViewTagBase;
 @property (nonatomic, retain) UIActionSheet *actionSheet;
 @property (nonatomic, retain) UIPopoverController* addSignerPopoverController;
 
+@property (strong, nonatomic) IBOutlet UILabel *lockInfo;
+
 @end
 
 // 文档视图主体实现
@@ -228,12 +230,16 @@ static int signViewTag = SignViewTagBase;
         //请求加锁操作
         NSDictionary* action = [[ActionManager defaultInstance] lockAction:clientTarget];
         self.lockSignRequest = [[ActionManager defaultInstance] addToQueue:action sendAtOnce:YES];
-        self.operationBgView.hidden = NO;
+        self.operationBgView.hidden = YES;
+        self.lockInfo.hidden = NO;
+        self.lockInfo.text = @"正在向服务器请求签署权限…";
     }
     else
     {
         //下边的operationBgView不显示
         self.operationBgView.hidden = YES;
+        self.lockInfo.hidden = NO;
+        self.lockInfo.text = @"当前文件为只读状态。只有收件箱内状态为“待签署”的文件您才可以对其进行签署。";
     }
     
     // 此处纠正位置是因为，在初始生成的时候，不会触发旋转响应，需要在这里直接更新
@@ -1185,6 +1191,8 @@ static int signViewTag = SignViewTagBase;
     {
         NSLog(@"Lock sign file failed!");
         self.operationBgView.hidden = YES;
+        self.lockInfo.hidden = NO;
+        self.lockInfo.text = @"网络问题无法向服务器请求签署权限，请您稍后重新打开文件再次尝试。";
     }
     if (request == self.signRequest)
     {
@@ -1211,11 +1219,14 @@ static int signViewTag = SignViewTagBase;
         if (str && [[str objectForKey:@"actionResult"] intValue] == 1)
         {
             self.operationBgView.hidden = NO;
+            self.lockInfo.hidden = YES;
             //self.operationBgConstraint.constant = 56.0f;
         }
         else
         {
             self.operationBgView.hidden = YES;
+            self.lockInfo.hidden = NO;
+            self.lockInfo.text = @"请求签署权限失败，可能是网络问题或者其他人正在签署当前文件，请您稍后重新打开文件再次尝试。";
             //self.operationBgConstraint.constant = 0.0f;
         }
     }
