@@ -274,6 +274,13 @@ static int signViewTag = SignViewTagBase;
     [super viewDidAppear:animated];
     
     [self.drawSDK resizeDrawCanvas];
+    if ([[CAAppDelegate sharedDelegate] offlineMode])
+    {
+        self.lockInfo.text = @"当前是脱机模式，您将无法提交最终签署请求。";
+        self.lockInfo.frame = CGRectMake(0, 300, self.lockInfo.frame.size.width, 40);
+        self.operationBgView.hidden = NO;
+        self.lockInfo.hidden = NO;
+    }
 }
 
 /**
