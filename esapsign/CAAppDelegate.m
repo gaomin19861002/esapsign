@@ -32,6 +32,8 @@
 
 - (void)popLoginView
 {
+    if (self.detailViewManager != nil && self.detailViewManager.navigationPopoverController != nil)
+        [self.detailViewManager.navigationPopoverController dismissPopoverAnimated:NO];
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     [splitViewController presentViewController:self.loginNavigationController animated:YES completion:nil];
     self.showLogin = YES;
